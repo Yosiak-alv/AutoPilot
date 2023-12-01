@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
+        <link rel="icon" type="image/x-icon" href="/storage/img/Logo.ico">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -18,4 +18,18 @@
     <body class="font-sans antialiased">
         @inertia
     </body>
+    <style>
+        ::-moz-selection { /* Code for Firefox */
+            color: white;
+            background: rgb(231, 46, 40) ;
+        }
+    
+        ::selection {
+            color: white;
+            background: rgb(231, 46, 40) ;
+        }
+        html{
+            scroll-behavior: smooth;
+        }
+    </style>
 </html>
