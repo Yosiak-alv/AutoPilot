@@ -7,7 +7,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import ToggleDark from '@/Components/ToggleDark.vue';
-
+import Toast from '@/Components/Toast.vue';
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -32,6 +32,9 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('cars.index')" :active="route().current('cars.index')">
+                                    Cars
                                 </NavLink>
                             </div>
                         </div>
@@ -151,5 +154,6 @@ const showingNavigationDropdown = ref(false);
                 <slot />
             </main>
         </div>
+        <Toast/>
     </div>
 </template>
