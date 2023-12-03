@@ -16,15 +16,15 @@ const props = defineProps({
             <template v-for="(link, index) in links">
                 <div
                     v-if="link.url === null"
-                    class=" mb-1 mr-1 px-4 py-3 leading-tight border border-gray-700 text-white dark:bg-gray-800 rounded"
+                    class=" mb-1 mr-1 px-4 py-3 leading-tight border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-white dark:bg-gray-800 rounded"
                     v-html="link.label"
                 />
                 <Link
                     v-else 
                     :href="link.url ?? ''"
-                    class="mb-1 mr-1 px-4 py-3 leading-tight border border-gray-700  text-white hover:bg-gray-500 rounded"
+                    class="mb-1 mr-1 px-4 py-3 leading-tight border border-gray-200 dark:border-gray-700  text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-500 rounded"
                     :class="{
-                        'bg-gray-700': link.active
+                        'bg-gray-200 dark:bg-gray-700': link.active
                     }"
                     v-html="link.label" preserve-scroll>
                 </Link>
