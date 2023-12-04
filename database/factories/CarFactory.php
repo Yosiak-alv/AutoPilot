@@ -20,7 +20,7 @@ class CarFactory extends Factory
         $model_ids = Model::pluck('id')->toArray();
         $branch_ids = Branch::pluck('id')->toArray();
         return [
-            'image' => fake()->imageUrl(),
+            'image' => '',
             'plates' => fake()->unique()->regexify('/^[A-Z0-9]{7}$/'),
             'VIN' => fake()->unique()->regexify('/\b[(A-H|J-N|P|R-Z|0-9)]{17}\b/'),
             'current_mileage' => fake()->numberBetween(1000, 100000),
