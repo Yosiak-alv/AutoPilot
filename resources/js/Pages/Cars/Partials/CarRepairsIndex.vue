@@ -43,7 +43,7 @@ watch(search, debounce((value) => {
                 </div>
                 <div>
                     <Link 
-                        :href="route('dashboard')"
+                        :href="route('repairs.create')"
                         method="get" as="button"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
                         
@@ -56,7 +56,7 @@ watch(search, debounce((value) => {
 
         <div class="flex flex-wrap justify-between gap-4 my-12">
             <CardSection v-for="repair in props.repairs.data" class="text-base p-2">
-                <Link method="get" as="button" :href="route('dashboard')" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <Link method="get" as="button" :href="route('repairs.show',repair.id)" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{repair.work_shop?.name}},{{repair.car_id}}</h5>
                     <p class="font-normal text-gray-700 dark:text-gray-400">{{repair.status?.name}}</p>
                     <span class="font-semibold">Total:</span> ${{ repair.total }}
@@ -72,7 +72,7 @@ watch(search, debounce((value) => {
             <div class="flex justify-between p-2 mt-4">
                 <div>
                     <Link 
-                        :href="route('dashboard')"
+                        :href="route('repairs.create')"
                         method="get" as="button"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
                         

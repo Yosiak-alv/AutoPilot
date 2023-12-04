@@ -92,6 +92,7 @@ const updateCar = (id) => {
                                 type="number"
                                 class="mt-1 block w-full"
                                 v-model="form.current_mileage"
+                                step="0.01" 
                                 required
                             />
 
