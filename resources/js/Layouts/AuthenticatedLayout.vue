@@ -34,7 +34,7 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink :href="route('cars.index')" :active="route().current('cars.index')">
-                                    Cars
+                                    Autos
                                 </NavLink>
                             </div>
                         </div>
@@ -69,7 +69,7 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <ToggleDark />
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> Perfil </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>
