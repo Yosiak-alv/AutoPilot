@@ -18,7 +18,8 @@ class CarController extends Controller
     public function index()
     {
         return Inertia::render('Cars/Index',[
-            'cars' => Car::with(['model.brand:id,name','branch:id,name'])->latest('created_at')
+            'cars' => Car::select(['id','plates','year','model_id','branch_id'])
+            ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
             ->filter(request(['search']))->paginate(10)->withQueryString(),
             'filters' => \Illuminate\Support\Facades\Request::only(['search']),
         ]);

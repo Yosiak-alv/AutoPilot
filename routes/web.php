@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RepairController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function() {
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
+
+    Route::resource('repairs',RepairController::class);
+    Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
 });
 
 require __DIR__.'/auth.php';
