@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepairController;
@@ -35,6 +36,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('repairs',RepairController::class);
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
+
+    Route::resource('branches',BranchController::class);
 });
 
 require __DIR__.'/auth.php';
