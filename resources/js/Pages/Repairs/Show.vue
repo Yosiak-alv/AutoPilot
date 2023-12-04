@@ -117,7 +117,7 @@ const editRepair = () => {
                     <h2 class="text-3xl font-semibold tex-gray-900 dark:text-gray-200">Detalles de la Reparacion.</h2>
                 </div>
 
-                <div class="flex flex-wrap justify-between gap-2 my-12">
+                <div class="flex flex-wrap justify-between gap-2 my-12 overflow-auto" style="height: 40rem;">
                     <CardSection v-for="detail in props.repair.details" :key="detail.id">
                         <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                             <svg class="w-7 h-7 text-gray-500 dark:text-gray-400 mb-3"  fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
