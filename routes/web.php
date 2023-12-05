@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepairController;
@@ -35,12 +36,18 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
 
-    Route::resource('repairs',RepairController::class);
+    Route::resource('repairs',RepairController::class)->except('index');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
 
     Route::resource('branches',BranchController::class);
 
     Route::resource('workshops',WorkShopController::class);
+
+    Route::resource('brands',BrandController::class)->except('create','edit');
+    Route::get('/brands/{model}/show', [BrandController::class, 'showModel'])->name('brands.showModel');
+    Route::post('/brands/{brand}/models', [BrandController::class, 'storeModel'])->name('brands.storeModel');
+    Route::patch('/brands/models/{model}/edit', [BrandController::class, 'updateModel'])->name('brands.updateModel');
+    Route::delete('/brands/models/{model}/delete', [BrandController::class, 'destroyModel'])->name('brands.destroyModel');
 });
 
 require __DIR__.'/auth.php';

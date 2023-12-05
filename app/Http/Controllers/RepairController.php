@@ -17,9 +17,7 @@ class RepairController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Repairs/Index',[
-
-        ]);
+       // no
     }
 
     /**
