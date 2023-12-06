@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function() {
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
+    Route::post('/cars/{car}/restore', [CarController::class, 'restore'])->name('cars.restore');
+    Route::delete('/cars/{car}/forceDelete', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
 
     Route::resource('repairs',RepairController::class)->except('index');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');

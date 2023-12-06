@@ -86,6 +86,8 @@ const storeImage = () => {
                                         <span class="font-semibold">Creado:</span> {{ car.created_at }}
                                         <br>
                                         <span class="font-semibold">Actualizado:</span> {{ car.updated_at }}
+                                        <br>
+                                        <span v-if="props.car.deleted_at" class="font-semibold">Eliminado el:</span> {{props.car.deleted_at}}
                                     </div>
                                     <div class="flex space-x-4 mt-2">
                                         <PrimaryButton @click="edit()" class="w-12/9">Editar</PrimaryButton>

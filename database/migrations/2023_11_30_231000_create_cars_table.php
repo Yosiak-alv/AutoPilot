@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Model::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignIdFor(Branch::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
