@@ -9,19 +9,24 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-
+use App\Traits\CarTrait;
 class CarController extends Controller
 {
+    use CarTrait;
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->authorizeResource(Car::class,'car');
+    }
     public function index()
     {
         return Inertia::render('Cars/Index',[
-            'cars' => Car::select(['id','plates','year','model_id','branch_id'])
+            'cars' => Car::select(['id','plates','year','model_id','branch_id','deleted_at'])
             ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
-            ->filter(request(['search']))->paginate(10)->withQueryString(),
-            'filters' => \Illuminate\Support\Facades\Request::only(['search']),
+            ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
+            'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
         ]);
     }
 
@@ -119,8 +124,39 @@ class CarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Car $car)
+    public function destroy(Request $request, Car $car)
     {
-        dd('hola');
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $car->delete();
+
+        return redirect()->route('cars.show',$car)->with([
+            'level' => 'success',
+            'message' => 'Auto Eliminado Satisfactoriamente!'
+        ]);
+    }
+
+    public function restore(Car $car) 
+    {
+        $car->restore();
+        return redirect()->route('cars.show',$car)->with([
+            'level' => 'success',
+            'message' => 'Auto Restaurado Satisfactoriamente!'
+        ]);
+    }
+    public function forceDelete(Request $request, Car $car)
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $car->forceDelete();
+
+        return redirect()->route('cars.index')->with([
+            'level' => 'success',
+            'message' => 'Auto Eliminado Permanentemente!'
+        ]);
     }
 }

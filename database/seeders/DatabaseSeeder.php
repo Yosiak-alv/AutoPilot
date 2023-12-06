@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             WorkshopSeeder::class,
             CarSeeder::class,
             RepairSeeder::class,
+            RolePermissionSeeder::class,
             UserSeeder::class,
            /*  RepairDetailsSeeder::class, */
        ]);
