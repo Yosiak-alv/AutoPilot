@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('telephone');
             $table->foreignIdFor(District::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

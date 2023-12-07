@@ -123,6 +123,9 @@ const hasPermission = (permissionName) => {
                                     </Link>
                                 </td>
                             </tr>
+                            <tr v-if="props.brands.data.length === 0">
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-200" colspan="4">No Marcas Encontrados.</td>
+                            </tr>
                         </slot>
                     </TableComponent>
 

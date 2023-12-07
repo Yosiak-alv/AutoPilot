@@ -71,11 +71,11 @@
     <Modal :show="comfirmingForceDelete" @close="closeModalForceDelete ">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    ¿Seguro que quieres eliminar Permanentemente este Auto? {{url}}, {{modelToForceDeleteId}}
+                    ¿Seguro que quieres eliminar Permanentemente este registro? {{url}}, {{modelToForceDeleteId}}
                 </h2>
 
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Una vez eliminado este auto, no podras recuperarlo. 
+                    Una vez eliminado este registro, no podras recuperarlo, se eliminaran permanentemente el registro y todas sus relaciones a el. 
                     ¿Estas seguro que quieres eliminarlo permanentemente?
                 </p>
 

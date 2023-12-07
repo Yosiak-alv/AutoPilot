@@ -72,6 +72,14 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'editar modelo']);
         Permission::create(['name' => 'eliminar modelo']);
 
+        //Workshop PERMISSIONS
+        Permission::create(['name' => 'ver talleres']);
+        Permission::create(['name' => 'ver taller']);
+        Permission::create(['name' => 'crear taller']);
+        Permission::create(['name' => 'editar taller']);
+        Permission::create(['name' => 'eliminar taller']);
+        Permission::create(['name' => 'restaurar taller']);
+        Permission::create(['name' => 'force-delete taller']);
 
         // create roles and assign created permissions
 

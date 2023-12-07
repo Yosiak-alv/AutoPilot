@@ -30,11 +30,11 @@ class RepairPolicy
      */
     public function update(User $user, Repair $repair): bool
     {
-        return $repair->car == null ? false : $user->hasPermissionTo('editar reparacion');
+        return $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('editar reparacion');
     }
     public function updateStatus(User $user, Repair $repair): bool
     {
-        return $repair->car == null ? false : $user->hasPermissionTo('editar status reparacion');
+        return $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('editar status reparacion');
     }
 
     /**
@@ -42,6 +42,6 @@ class RepairPolicy
      */
     public function delete(User $user, Repair $repair): bool
     {
-        return $repair->car == null ? false : $user->hasPermissionTo('eliminar reparacion');
+        return $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('eliminar reparacion');
     }
 }

@@ -108,33 +108,35 @@ const hasPermission = (permissionName) => {
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <span class="inline text-3xl h-fit">{{ repair.work_shop.name }}</span>
+                        <span class="inline text-3xl h-fit"
+                        :class="{'text-red-600 dark:text-red-400' : repair.work_shop == null}"
+                        >{{ repair.work_shop?.name ?? 'Taller Actualmente Eliminado' }}</span>
                         <div class="mt-2 text-lg">
-                            <span class="font-semibold">Correo:</span> {{ repair.work_shop.email }}
+                            <span class="font-semibold">Correo:</span> {{ repair.work_shop?.email }}
                             <br>
-                            <span class="font-semibold">Telefono:</span> {{ repair.work_shop.telephone }}
+                            <span class="font-semibold">Telefono:</span> {{ repair.work_shop?.telephone }}
                             <br>
                             <span class="font-semibold">Estado:</span> {{repair.status.name}}
                             <br>
-                            <span class="font-semibold">Direccion:</span> {{ repair.work_shop.address}}
+                            <span class="font-semibold">Direccion:</span> {{ repair.work_shop?.address}}
                             <br>
-                            <span class="font-semibold">Zona: </span> {{ repair.work_shop.state.name }}, {{ repair.work_shop.town.name }}, {{ repair.work_shop.district.name }} 
+                            <span class="font-semibold">Zona: </span> {{ repair.work_shop?.state.name }}, {{ repair.work_shop?.town.name }}, {{ repair.work_shop?.district.name }} 
                             <br>
                         </div>
                     </div>
                     <div class="col-span-1 justify-items-center">
                         <div>
-                            <PrimaryButton v-if="hasPermission('editar reparacion') && repair.car != null" class="ml-8" @click="editRepair()">
+                            <PrimaryButton v-if="hasPermission('editar reparacion') && (repair.car != null && repair.work_shop != null)" class="ml-8" @click="editRepair()">
                                 Editar
                             </PrimaryButton>
                         </div>
                         <div>
-                            <SecondaryButton  v-if="hasPermission('editar status reparacion') && repair.car != null" class="ml-8 mt-2" @click="confirmUpdateStatus()">
+                            <SecondaryButton  v-if="hasPermission('editar status reparacion') && (repair.car != null && repair.work_shop != null)" class="ml-8 mt-2" @click="confirmUpdateStatus()">
                                 Cambiar Estado 
                             </SecondaryButton>
                         </div>
                         <div >
-                            <DangerButton v-if="hasPermission('eliminar reparacion') && repair.car != null" @click="confirmDestroy()" class="ml-8 mt-2" >
+                            <DangerButton v-if="hasPermission('eliminar reparacion') && (repair.car != null && repair.work_shop != null)" @click="confirmDestroy()" class="ml-8 mt-2" >
                                 Eliminar 
                             </DangerButton>
                         </div>

@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('branches',BranchController::class);
 
     Route::resource('workshops',WorkShopController::class);
+    Route::patch('/workshops/{workshop}/restore', [WorkShopController::class, 'restore'])->name('workshops.restore');
+    Route::delete('/workshops/{workshop}/forceDelete', [WorkShopController::class, 'forceDelete'])->name('workshops.forceDelete');
 
     Route::resource('brands',BrandController::class)->except('create','edit');
     Route::get('/brands/model/{model}', [BrandController::class, 'showModel'])->name('brands.showModel');

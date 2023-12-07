@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Znck\Eloquent\Relations\BelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough as BelongsToThroughTrait;
 use Carbon\Carbon;
 class WorkShop extends Model
 {
-    use HasFactory, BelongsToThroughTrait;
+    use HasFactory, BelongsToThroughTrait, SoftDeletes;
     protected $guarded = ['id'];
     public function repairs():HasMany
     {
@@ -53,7 +54,17 @@ class WorkShop extends Model
             })->orWhereHas('state', function ($query) use ($search) {
                 $query->where('states.name', 'like', '%' . $search . '%');
             });
+        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
+            if ($trashed === 'with') {
+                $query->withTrashed();
+            } elseif ($trashed === 'only') {
+                $query->onlyTrashed();
+            }
         });
     }
-
+    //view soft deleted models
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? 'id', $value)->withTrashed()->firstOrFail();
+    }
 }
