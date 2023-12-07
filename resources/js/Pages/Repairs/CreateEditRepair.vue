@@ -82,7 +82,7 @@ const updateRepair = (id) => {
 
                             <InputError class="mt-2" :message="form.errors.car_id" />
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-2" v-if="props.repair == null">
                             <InputLabel for="repair_status_id" value="Status" />
                             <select 
                                 id="repair_status_id"

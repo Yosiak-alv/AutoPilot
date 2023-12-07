@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, router, Link} from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, useForm, router, Link, usePage} from '@inertiajs/vue3';
+import { ref, computed, nextTick } from 'vue';
 import CardSection from '@/Components/CardSection.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
@@ -42,6 +42,35 @@ const updateStatus = () => {
 const editRepair = () => {
     router.get(route('repairs.edit', props.repair.id));
 }
+//Destroy Modal
+const comfirmingDestroy = ref(false);
+const passwordInput = ref(null);
+
+const formDestroy = useForm({
+    password: '',
+});
+const confirmDestroy = () => {
+    comfirmingDestroy.value = true;
+    nextTick(() => passwordInput.value.focus());
+};
+const closeModalDestroy = () => {
+    comfirmingDestroy.value = false;
+    formDestroy.reset();
+    formDestroy.clearErrors();
+};
+const deleteRepair = () => {
+    formDestroy.delete(route('repairs.destroy',props.repair.id), {
+        preserveScroll: true,
+        onSuccess: () => closeModalDestroy(),
+        onError: () => passwordInput.value.focus(),
+        onFinish: () => formDestroy.reset(),
+    });
+};
+
+const permissions = ref(usePage().props.auth.user_permissions);
+const hasPermission = (permissionName) => {
+    return computed(() => permissions.value.includes(permissionName)).value;
+};
 </script>
 
 <template>
@@ -55,13 +84,15 @@ const editRepair = () => {
             <CardSection class="max-w-7xl">
                 <div class="grid grid-cols-5 gap-4 p-6 items-center">
                     <div class="col-span-2">
-                        <span class="inline text-3xl h-fit">{{ repair.car.model.brand.name }}, {{repair.car.model.name}}</span>
+                        <span class="inline text-3xl h-fit"
+                        :class="{'text-red-600 dark:text-red-400' : repair.car == null}"
+                        >{{ repair.car?.model?.brand.name ?? 'Auto Actual Eliminado' }}, {{repair.car?.model.name ?? ''}}</span>
                         <div class="mt-2 text-lg">
-                            <span class="font-semibold">Año:</span> {{ repair.car.year }}
+                            <span class="font-semibold">Año:</span> {{ repair.car?.year ?? ''}}
                             <br>
-                            <span class="font-semibold">Placas:</span> {{ repair.car.plates }}
+                            <span class="font-semibold">Placas:</span> {{ repair.car?.plates ?? ''}}
                             <br>
-                            <span class="font-semibold">Millaje:</span> {{ repair.car.current_mileage }}
+                            <span class="font-semibold">Millaje:</span> {{ repair.car?.current_mileage ?? ''}}
                             <br>
                             <span class="font-semibold">Estado:</span> {{repair.status.name}}
                             <br>
@@ -93,17 +124,17 @@ const editRepair = () => {
                     </div>
                     <div class="col-span-1 justify-items-center">
                         <div>
-                            <PrimaryButton class="ml-8" @click="editRepair()">
+                            <PrimaryButton v-if="hasPermission('editar reparacion') && repair.car != null" class="ml-8" @click="editRepair()">
                                 Editar
                             </PrimaryButton>
                         </div>
                         <div>
-                            <SecondaryButton class="ml-8 mt-2" @click="confirmUpdateStatus()">
-                                Cambiar Estado
+                            <SecondaryButton  v-if="hasPermission('editar status reparacion') && repair.car != null" class="ml-8 mt-2" @click="confirmUpdateStatus()">
+                                Cambiar Estado 
                             </SecondaryButton>
                         </div>
                         <div >
-                            <DangerButton class="ml-8 mt-2" >
+                            <DangerButton v-if="hasPermission('eliminar reparacion') && repair.car != null" @click="confirmDestroy()" class="ml-8 mt-2" >
                                 Eliminar 
                             </DangerButton>
                         </div>
@@ -186,4 +217,43 @@ const editRepair = () => {
             </div>
         </div>
     </Modal>
+    <Modal :show="comfirmingDestroy" @close="closeModalDestroy">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    ¿Seguro que quieres eliminar esta Reparacion?
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    Una vez eliminado este auto, todos sus recursos y datos se eliminaran permanentemente. 
+                    Este proceso no se puede deshacer, estas seguro de querer continuar?
+                </p>
+
+                <div class="mt-6">
+                    <InputLabel for="password" value="Contraseña" />
+
+                    <TextInput
+                        id="password"
+                        ref="passwordInput"
+                        v-model="formDestroy.password"
+                        type="password"
+                        class="mt-1 block w-3/4"
+                    />
+
+                    <InputError :message="formDestroy.errors.password" class="mt-2" />
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton @click="closeModalDestroy"> Cancelar </SecondaryButton>
+
+                    <DangerButton
+                        class="ms-3"
+                        :class="{ 'opacity-25': formDestroy.processing }"
+                        :disabled="formDestroy.processing"
+                        @click="deleteRepair"
+                    >
+                        Eliminar Auto
+                    </DangerButton>
+                </div>
+            </div>
+        </Modal>
 </template>

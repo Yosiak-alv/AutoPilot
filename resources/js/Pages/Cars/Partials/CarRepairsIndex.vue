@@ -1,7 +1,7 @@
 <script setup>
 import CardSection from '@/Components/CardSection.vue';
-import { Link, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { ref, watch, computed } from 'vue';
 import { debounce } from 'lodash';
 import Paginator from '@/Components/Paginator.vue';
 
@@ -18,6 +18,11 @@ const props = defineProps({
         type:Object,
         required:true
     },
+    deleted:{
+        type:Boolean,
+        required:false,
+        default:false
+    }
 });
 
 const search = ref(props.filters.search);
@@ -25,6 +30,12 @@ const search = ref(props.filters.search);
 watch(search, debounce((value) => {
     router.get(route('cars.show',{id:props.carId}), {search:value}, { preserveState:true , replace:true ,preserveScroll:true});
 },500));
+
+//permissions
+const permissions = ref(usePage().props.auth.user_permissions);
+const hasPermission = (permissionName) => {
+    return computed(() => permissions.value.includes(permissionName)).value;
+};
 </script>
 
 <template>
@@ -46,7 +57,7 @@ watch(search, debounce((value) => {
                         :href="route('repairs.create')"
                         method="get" as="button"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
-                        
+                        v-if="hasPermission('crear reparacion') && !props.deleted"
                     >
                         + Reparacion
                     </Link>
@@ -56,11 +67,19 @@ watch(search, debounce((value) => {
 
         <div class="flex flex-wrap justify-between gap-4 my-12">
             <CardSection v-for="repair in props.repairs.data" class="text-base p-2">
-                <Link method="get" as="button" :href="route('repairs.show',repair.id)" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <Link  v-if="hasPermission('ver reparacion')"
+                    method="get" as="button" :href="route('repairs.show',repair.id)" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{repair.work_shop?.name}},{{repair.car_id}}</h5>
                     <p class="font-normal text-gray-700 dark:text-gray-400">{{repair.status?.name}}</p>
                     <span class="font-semibold">Total:</span> ${{ repair.total }}
                 </Link>
+                <div v-else
+                    class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                >
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{repair.work_shop?.name}},{{repair.car_id}}</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">{{repair.status?.name}}</p>
+                    <span class="font-semibold">Total:</span> ${{ repair.total }}
+                </div>
             </CardSection>
             
         </div>
@@ -75,7 +94,7 @@ watch(search, debounce((value) => {
                         :href="route('repairs.create')"
                         method="get" as="button"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
-                        
+                        v-if="hasPermission('crear reparacion') && !props.deleted"
                     >
                         + Reparacion
                     </Link>

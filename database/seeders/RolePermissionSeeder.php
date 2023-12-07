@@ -46,7 +46,6 @@ class RolePermissionSeeder extends Seeder
         } */
         //CARS PERMISSIONS
         Permission::create(['name' => 'ver autos']);
-        Permission::create(['name' => 'ver autos /all']);
         Permission::create(['name' => 'ver auto']);
         Permission::create(['name' => 'agregar imagen auto']);
         Permission::create(['name' => 'crear auto']);
@@ -55,6 +54,12 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'restaurar auto']);
         Permission::create(['name' => 'force-delete auto']);
 
+        //Repairs PERMISSIONS
+        Permission::create(['name' => 'ver reparacion']);
+        Permission::create(['name' => 'crear reparacion']);
+        Permission::create(['name' => 'editar reparacion']);
+        Permission::create(['name' => 'editar status reparacion']);
+        Permission::create(['name' => 'eliminar reparacion']);
 
 
         // create roles and assign created permissions

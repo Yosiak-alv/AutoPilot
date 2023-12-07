@@ -1,15 +1,18 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, router, Link} from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, useForm, router, Link, usePage} from '@inertiajs/vue3';
+import { ref, nextTick, computed } from 'vue';
 import CardSection from '@/Components/CardSection.vue';
 import CarRepairIndex from './Partials/CarRepairsIndex.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
+import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
+import RestoreMessage from '@/Components/RestoreMessage.vue';
+import ForceDeleteMessage from '@/Components/ForceDeleteMessage.vue';
 
 const props = defineProps({
     car:{
@@ -33,9 +36,6 @@ const props = defineProps({
 const edit = () => {
     router.get(route('cars.edit', props.car.id));
 }
-const destroy = () => {
-    router.delete(route('cars.destroy', props.car.id));
-}
 //Image Modal
 const comfirmingImageStoring = ref(false);
 const confirmStoreImage = () => comfirmingImageStoring.value = true;
@@ -56,6 +56,37 @@ const storeImage = () => {
         onFinish: () => (formImage.reset()),
     });
 }
+//Destroy Modal
+const comfirmingDestroy = ref(false);
+const passwordInput = ref(null);
+
+const formDestroy = useForm({
+    password: '',
+});
+const confirmDestroy = () => {
+    comfirmingDestroy.value = true;
+    nextTick(() => passwordInput.value.focus());
+};
+
+const deleteCar = () => {
+    formDestroy.delete(route('cars.destroy',props.car.id), {
+        preserveScroll: true,
+        onSuccess: () => closeModalDestroy(),
+        onError: () => passwordInput.value.focus(),
+        onFinish: () => formDestroy.reset(),
+    });
+};
+
+const closeModalDestroy = () => {
+    comfirmingDestroy.value = false;
+    formDestroy.reset();
+    formDestroy.clearErrors();
+};
+//permissions
+const permissions = ref(usePage().props.auth.user_permissions);
+const hasPermission = (permissionName) => {
+    return computed(() => permissions.value.includes(permissionName)).value;
+};
 </script>
 
 <template>
@@ -67,6 +98,15 @@ const storeImage = () => {
         
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div v-if="car.deleted_at != null" class="space-y-4">
+                    <RestoreMessage :permission="hasPermission('restaurar auto')" @restore="router.post(route('cars.restore',props.car.id))">
+                        Este auto esta eliminado, si lo restauras podras acceder y editarlo nuevamente.
+                    </RestoreMessage>
+                    <ForceDeleteMessage :permission="hasPermission('force-delete auto')" :url="'cars.forceDelete'" :modelToForceDeleteId="props.car.id">
+                        Este auto esta eliminado, si lo eliminas permanentemente no podras acceder a el nuevamente.
+                    </ForceDeleteMessage>
+                </div>
+
                 <div class="flex flex-wrap justify-between gap-2 my-12">
                     <div class="mx-auto">
                         <CardSection>
@@ -90,12 +130,16 @@ const storeImage = () => {
                                         <span v-if="props.car.deleted_at" class="font-semibold">Eliminado el:</span> {{props.car.deleted_at}}
                                     </div>
                                     <div class="flex space-x-4 mt-2">
-                                        <PrimaryButton @click="edit()" class="w-12/9">Editar</PrimaryButton>
-                                        <SecondaryButton @click="confirmStoreImage()" class="w-12/9">+ Imagen</SecondaryButton>
-                                        <DangerButton @click="destroy()" class="w-12/9">Eliminar</DangerButton>
+                                        <PrimaryButton @click="edit()" v-if="hasPermission('editar auto') && car.deleted_at == null" class="w-12/9">
+                                            Editar
+                                        </PrimaryButton>
+                                        <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagen auto') && car.deleted_at == null" class="w-12/9">
+                                            + Imagen
+                                        </SecondaryButton>
+                                        <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar auto') && car.deleted_at == null" class="w-12/9">
+                                            Eliminar
+                                        </DangerButton>
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
                         </CardSection>
@@ -124,7 +168,7 @@ const storeImage = () => {
         </div>
 
         <div class="py-4">
-           <CarRepairIndex :repairs="car_repairs" :filters="filters" :carId="props.car.id" />
+           <CarRepairIndex :repairs="car_repairs" :filters="filters" :carId="props.car.id" :deleted="props.car.deleted_at  ? true: false" />
         </div>
     </AuthenticatedLayout>
 
@@ -161,4 +205,43 @@ const storeImage = () => {
             </div>
         </div>
     </Modal>
+    <Modal :show="comfirmingDestroy" @close="closeModalDestroy">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    ¿Seguro que quieres eliminar es Auto?
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    Una vez eliminado este auto, permanecer en la base de datos pero no se podra acceder a el,
+                    hasta que se restaure o elimine permanentemente, Esta seguro de que quiere eliminar este auto ?
+                </p>
+
+                <div class="mt-6">
+                    <InputLabel for="password" value="Contraseña" />
+
+                    <TextInput
+                        id="password"
+                        ref="passwordInput"
+                        v-model="formDestroy.password"
+                        type="password"
+                        class="mt-1 block w-3/4"
+                    />
+
+                    <InputError :message="formDestroy.errors.password" class="mt-2" />
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton @click="closeModalDestroy"> Cancelar </SecondaryButton>
+
+                    <DangerButton
+                        class="ms-3"
+                        :class="{ 'opacity-25': formDestroy.processing }"
+                        :disabled="formDestroy.processing"
+                        @click="deleteCar"
+                    >
+                        Eliminar Auto
+                    </DangerButton>
+                </div>
+            </div>
+        </Modal>
 </template>

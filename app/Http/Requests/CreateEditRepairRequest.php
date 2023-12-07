@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class CreateEditRepairRequest extends FormRequest
 {
     /**
@@ -23,7 +23,7 @@ class CreateEditRepairRequest extends FormRequest
     {
         return [
             'car_id' => ['required', 'exists:cars,id','integer','gt:0'],
-            'repair_status_id' => ['required', 'exists:repair_statuses,id','integer','gt:0'],
+            'repair_status_id' => [Rule::requiredIf($this->repair == null), 'exists:repair_statuses,id','integer','gt:0'],
             'work_shop_id' => ['required', 'exists:work_shops,id','integer','gt:0'],
             'details' => ['required', 'array','min:1'],
             'details.*.name' => 'required|string|min:4',
@@ -37,6 +37,7 @@ class CreateEditRepairRequest extends FormRequest
     {
         return $this->only('car_id','repair_status_id','work_shop_id');
     }
+    
     public function sumPrices()
     {
         $details = $this->validated()['details'];

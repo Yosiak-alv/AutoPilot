@@ -6,12 +6,18 @@ use App\Http\Requests\CreateEditRepairRequest;
 use App\Models\Repair;
 use App\Models\RepairStatus;
 use App\Models\WorkShop;
+use App\Traits\RepairTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use App\Models\Car;
 class RepairController extends Controller
 {
+    use RepairTrait;
+    public function __construct()
+    {
+        $this->authorizeResource(Repair::class,'repair');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -112,8 +118,20 @@ class RepairController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Repair $repair)
+    public function destroy(Request $request, Repair $repair)
     {
-        dd('hola');
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
+        DB::transaction(function () use ($repair) {
+            $repair->details()->delete();
+            $repair->delete();
+        });
+
+        return redirect()->route('cars.index')->with([
+            'level' => 'success',
+            'message' => 'Reparacion Eliminada Satisfactoriamente!'
+        ]);
     }
 }

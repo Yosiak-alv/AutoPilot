@@ -9,6 +9,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 use App\Traits\CarTrait;
 class CarController extends Controller
 {
@@ -152,7 +153,16 @@ class CarController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $car->forceDelete();
+        DB::transaction(function () use ($car) {
+            if($car->image){
+                Storage::disk('public')->delete($car->image);
+            };
+            foreach ($car->repairs as $repair) {
+                $repair->details()->delete();
+            }
+            $car->repairs()->delete();
+            $car->forceDelete();
+        });
 
         return redirect()->route('cars.index')->with([
             'level' => 'success',
