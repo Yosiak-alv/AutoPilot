@@ -61,6 +61,17 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'editar status reparacion']);
         Permission::create(['name' => 'eliminar reparacion']);
 
+        //Brand - Model PERMISSIONS
+        Permission::create(['name' => 'ver marcas']);
+        Permission::create(['name' => 'ver marca']);
+        Permission::create(['name' => 'crear marca']);
+        Permission::create(['name' => 'editar marca']);
+        Permission::create(['name' => 'eliminar marca']);
+        Permission::create(['name' => 'ver modelo']);
+        Permission::create(['name' => 'crear modelo']);
+        Permission::create(['name' => 'editar modelo']);
+        Permission::create(['name' => 'eliminar modelo']);
+
 
         // create roles and assign created permissions
 

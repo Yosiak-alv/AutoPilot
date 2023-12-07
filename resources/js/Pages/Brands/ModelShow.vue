@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, router, Link} from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, useForm, router, Link, usePage} from '@inertiajs/vue3';
+import { ref, computed, nextTick } from 'vue';
 import CardSection from '@/Components/CardSection.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
@@ -37,11 +37,38 @@ const editModel = () => {
         onFinish: () => (formModel.reset()),
     });
 }
-//---------------------------------------------
 
-const destroy = () => {
-    router.delete(route('brands.destroyModel', props.model.id));
-}
+//Destroy Modal
+const comfirmingDestroy = ref(false);
+const passwordInput = ref(null);
+
+const formDestroy = useForm({
+    password: '',
+});
+const confirmDestroy = () => {
+    comfirmingDestroy.value = true;
+    nextTick(() => passwordInput.value.focus());
+};
+
+const deleteModel = () => {
+    formDestroy.delete(route('brands.destroyModel',props.model.id), {
+        preserveScroll: true,
+        onSuccess: () => closeModalDestroy(),
+        onError: () => passwordInput.value.focus(),
+        onFinish: () => formDestroy.reset(),
+    });
+};
+
+const closeModalDestroy = () => {
+    comfirmingDestroy.value = false;
+    formDestroy.reset();
+    formDestroy.clearErrors();
+};
+//permissions
+const permissions = ref(usePage().props.auth.user_permissions);
+const hasPermission = (permissionName) => {
+    return computed(() => permissions.value.includes(permissionName)).value;
+};
 </script>
 
 <template>
@@ -62,13 +89,13 @@ const destroy = () => {
                                 </div>
                                 <div class="col-span-1 justify-items-center">
                                     <div>
-                                        <PrimaryButton class="ml-8" @click="confirmModelEdition()">
+                                        <PrimaryButton class="ml-8" @click="confirmModelEdition()" v-if="hasPermission('editar modelo')">
                                             Editar
                                         </PrimaryButton>
                                     </div>
                                     <div>
-                                        <DangerButton class="mt-2 ml-8" @click="destroy()" >
-                                            Eliminar Centro
+                                        <DangerButton class="mt-2 ml-8" @click="confirmDestroy()" v-if="hasPermission('eliminar modelo')">
+                                            Eliminar 
                                         </DangerButton>
                                     </div>
                                 </div>
@@ -113,4 +140,43 @@ const destroy = () => {
             </div>
         </div>
     </Modal>
+    <Modal :show="comfirmingDestroy" @close="closeModalDestroy">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    ¿Seguro que quieres eliminar este Modelo
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    Una vez eliminado este auto, todos los registros y datos se perderán permanentemente.
+                    Estas seguro que quieres eliminar este modelo ?
+                </p>
+
+                <div class="mt-6">
+                    <InputLabel for="password" value="Contraseña" />
+
+                    <TextInput
+                        id="password"
+                        ref="passwordInput"
+                        v-model="formDestroy.password"
+                        type="password"
+                        class="mt-1 block w-3/4"
+                    />
+
+                    <InputError :message="formDestroy.errors.password" class="mt-2" />
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton @click="closeModalDestroy"> Cancelar </SecondaryButton>
+
+                    <DangerButton
+                        class="ms-3"
+                        :class="{ 'opacity-25': formDestroy.processing }"
+                        :disabled="formDestroy.processing"
+                        @click="deleteModel"
+                    >
+                        Eliminar Modelo
+                    </DangerButton>
+                </div>
+            </div>
+        </Modal>
 </template>

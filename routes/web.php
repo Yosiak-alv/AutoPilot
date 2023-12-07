@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('workshops',WorkShopController::class);
 
     Route::resource('brands',BrandController::class)->except('create','edit');
-    Route::get('/brands/{model}/show', [BrandController::class, 'showModel'])->name('brands.showModel');
+    Route::get('/brands/model/{model}', [BrandController::class, 'showModel'])->name('brands.showModel');
     Route::post('/brands/{brand}/models', [BrandController::class, 'storeModel'])->name('brands.storeModel');
     Route::patch('/brands/models/{model}/edit', [BrandController::class, 'updateModel'])->name('brands.updateModel');
     Route::delete('/brands/models/{model}/delete', [BrandController::class, 'destroyModel'])->name('brands.destroyModel');

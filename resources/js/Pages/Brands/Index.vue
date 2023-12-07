@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, router, Link} from '@inertiajs/vue3';
-import {watch,ref} from "vue";
+import { Head, useForm, router, Link, usePage} from '@inertiajs/vue3';
+import {watch,ref,computed} from "vue";
 import CardSection from '@/Components/CardSection.vue';
 import Paginator from '@/Components/Paginator.vue';
 import TableComponent from '@/Components/TableComponent.vue';
@@ -49,6 +49,11 @@ const createBrand = () => {
         onFinish: () => (form.reset()),
     });
 }
+//permissions
+const permissions = ref(usePage().props.auth.user_permissions);
+const hasPermission = (permissionName) => {
+    return computed(() => permissions.value.includes(permissionName)).value;
+};
 </script>
 
 <template>
@@ -70,7 +75,7 @@ const createBrand = () => {
                         <input type="search" v-model="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="Buscar">
                     </div>
                     <div class="pt-2">
-                        <PrimaryButton @click="confirmBrandCreation()">Agregar Marca</PrimaryButton>
+                        <PrimaryButton v-if="hasPermission('crear marca')" @click="confirmBrandCreation()">Agregar Marca</PrimaryButton>
                     </div>
                 </div>
 
@@ -111,7 +116,7 @@ const createBrand = () => {
                                     
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <Link :href="route('brands.show',{id: brand.id})">
+                                    <Link :href="route('brands.show',{id: brand.id})" v-if="hasPermission('ver marca')">
                                         <svg fill="none" class="block w-6 h-6 " stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
                                         </svg>
