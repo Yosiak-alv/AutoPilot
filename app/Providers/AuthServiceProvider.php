@@ -7,6 +7,8 @@ use App\Models\Brand;
 use App\Models\Model;
 use App\Policies\BrandPolicy;
 use App\Policies\ModelPolicy;
+use App\Policies\RolePolicy;
+use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Brand::class => BrandPolicy::class,
-        Model::class => ModelPolicy::class
+        Model::class => ModelPolicy::class,
+        Role::class => RolePolicy::class,
     ];
 
     /**

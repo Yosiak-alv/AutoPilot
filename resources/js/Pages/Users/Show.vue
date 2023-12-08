@@ -108,6 +108,23 @@ const hasPermission = (permissionName) => {
                 </div>
             </div>    
         </div>
+        <div class="py-2">
+            <div class="max-w-7xl mx-auto text-center my-4 text-gray-900 dark:text-gray-100" :class="{'text-red-600 dark:text-red-400' : props.user.roles.length == 0}">
+                <h2 class="text-3xl font-semibold">{{user.roles.length == 0 ? 'Usuario Sin Rol' : 'Roles'}}</h2>
+            </div>
+
+            <div class="flex flex-wrap justify-between items-center gap-4 my-1" v-if="props.user.roles.length != 0">
+                <CardSection   v-for="role in props.user.roles" :key="role.id"
+                class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow 0 dark:bg-gray-800 dark:border-gray-700 ">     
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{role.name}}</h5>
+                    <div class="overflow-y-scroll" style="height: 10rem;">
+                        <div v-for="role_permission in role.permissions">
+                            <p class="font-normal text-gray-700 dark:text-gray-400">{{role_permission.name}}</p>
+                        </div>    
+                    </div>
+                </CardSection>
+            </div>
+        </div>
     </AuthenticatedLayout>
 
     <Modal :show="comfirmingDestroy" @close="closeModalDestroy">

@@ -5,6 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepairController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkShopController;
 use Illuminate\Foundation\Application;
@@ -58,6 +59,8 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('users', UserController::class);
     Route::patch('/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::delete('/users/{user}/forceDelete', [UserController::class, 'forceDelete'])->name('users.forceDelete');
+
+    Route::resource('roles', RoleController::class);
 });
 
 require __DIR__.'/auth.php';
