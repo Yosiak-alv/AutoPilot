@@ -1,14 +1,19 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import ToggleDark from '@/Components/ToggleDark.vue';
 import Toast from '@/Components/Toast.vue';
 const showingNavigationDropdown = ref(false);
+//permissions
+const permissions = ref(usePage().props.auth.user_permissions);
+const hasPermission = (permissionName) => {
+    return computed(() => permissions.value.includes(permissionName)).value;
+};
 </script>
 
 <template>
@@ -30,19 +35,19 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <NavLink  :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('cars.index')" :active="route().current('cars.index')">
+                                <NavLink v-if="hasPermission('ver autos')" :href="route('cars.index')" :active="route().current('cars.index')">
                                     Autos
                                 </NavLink>
-                                <NavLink :href="route('branches.index')" :active="route().current('branches.index')">
+                                <NavLink v-if="hasPermission('ver centros')" :href="route('branches.index')" :active="route().current('branches.index')">
                                     Centros
                                 </NavLink>
-                                <NavLink :href="route('workshops.index')" :active="route().current('workshops.index')">
+                                <NavLink v-if="hasPermission('ver talleres')" :href="route('workshops.index')" :active="route().current('workshops.index')">
                                     Talleres
                                 </NavLink>
-                                <NavLink :href="route('brands.index')" :active="route().current('brands.index')">
+                                <NavLink v-if="hasPermission('ver marcas')" :href="route('brands.index')" :active="route().current('brands.index')">
                                     Marcas
                                 </NavLink>
                             </div>
@@ -128,6 +133,18 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="hasPermission('ver autos')" :href="route('cars.index')" :active="route().current('cars.index')">
+                            Autos
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="hasPermission('ver centros')" :href="route('branches.index')" :active="route().current('branches.index')">
+                            Centros
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="hasPermission('ver talleres')" :href="route('workshops.index')" :active="route().current('workshops.index')">
+                            Talleres
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="hasPermission('ver marcas')" :href="route('brands.index')" :active="route().current('brands.index')">
+                            Marcas
                         </ResponsiveNavLink>
                     </div>
 
