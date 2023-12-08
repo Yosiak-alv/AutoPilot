@@ -5,21 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateEditBranchRequest;
 use App\Models\Branch;
 use App\Models\State;
+use App\Traits\BranchTrait;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use Auth;
 class BranchController extends Controller
 {
+    use BranchTrait;
+    public function __construct()
+    {
+        $this->authorizeResource(Branch::class, 'branch');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render('Branches/Index',[
-            'branches' => Branch::select(['id','name','main','telephone','district_id'])
+            'branches' => Branch::select(['id','name','main','telephone','district_id','deleted_at'])
             ->with(['state','town','district'])->latest('created_at')
-            ->filter(request(['search']))->paginate(10)->withQueryString(),
-            'filters' => \Illuminate\Support\Facades\Request::only(['search']),
+            ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
+            'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
         ]);
     }
 
@@ -74,7 +80,7 @@ class BranchController extends Controller
     {
         $branch->update($request->validated());
 
-        return redirect()->route('branches.show',$branch)->with([
+        return redirect()->route('branches.show',$branch->id)->with([
             'level' => 'success',
             'message' => 'Centro Actualizado Satisfactoriamente!'
         ]);
@@ -85,6 +91,31 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
-        dd('hola');
+        $branch->delete();
+
+        if ($branch->id == request()->user()->branch_id) {
+            Auth::guard('web')->logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+
+            return redirect('/')->with([
+                'level' => 'success',
+                'message' => 'Centro en Papelera Satisfactoriamente!'
+            ]);
+        }
+
+        return redirect()->route('branches.index')->with([
+            'level' => 'success',
+            'message' => 'Centro en Papelera Satisfactoriamente!'
+        ]);
+    }
+    public function restore(Branch $branch)
+    {
+        $branch->restore();
+
+        return redirect()->route('branches.show',$branch->id)->with([
+            'level' => 'success',
+            'message' => 'Centro Restaurado Satisfactoriamente!'
+        ]);
     }
 }

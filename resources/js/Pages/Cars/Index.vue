@@ -120,8 +120,9 @@ const hasPermission = (permissionName) => {
                                     
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{car.branch.name}}
-                                    
+                                    <div  :class="{'text-red-600 dark:text-red-400' : car.branch  == null}">
+                                        {{car.branch?.name ?? 'Sin Sucursal'}}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-right" >
                                     <Link :href="route('cars.show',{id: car.id})" v-if="hasPermission('ver auto')" >

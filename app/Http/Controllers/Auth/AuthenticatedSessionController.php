@@ -31,6 +31,20 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+        
+        if (!Auth::user()->hasRole('Super-Admin') && Auth::user()->branch == null) {
+            
+            Auth::guard('web')->logout();
+
+            $request->session()->invalidate();
+
+            $request->session()->regenerateToken();
+
+            return back()->with([
+                'level' => 'error',
+                'message' => 'No tiene un centro asignado, contacte al administrador!'
+            ]);
+        }
 
         $request->session()->regenerate();
 

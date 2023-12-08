@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('main')->default(false);
             $table->foreignIdFor(\App\Models\District::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

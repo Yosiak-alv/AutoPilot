@@ -99,7 +99,7 @@ const hasPermission = (permissionName) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div v-if="car.deleted_at != null" class="space-y-4">
-                    <RestoreMessage :permission="hasPermission('restaurar auto')" @restore="router.post(route('cars.restore',props.car.id))">
+                    <RestoreMessage :permission="hasPermission('restaurar auto')" @restore="router.patch(route('cars.restore',props.car.id))">
                         Este auto esta eliminado, si lo restauras podras acceder y editarlo nuevamente.
                     </RestoreMessage>
                     <ForceDeleteMessage :permission="hasPermission('force-delete auto')" :url="'cars.forceDelete'" :modelToForceDeleteId="props.car.id">
@@ -147,15 +147,16 @@ const hasPermission = (permissionName) => {
                     <div class="mx-auto">
                         <CardSection>
                             <div class="p-5">
-                                    <span class="inline text-3xl h-fit">{{ car.branch.name}}</span>
-                                    <div class="mt-2 text-lg">
-                                        <span class="font-semibold">Correo:</span> {{ car.branch.email }}
+                                    <span class="inline text-3xl h-fit" :class="{'text-red-600 dark:text-red-400' : car.branch  == null}">
+                                    {{ car.branch?.name ?? 'Sin Centro Asignado'}}</span>
+                                    <div class="mt-2 text-lg" v-if="car.branch">
+                                        <span class="font-semibold">Correo:</span> {{ car.branch?.email }}
                                         <br>
-                                        <span class="font-semibold">Telefono:</span> {{ car.branch.telephone }}
+                                        <span class="font-semibold">Telefono:</span> {{ car.branch?.telephone }}
                                         <br>
-                                        <span class="font-semibold">Direccion:</span> {{ car.branch.address }}
+                                        <span class="font-semibold">Direccion:</span> {{ car.branch?.address }}
                                         <br>
-                                        <span class="font-semibold">Es Central:</span> {{ car.branch.main ? 'Si':'No' }}
+                                        <span class="font-semibold">Es Central:</span> {{ car.branch?.main ? 'Si':'No' }}
                                         <br>
                                     </div>
                                 </div>

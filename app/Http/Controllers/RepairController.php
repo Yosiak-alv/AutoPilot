@@ -44,12 +44,14 @@ class RepairController extends Controller
      */
     public function store(CreateEditRepairRequest $request)
     {
-        $repair = Repair::create($request->validatedRepair());
-
-        $repair->sub_total = $request->sumPrices()['sub_total'];
-        $repair->taxes = $request->sumPrices()['taxes'];
-        $repair->total = $request->sumPrices()['total_with_taxes'];
-        $repair->save();
+        $repair = Repair::create([
+            'car_id' => $request->validated()['car_id'],
+            'repair_status_id' => $request->validated()['repair_status_id'],
+            'work_shop_id' => $request->validated()['work_shop_id'],
+            'sub_total' => $request->sumPrices()['sub_total'],
+            'taxes' => $request->sumPrices()['taxes'],
+            'total' => $request->sumPrices()['total_with_taxes'],
+        ]);
 
         $repair->details()->createMany($request->validated()['details']);
 
@@ -88,13 +90,14 @@ class RepairController extends Controller
      */
     public function update(CreateEditRepairRequest $request, Repair $repair)
     {
-        $repair->update($request->validatedRepair());
-
-        $repair->sub_total = $request->sumPrices()['sub_total'];
-        $repair->taxes = $request->sumPrices()['taxes'];
-        $repair->total = $request->sumPrices()['total_with_taxes'];
-        $repair->save();
-
+        $repair->update([
+            'car_id' => $request->validated()['car_id'],
+            'repair_status_id' => $request->validated()['repair_status_id'],
+            'work_shop_id' => $request->validated()['work_shop_id'],
+            'sub_total' => $request->sumPrices()['sub_total'],
+            'taxes' => $request->sumPrices()['taxes'],
+            'total' => $request->sumPrices()['total_with_taxes'],
+        ]);
         $repair->details()->delete();
         $repair->details()->createMany($request->validated()['details']);
 

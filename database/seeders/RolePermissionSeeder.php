@@ -81,6 +81,14 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'restaurar taller']);
         Permission::create(['name' => 'force-delete taller']);
 
+        //Branch PERMISSIONS
+        Permission::create(['name' => 'ver centros']);
+        Permission::create(['name' => 'ver centro']);
+        Permission::create(['name' => 'crear centro']);
+        Permission::create(['name' => 'editar centro']);
+        Permission::create(['name' => 'eliminar centro']);
+        Permission::create(['name' => 'restaurar centro']);
+
         // create roles and assign created permissions
 
         // this can be done as separate statements

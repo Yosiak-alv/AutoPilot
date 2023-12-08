@@ -35,13 +35,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function() {
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
-    Route::post('/cars/{car}/restore', [CarController::class, 'restore'])->name('cars.restore');
+    Route::patch('/cars/{car}/restore', [CarController::class, 'restore'])->name('cars.restore');
     Route::delete('/cars/{car}/forceDelete', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
 
     Route::resource('repairs',RepairController::class)->except('index');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
 
     Route::resource('branches',BranchController::class);
+    Route::patch('/branches/{branch}/restore', [BranchController::class, 'restore'])->name('branches.restore');
 
     Route::resource('workshops',WorkShopController::class);
     Route::patch('/workshops/{workshop}/restore', [WorkShopController::class, 'restore'])->name('workshops.restore');
