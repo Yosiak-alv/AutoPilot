@@ -38,6 +38,9 @@ const hasPermission = (permissionName) => {
                                 <NavLink  :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink v-if="hasPermission('ver usuarios')" :href="route('users.index')" :active="route().current('users.index')">
+                                    Usuarios
+                                </NavLink>
                                 <NavLink v-if="hasPermission('ver autos')" :href="route('cars.index')" :active="route().current('cars.index')">
                                     Autos
                                 </NavLink>

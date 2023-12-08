@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Branch::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

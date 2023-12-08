@@ -89,6 +89,15 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'eliminar centro']);
         Permission::create(['name' => 'restaurar centro']);
 
+        //User PERMISSIONS
+        Permission::create(['name' => 'ver usuarios']);
+        Permission::create(['name' => 'ver usuario']);
+        Permission::create(['name' => 'crear usuario']);
+        Permission::create(['name' => 'editar usuario']);
+        Permission::create(['name' => 'eliminar usuario']);
+        Permission::create(['name' => 'restaurar usuario']);
+        Permission::create(['name' => 'force-delete usuario']);
+
         // create roles and assign created permissions
 
         // this can be done as separate statements

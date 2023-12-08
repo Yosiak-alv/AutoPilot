@@ -39,7 +39,7 @@
     const forceDeleteAction = () => {
         formForceDelete.delete(route(url.value, modelToForceDeleteId.value), {
             preserveScroll: true,
-            onSuccess: () => closeModalDestroy(),
+            onSuccess: () => closeModalForceDelete(),
             onError: () => passwordForceInput.value.focus(),
             onFinish: () => formForceDelete.reset(),
         });
