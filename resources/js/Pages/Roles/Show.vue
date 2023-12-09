@@ -58,7 +58,10 @@ const hasPermission = (permissionName) => {
 <Head title="Role Show" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Rol #{{props.role.id}}</h2>
+            <h1 class="text-xl font-semibold  text-gray-800 dark:text-gray-200 leading-tight">
+                <Link class="text-red-500 hover:text-red-700 hover:underline" :href="route('roles.index')">Roles</Link>
+                <span class="text-red-500 font-medium">/</span> {{props.role.name}}
+            </h1>
         </template>
         
         <div class="py-9">

@@ -69,7 +69,10 @@ const hasPermission = (permissionName) => {
 <Head title="WorkShop Show" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Taller #{{props.workshop.id}}</h2>
+            <h1 class="text-xl font-semibold  text-gray-800 dark:text-gray-200 leading-tight">
+                <Link class="text-red-500 hover:text-red-700 hover:underline" :href="route('workshops.index')">Talleres</Link>
+                <span class="text-red-500 font-medium">/</span> {{props.workshop.name}}
+            </h1>
         </template>
         
         <div class="py-4">

@@ -75,7 +75,10 @@ const hasPermission = (permissionName) => {
     <Head title="Brand Show" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Marca #{{props.brand.id}}</h2>
+            <h1 class="text-xl font-semibold  text-gray-800 dark:text-gray-200 leading-tight">
+                <Link class="text-red-500 hover:text-red-700 hover:underline" :href="route('brands.index')">Marcas</Link>
+                <span class="text-red-500 font-medium">/</span>{{props.brand.name}}
+            </h1>
         </template>
         <CardSection class="max-w-4xl py-12">
             <div class="flex flex-wrap my-12">

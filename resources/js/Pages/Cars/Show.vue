@@ -93,7 +93,10 @@ const hasPermission = (permissionName) => {
     <Head title="Car Show" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Auto {{car.model.name}}</h2>
+            <h1 class="text-xl font-semibold  text-gray-800 dark:text-gray-200 leading-tight">
+                <Link class="text-red-500 hover:text-red-700 hover:underline" :href="route('cars.index')">Autos</Link>
+                <span class="text-red-500 font-medium">/</span> {{car.model.name}}
+            </h1>
         </template>
         
         <div class="py-12">
