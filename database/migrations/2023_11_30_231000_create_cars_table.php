@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('image',255);
+            $table->string('image',255)->default('');
             $table->string('plates');
             $table->string('VIN');
             $table->double('current_mileage');
