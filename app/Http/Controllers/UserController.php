@@ -26,7 +26,7 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('Users/Index',[
-            'users' => User::select(['id', 'name', 'email','deleted_at'])->with(['roles:id,name'])->latest('created_at')
+            'users' => User::select(['id', 'name', 'email','deleted_at','branch_id'])->with(['roles:id,name','branch:id,name'])->latest('created_at')
             ->filter(request(['search','trashed']))->paginate(8)->withQueryString(),
             'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
         ]);
@@ -72,7 +72,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         return Inertia::render('Users/Show',[
-            'user' => $user->load('roles.permissions:id,name')
+            'user' => $user->load('roles.permissions:id,name', 'branch.district.town.state')
         ]);
     }
 

@@ -68,7 +68,9 @@ class User extends Authenticatable
                     ->orWhere('email','like','%'.$search.'%')
                     ->orWhere('id','like','%'.$search.'%')
             )->orWhereHas('roles',fn($query) =>
-                $query->where('name','like','%'.$search.'%')
+                $query->where('roles.name','like','%'.$search.'%')
+            )->orWhereHas('branch',fn($query) =>
+                $query->where('branches.name','like','%'.$search.'%')
             );
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {

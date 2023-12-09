@@ -81,7 +81,7 @@ class CarController extends Controller
     public function show(Car $car)
     {
         return Inertia::render('Cars/Show',[
-            'car' => $car->load(['model.brand:id,name','branch']), 
+            'car' => $car->load(['model.brand:id,name','branch.district.town.state']), 
             'carImageUrl' => $car->getImageUrl(),
             'car_repairs' => $car->repairs()->when(\Illuminate\Support\Facades\Request::input('search') ?? false, function($query , $search) {
                 $query->where(fn($query) =>
