@@ -23,12 +23,22 @@ class CarController extends Controller
     }
     public function index()
     {
-        return Inertia::render('Cars/Index',[
-            'cars' => Car::select(['id','plates','year','model_id','branch_id','deleted_at'])
-            ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
-            ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
-            'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
-        ]);
+        if(request()->user()->branch->main == 1){
+            return Inertia::render('Cars/Index',[
+                'cars' => Car::select(['id','plates','year','model_id','branch_id','deleted_at'])
+                ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
+                ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
+                'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
+            ]);
+        }
+        else{
+            return Inertia::render('Cars/Index',[
+                'cars' => Car::select(['id','plates','year','model_id','branch_id','deleted_at'])->where('branch_id',request()->user()->branch->id)
+                ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
+                ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
+                'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
+            ]);
+        }
     }
 
     /**
