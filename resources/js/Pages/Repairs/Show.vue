@@ -79,11 +79,11 @@ const hasPermission = (permissionName) => {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Reparacion #{{props.repair.id}}</h2>
         </template>
-        
-        <div class="py-12">
-            <CardSection class="max-w-7xl">
-                <div class="grid grid-cols-5 gap-4 p-6 items-center">
-                    <div class="col-span-2">
+
+        <div class="py-9">
+            <CardSection class="max-w-7xl mx-auto">
+                <div class="flex flex-wrap my-12">
+                    <div class="mx-auto">
                         <span class="inline text-3xl h-fit"
                         :class="{'text-red-600 dark:text-red-400' : repair.car == null}"
                         >{{ repair.car?.model?.brand.name ?? 'Auto Actual Eliminado' }}, {{repair.car?.model.name ?? ''}}</span>
@@ -106,8 +106,25 @@ const hasPermission = (permissionName) => {
                             <br>
                             <span class="font-semibold">Actualizado:</span> {{ repair.updated_at }}
                         </div>
+                        <div class="flex space-x-4 mt-2 p-2">
+                            <div>
+                                <PrimaryButton v-if="hasPermission('editar reparacion') && (repair.car != null && repair.work_shop != null)" @click="editRepair()">
+                                    Editar
+                                </PrimaryButton>
+                            </div>
+                            <div>
+                                <SecondaryButton  v-if="hasPermission('editar status reparacion') && (repair.car != null && repair.work_shop != null)"  @click="confirmUpdateStatus()">
+                                    Cambiar Estado 
+                                </SecondaryButton>
+                            </div>
+                            <div >
+                                <DangerButton v-if="hasPermission('eliminar reparacion') && (repair.car != null && repair.work_shop != null)" @click="confirmDestroy()"  >
+                                    Eliminar 
+                                </DangerButton>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-span-2">
+                    <div class="mx-auto">
                         <span class="inline text-3xl h-fit"
                         :class="{'text-red-600 dark:text-red-400' : repair.work_shop == null}"
                         >{{ repair.work_shop?.name ?? 'Taller Actualmente Eliminado' }}</span>
@@ -124,26 +141,10 @@ const hasPermission = (permissionName) => {
                             <br>
                         </div>
                     </div>
-                    <div class="col-span-1 justify-items-center">
-                        <div>
-                            <PrimaryButton v-if="hasPermission('editar reparacion') && (repair.car != null && repair.work_shop != null)" class="ml-8" @click="editRepair()">
-                                Editar
-                            </PrimaryButton>
-                        </div>
-                        <div>
-                            <SecondaryButton  v-if="hasPermission('editar status reparacion') && (repair.car != null && repair.work_shop != null)" class="ml-8 mt-2" @click="confirmUpdateStatus()">
-                                Cambiar Estado 
-                            </SecondaryButton>
-                        </div>
-                        <div >
-                            <DangerButton v-if="hasPermission('eliminar reparacion') && (repair.car != null && repair.work_shop != null)" @click="confirmDestroy()" class="ml-8 mt-2" >
-                                Eliminar 
-                            </DangerButton>
-                        </div>
-                    </div>
                 </div>
             </CardSection>
         </div>
+       
         <div class="py-4">
             <div class="mx-auto sm:px-6 lg:px-8">
                 <div class="max-w-7xl mx-auto">

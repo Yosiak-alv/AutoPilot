@@ -92,6 +92,9 @@ const hasPermission = (permissionName) => {
                                 Roles
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Centro
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 <span class="sr-only"></span>
                             </th>    
                         </slot>
@@ -115,6 +118,11 @@ const hasPermission = (permissionName) => {
                                     <div v-for="role in user.roles">
                                         {{role?.name}}<br>
                                     </div>  
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div  :class="{'text-red-600 dark:text-red-400' : user.branch  == null}">
+                                        {{user.branch?.name ?? 'Sin Centro'}}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-right" >
                                     <Link :href="route('users.show',{id: user.id})" v-if="hasPermission('ver usuario')" >

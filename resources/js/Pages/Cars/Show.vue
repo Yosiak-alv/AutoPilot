@@ -154,10 +154,11 @@ const hasPermission = (permissionName) => {
                                         <br>
                                         <span class="font-semibold">Telefono:</span> {{ car.branch?.telephone }}
                                         <br>
-                                        <span class="font-semibold">Direccion:</span> {{ car.branch?.address }}
-                                        <br>
                                         <span class="font-semibold">Es Central:</span> {{ car.branch?.main ? 'Si':'No' }}
                                         <br>
+                                        <span class="font-semibold">Direccion:</span> {{ car.branch?.address }}
+                                        <br>
+                                        <span class="font-semibold">Zona:</span> {{car.branch?.district.town.state.name}}, {{car.branch?.district.town.name}}, {{ car.branch?.district.name }}
                                     </div>
                                 </div>
                         </CardSection>

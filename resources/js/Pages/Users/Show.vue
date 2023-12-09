@@ -74,38 +74,56 @@ const hasPermission = (permissionName) => {
                         Este usuario esta eliminado, si lo eliminas permanentemente no podras acceder a el nuevamente.
                     </ForceDeleteMessage>
                 </div>
-
-                <div class="flex flex-wrap justify-between gap-2 my-4">
-                    <CardSection>
-                        <div class="grid grid-cols-4 gap-4 p-6 items-center">
-                            <div class="p-5 col-span-3">
-                               <span class="inline text-3xl h-fit">{{ user.name}}</span>
-                               <div class="mt-2 text-lg">
-                                   <span class="font-semibold">Correo:</span> {{ user.email }}
-                                   <br>
-                                   <span class="font-semibold">Verificado: </span> {{ user?.email_verified_at  ?? 'No Verificado'}}
-                                   <br>
-                                   <span class="font-semibold">Creado:</span> {{ user.created_at }}
-                                   <br>
-                                   <span class="font-semibold">Actualizado:</span> {{ user.updated_at }}
-                                   <br>
-                                   <span v-if="props.user.deleted_at" class="font-semibold">Eliminado el:</span> {{props.user.deleted_at}}
-                               </div>
-                               
-                           </div>
-                           <div class="flex space-x-4 mt-2 col-span-1">
-                                <PrimaryButton @click="edit()" v-if="hasPermission('editar usuario') && (user.deleted_at == null && user.id != usePage().props.auth.user.id)" 
-                                class="w-12/9">
-                                    Editar
-                                </PrimaryButton>
-                                <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar usuario') && (user.deleted_at == null && user.id != usePage().props.auth.user.id)"
-                                class="w-12/9">
-                                    Eliminar
-                                </DangerButton>
+                <div class="py-9">
+                    <CardSection class="max-w-7xl mx-auto">
+                        <div class="flex flex-wrap my-12">
+                            <div class="mx-auto">
+                                <span class="inline text-3xl h-fit">{{ user.name}}</span>
+                                <div class="mt-2 text-lg">
+                                    <span class="font-semibold">Correo:</span> {{ user.email }}
+                                    <br>
+                                    <span class="font-semibold">Verificado: </span> {{ user?.email_verified_at  ?? 'No Verificado'}}
+                                    <br>
+                                    <span class="font-semibold">Creado:</span> {{ user.created_at }}
+                                    <br>
+                                    <span class="font-semibold">Actualizado:</span> {{ user.updated_at }}
+                                    <br>
+                                    <span v-if="props.user.deleted_at" class="font-semibold">Eliminado el:</span> {{props.user.deleted_at}}
+                                </div>
+                                <div class="flex space-x-4 mt-2 p-2">
+                                    <div>
+                                        <PrimaryButton @click="edit()" v-if="hasPermission('editar usuario') && (user.deleted_at == null)" 
+                                        class="w-12/9">
+                                            Editar
+                                        </PrimaryButton>
+                                    </div>
+                                    <div>
+                                        <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar usuario') && (user.deleted_at == null && user.id != usePage().props.auth.user.id)"
+                                        class="w-12/9">
+                                            Eliminar
+                                        </DangerButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mx-auto">
+                                <span class="inline text-3xl h-fit" :class="{'text-red-600 dark:text-red-400' : user.branch  == null}">
+                                {{ user.branch?.name ?? 'Sin Centro Asignado'}}</span>
+                                <div class="mt-2 text-lg" v-if="user.branch">
+                                    <span class="font-semibold">Correo:</span> {{ user.branch?.email }}
+                                    <br>
+                                    <span class="font-semibold">Telefono:</span> {{ user.branch?.telephone }}
+                                    <br>
+                                    <span class="font-semibold">Es Central:</span> {{ user.branch?.main ? 'Si':'No' }}
+                                    <br>
+                                    <span class="font-semibold">Direccion:</span> {{ user.branch?.address }}
+                                    <br>
+                                    <span class="font-semibold">Zona:</span> {{user.branch?.district.town.state.name}}, {{user.branch?.district.town.name}}, {{ user.branch?.district.name }}
+                                </div>
                             </div>
                         </div>
-                   </CardSection>        
+                    </CardSection>
                 </div>
+              
             </div>    
         </div>
         <div class="py-2">

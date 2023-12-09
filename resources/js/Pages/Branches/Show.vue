@@ -72,54 +72,55 @@ const hasPermission = (permissionName) => {
                         Este Centro esta eliminado, si lo eliminas permanentemente no podras acceder a el nuevamente.
                     </ForceDeleteMessage> -->
                 </div>
-
-                <div class="flex flex-wrap my-12">
-                    <div class="mx-auto">
-                        <CardSection>
-                            <div class="grid grid-cols-4 gap-4 p-6 items-center">
-                                <div class="col-span-3">
-                                    <span class="inline text-3xl h-fit">{{ props.branch.name }}</span>
-                                    <div class="mt-2 text-lg">
-                                        <span class="font-semibold">Correo:</span> {{ props.branch.email }}
-                                        <br>
-                                        <span class="font-semibold">Telefono:</span> {{ props.branch.telephone }}
-                                        <br>
-                                        <span class="font-semibold">Es Central:</span> {{ props.branch.main == 1 ? 'Si':'No' }}
-                                        <br>
-                                        <span class="font-semibold">Address:</span> {{ props.branch.address }}
-                                        <br>
-                                        <span class="font-semibold">Departamento:</span> {{ props.branch.state.name}}
-                                        <br>
-                                        <span class="font-semibold">Municipio:</span> {{ props.branch.town.name}}
-                                        <br>
-                                        <span class="font-semibold">Distrito:</span> {{ props.branch.district.name}}
-                                        <br>
-                                        <span class="font-semibold">Creado:</span> {{ props.branch.created_at }}
-                                        <br>
-                                        <span class="font-semibold">Actualizado:</span> {{ props.branch.updated_at }}
-                                        <br>
-                                        <span v-if="props.branch.deleted_at" class="font-semibold">Eliminado el:</span> {{props.branch.deleted_at}}
-                                    </div>
-                                </div>
-                                <div class="col-span-1 justify-items-center">
-                                    <div>
-                                        <PrimaryButton v-if="hasPermission('editar centro') && branch.deleted_at == null" class="ml-8" @click="edit()">
-                                            Editar
-                                        </PrimaryButton>
-                                    </div>
-                                    <div>
-                                        <DangerButton  v-if="hasPermission('eliminar centro') && branch.deleted_at == null" class="mt-2 ml-8" @click="confirmDestroy()" >
-                                            Eliminar Centro
-                                        </DangerButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardSection>
-                    </div>
-                </div>
             </div>    
         </div>
+        <div class="py-4">
+            <CardSection class="max-w-7xl ">
+                <div class="flex flex-wrap my-12">
+                    <div class="mx-auto">
+                        <span class="inline text-3xl h-fit">{{ props.branch.name }}</span>
+                            <div class="mt-2 text-lg">
+                                <span class="font-semibold">Correo:</span> {{ props.branch.email }}
+                                <br>
+                                <span class="font-semibold">Telefono:</span> {{ props.branch.telephone }}
+                                <br>
+                                <span class="font-semibold">Es Central:</span> {{ props.branch.main == 1 ? 'Si':'No' }}
+                                <br>
+                                <span class="font-semibold">Address:</span> {{ props.branch.address }}
+                                <br>
+                                <span class="font-semibold">Departamento:</span> {{ props.branch.state.name}}
+                                <br>
+                                <span class="font-semibold">Municipio:</span> {{ props.branch.town.name}}
+                                <br>
+                                <span class="font-semibold">Distrito:</span> {{ props.branch.district.name}}
+                                <br>
+                                <span class="font-semibold">Creado:</span> {{ props.branch.created_at }}
+                                <br>
+                                <span class="font-semibold">Actualizado:</span> {{ props.branch.updated_at }}
+                                <br>
+                                <span v-if="props.branch.deleted_at" class="font-semibold">Eliminado el:</span> {{props.branch.deleted_at}}
+                            </div>
+                    </div>
+                    <div class="mx-auto items-center text-center">
+                        <div class="p-5">
+                            <div>
+                                <PrimaryButton v-if="hasPermission('editar centro') && branch.deleted_at == null"  @click="edit()">
+                                    Editar
+                                </PrimaryButton>
+                            </div>
+                            <div>
+                                <DangerButton  v-if="hasPermission('eliminar centro') && branch.deleted_at == null" class="mt-2" @click="confirmDestroy()" >
+                                    Eliminar Centro
+                                </DangerButton>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </CardSection>
+        </div>
     </AuthenticatedLayout>
+
     <Modal :show="comfirmingDestroy" @close="closeModalDestroy">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">

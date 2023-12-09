@@ -82,48 +82,46 @@ const hasPermission = (permissionName) => {
                         Este Taller esta eliminado, si lo eliminas permanentemente no podras acceder a el nuevamente.
                     </ForceDeleteMessage>
                 </div>
-                <div class="flex flex-wrap my-12">
-                    <div class="mx-auto">
-                        <CardSection>
-                            <div class="grid grid-cols-4 gap-4 p-6 items-center">
-                                <div class="col-span-3">
-                                    <span class="inline text-3xl h-fit">{{ props.workshop.name }}</span>
-                                    <div class="mt-2 text-lg">
-                                        <span class="font-semibold">Correo:</span> {{ props.workshop.email }}
-                                        <br>
-                                        <span class="font-semibold">Telefono:</span> {{ props.workshop.telephone }}
-                                        <br>
-                                        <span class="font-semibold">Address:</span> {{ props.workshop.address }}
-                                        <br>
-                                        <span class="font-semibold">Departamento:</span> {{ props.workshop.state.name}}
-                                        <br>
-                                        <span class="font-semibold">Municipio:</span> {{ props.workshop.town.name}}
-                                        <br>
-                                        <span class="font-semibold">Distrito:</span> {{ props.workshop.district.name}}
-                                        <br>
-                                        <span class="font-semibold">Creado:</span> {{ props.workshop.created_at }}
-                                        <br>
-                                        <span class="font-semibold">Actualizado:</span> {{ props.workshop.updated_at }}
-                                        <br>
-                                        <span v-if="props.workshop.deleted_at" class="font-semibold">Eliminado el:</span> {{props.workshop.deleted_at}}
-                                    </div>
+                <CardSection class="max-w-7xl py-4">
+                    <div class="flex flex-wrap my-12">
+                        <div class="mx-auto">
+                            <span class="inline text-3xl h-fit">{{ props.workshop.name }}</span>
+                            <div class="mt-2 text-lg">
+                                <span class="font-semibold">Correo:</span> {{ props.workshop.email }}
+                                <br>
+                                <span class="font-semibold">Telefono:</span> {{ props.workshop.telephone }}
+                                <br>
+                                <span class="font-semibold">Address:</span> {{ props.workshop.address }}
+                                <br>
+                                <span class="font-semibold">Departamento:</span> {{ props.workshop.state.name}}
+                                <br>
+                                <span class="font-semibold">Municipio:</span> {{ props.workshop.town.name}}
+                                <br>
+                                <span class="font-semibold">Distrito:</span> {{ props.workshop.district.name}}
+                                <br>
+                                <span class="font-semibold">Creado:</span> {{ props.workshop.created_at }}
+                                <br>
+                                <span class="font-semibold">Actualizado:</span> {{ props.workshop.updated_at }}
+                                <br>
+                                <span v-if="props.workshop.deleted_at" class="font-semibold">Eliminado el:</span> {{props.workshop.deleted_at}}
+                            </div>
+                        </div>
+                        <div class="mx-auto items-center text-center">
+                            <div class="p-5">
+                                <div>
+                                    <PrimaryButton v-if="hasPermission('editar taller') && !workshop.deleted_at" class="ml-8" @click="edit()">
+                                        Editar
+                                    </PrimaryButton>
                                 </div>
-                                <div class="col-span-1 justify-items-center">
-                                    <div>
-                                        <PrimaryButton v-if="hasPermission('editar taller') && !workshop.deleted_at" class="ml-8" @click="edit()">
-                                            Editar
-                                        </PrimaryButton>
-                                    </div>
-                                    <div>
-                                        <DangerButton v-if="hasPermission('eliminar taller') && !props.workshop.deleted_at" class="mt-2 ml-8" @click="confirmDestroy()" >
-                                            Eliminar
-                                        </DangerButton>
-                                    </div>
+                                <div>
+                                    <DangerButton v-if="hasPermission('eliminar taller') && !props.workshop.deleted_at" class="mt-2 ml-8" @click="confirmDestroy()" >
+                                        Eliminar
+                                    </DangerButton>
                                 </div>
                             </div>
-                        </CardSection>
+                        </div>
                     </div>
-                </div>
+                </CardSection>
             </div>    
         </div>
 

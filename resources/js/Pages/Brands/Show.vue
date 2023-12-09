@@ -77,39 +77,35 @@ const hasPermission = (permissionName) => {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Marca #{{props.brand.id}}</h2>
         </template>
-        
-        <div class="py-4">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex flex-wrap my-12">
-                    <div class="mx-auto">
-                        <CardSection>
-                            <div class="grid grid-cols-4 gap-4 p-6 items-center">
-                                <div class="col-span-3">
-                                    <span class="inline text-3xl h-fit">{{ props.brand.name }}</span>
-                                    <div class="mt-2 text-lg">
-                                        <span class="font-semibold">Creado:</span> {{ props.brand.created_at }}
-                                        <br>
-                                        <span class="font-semibold">Actualizado:</span> {{ props.brand.updated_at }}
-                                    </div>
-                                </div>
-                                <div class="col-span-1 justify-items-center">
-                                    <div>
-                                        <PrimaryButton class="ml-8" @click="confirmBrandEdition()" v-if="hasPermission('editar marca')">
-                                            Editar
-                                        </PrimaryButton>
-                                    </div>
-                                    <div>
-                                        <DangerButton class="mt-2 ml-8" @click="confirmDestroy()" v-if="hasPermission('eliminar marca')">
-                                            Eliminar 
-                                        </DangerButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardSection>
+        <CardSection class="max-w-4xl py-12">
+            <div class="flex flex-wrap my-12">
+                <div class="mx-auto">
+                    <div class="mt-2 text-lg">
+                        <span class="inline text-3xl h-fit">{{ props.brand.name }}</span>
+                        <div class="mt-2 text-lg">
+                            <span class="font-semibold">Creado:</span> {{ props.brand.created_at }}
+                            <br>
+                            <span class="font-semibold">Actualizado:</span> {{ props.brand.updated_at }}
+                        </div>
                     </div>
                 </div>
-            </div>    
-        </div>
+                <div class="mx-auto items-center text-center">
+                    <div class="p-5">
+                        <div>
+                            <PrimaryButton class="ml-8" @click="confirmBrandEdition()" v-if="hasPermission('editar marca')">
+                                Editar
+                            </PrimaryButton>
+                        </div>
+                        <div>
+                            <DangerButton class="mt-2 ml-8" @click="confirmDestroy()" v-if="hasPermission('eliminar marca')">
+                                Eliminar 
+                            </DangerButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </CardSection>
+        
         <div class="py-4">
             <ModelIndex :brand-id="props.brand.id" :models="props.brand.models"/>
         </div>

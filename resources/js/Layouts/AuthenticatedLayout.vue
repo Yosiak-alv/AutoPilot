@@ -8,6 +8,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import ToggleDark from '@/Components/ToggleDark.vue';
 import Toast from '@/Components/Toast.vue';
+
 const showingNavigationDropdown = ref(false);
 //permissions
 const permissions = ref(usePage().props.auth.user_permissions);
@@ -21,7 +22,7 @@ const hasPermission = (permissionName) => {
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -34,16 +35,43 @@ const hasPermission = (permissionName) => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink  :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
-                                <NavLink v-if="hasPermission('ver usuarios')" :href="route('users.index')" :active="route().current('users.index')">
-                                    Usuarios
-                                </NavLink>
-                                <NavLink v-if="hasPermission('ver roles')" :href="route('roles.index')" :active="route().current('roles.index')">
-                                    Roles
-                                </NavLink>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 md:flex">
+                                <div v-if="hasPermission('ver usuarios') || hasPermission('ver roles')" 
+                                class="border inline-flex items-center  border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
+                                    <Dropdown align="right" width="48">
+                                        <template #trigger>
+                                            <span class="inline-flex rounded-md">
+                                                <button
+                                                    type="button"
+                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                                                >
+                                                    {{ route().current('users.index') ? 'Usuarios' : (route().current('roles.index') ? 'Roles' : 'Operaciones') }}
+                                                    <svg
+                                                        class="ms-2 -me-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
+
+                                        <template #content>
+                                            <DropdownLink v-if="hasPermission('ver usuarios')" :href="route('users.index')" :active="route().current('users.index')"> 
+                                                Usuarios 
+                                            </DropdownLink>
+                                            <DropdownLink v-if="hasPermission('ver roles')" :href="route('roles.index')" :active="route().current('roles.index')">
+                                                Roles
+                                            </DropdownLink>
+                                        </template>
+                                    </Dropdown>
+                                </div>
                                 <NavLink v-if="hasPermission('ver autos')" :href="route('cars.index')" :active="route().current('cars.index')">
                                     Autos
                                 </NavLink>
@@ -59,7 +87,7 @@ const hasPermission = (permissionName) => {
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="hidden md:flex md:items-center sm:ms-6">
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">
@@ -99,7 +127,7 @@ const hasPermission = (permissionName) => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <div class="-me-2 flex items-center md:hidden">
                             <button
                                 @click="showingNavigationDropdown = !showingNavigationDropdown"
                                 class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
@@ -134,12 +162,25 @@ const hasPermission = (permissionName) => {
                 <!-- Responsive Navigation Menu -->
                 <div
                     :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
-                    class="sm:hidden"
+                    class="md:hidden"
                 >
+                    <div class="pt-4 pb-1 border-b border-gray-200 dark:border-gray-600">
+                        <div class="px-4">
+                            <div class="font-medium text-base text-gray-800 dark:text-gray-200">
+                                Operaciones
+                            </div>
+                        </div>
+
+                        <div class="mt-3 space-y-1">
+                            <ResponsiveNavLink v-if="hasPermission('ver usuarios')" :href="route('users.index')" :active="route().current('users.index')"> 
+                                Usuarios 
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink v-if="hasPermission('ver roles')" :href="route('roles.index')" :active="route().current('roles.index')">
+                                Roles
+                            </ResponsiveNavLink>
+                        </div>
+                    </div>
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </ResponsiveNavLink>
                         <ResponsiveNavLink v-if="hasPermission('ver autos')" :href="route('cars.index')" :active="route().current('cars.index')">
                             Autos
                         </ResponsiveNavLink>

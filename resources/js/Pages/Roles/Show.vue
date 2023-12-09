@@ -61,38 +61,33 @@ const hasPermission = (permissionName) => {
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Rol #{{props.role.id}}</h2>
         </template>
         
-        <div class="py-4">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-9">
+            <CardSection class="max-w-7xl mx-auto ">
                 <div class="flex flex-wrap my-12">
                     <div class="mx-auto">
-                        <CardSection>
-                            <div class="grid grid-cols-4 gap-4 p-6 items-center">
-                                <div class="col-span-3">
-                                    <span class="inline text-3xl h-fit">{{ props.role.name }}</span>
-                                    <div class="mt-2 text-lg">
-                                        <span class="font-semibold">Creado:</span> {{ props.role.created_at }}
-                                        <br>
-                                        <span class="font-semibold">Actualizado:</span> {{ props.role.updated_at }}
-                                    </div>
-                                </div>
-                                <div class="col-span-1 justify-items-center">
-                                    <div>
-                                        <PrimaryButton v-if="hasPermission('editar rol')" class="ml-8" @click="edit()">
-                                            Editar
-                                        </PrimaryButton>
-                                    </div>
-                                    <div>
-                                        <DangerButton  v-if="hasPermission('eliminar rol')" class="mt-2 ml-8" @click="confirmDestroy()" >
-                                            Eliminar 
-                                        </DangerButton>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardSection>
+                        <span class="inline text-3xl h-fit">{{ props.role.name }}</span>
+                        <div class="mt-2 text-lg mb-2">
+                            <span class="font-semibold">Creado:</span> {{ props.role.created_at }}
+                            <br>
+                            <span class="font-semibold">Actualizado:</span> {{ props.role.updated_at }}
+                        </div>
+                    </div>
+                    <div class="mx-auto items-center text-center">
+                        <div>
+                            <PrimaryButton v-if="hasPermission('editar rol') && props.role.name != 'Super-Admin'" class="ml-8" @click="edit()">
+                                Editar
+                            </PrimaryButton>
+                        </div>
+                        <div>
+                            <DangerButton  v-if="hasPermission('eliminar rol') && props.role.name != 'Super-Admin'" class="mt-2 ml-8" @click="confirmDestroy()" >
+                                Eliminar 
+                            </DangerButton>
+                        </div>
                     </div>
                 </div>
-            </div>    
-        </div>
+            </CardSection>
+        </div>  
+
         <div class="py-2">
             <div class="max-w-7xl mx-auto text-center my-4 text-gray-900 dark:text-gray-100">
                 <h2 class="text-3xl font-semibold">Permisos</h2>
@@ -103,7 +98,7 @@ const hasPermission = (permissionName) => {
                     <div class="flex justify-center mx-auto" >
                         <div class="flex flex-col mb-4">
                             <CardSection  class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow 0 dark:bg-gray-800 dark:border-gray-700 ">
-                                <div class="overflow-y-scroll" style="height: 20rem;">
+                                <div class="overflow-y-scroll" style="height: 10rem;">
                                     <div v-for="permission in props.role.permissions">
                                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{permission.name}}</h5>
                                     </div>
