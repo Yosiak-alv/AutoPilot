@@ -14,14 +14,36 @@ class BranchSeeder extends Seeder
     public function run(): void
     {
         Branch::factory()->create([
-            'name' => 'Fe y Alegria Central',
-            'address' => 'No. 123, 1st Floor, Main Street, Yangon',
-            'telephone' => '78085392',
+            'name' => 'Fe y Alegria Antiguo Cuscatlan',
+            'address' => 'Calle el Mediterráneo, No. 662 Colonia Jardines de Guadalupe.',
+            'telephone' => '22431282',
             'email' => 'feyalegria@feyalegria.com',
             'main' => true,
+            'district_id' => 81,
+        ]);
+        Branch::factory()->create([
+            'name' => 'Fe y Alegria Zacamil',
+            'address' => 'Calle Las Margaritas, Mejicanos, El Salvador',
+            'telephone' => '22431282',
+            'email' => 'feyalegria2@feyalegria.com',
+            'main' => false,
+            'district_id' => 191,
+        ]);
+        Branch::factory()->create([
+            'name' => 'Fe y Alegria San Miguel',
+            'address' => 'Avenida Los Cisneros, San Miguel, El Salvador',
+            'telephone' => '25431282',
+            'email' => 'feyalegria4@feyalegria.com',
+            'main' => false,
             'district_id' => 1,
         ]);
-
-        Branch::factory(2)->create();
+        Branch::factory()->create([
+            'name' => 'Fe y Alegria Santa Ana',
+            'address' => 'Sobre 25 AV Sur, Santa Ana, El Salvador',
+            'telephone' => '22131282',
+            'email' => 'feyalegria5@feyalegria.com',
+            'main' => false,
+            'district_id' => 215,
+        ]);
     }
 }
