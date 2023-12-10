@@ -25,7 +25,12 @@ use Inertia\Inertia;
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard',[
+        'brands' => \App\Models\Brand::count(),
+        'cars' => \App\Models\Car::count(),
+        'branches' => \App\Models\Branch::count(),
+        'workshops' => \App\Models\WorkShop::count(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
