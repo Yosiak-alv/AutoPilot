@@ -71,7 +71,7 @@ const hasPermission = (permissionName) => {
                     </div>
                    <div>
                         <div class="pt-2">
-                            <PrimaryButton @click="createCar()" >Agregar Auto</PrimaryButton>
+                            <PrimaryButton v-if="hasPermission('crear auto')" @click="createCar()" >Agregar Auto</PrimaryButton>
                         </div>
                    </div>   
                 </div>
