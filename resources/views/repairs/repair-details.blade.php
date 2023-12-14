@@ -1,96 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Reparacion #{{ $repair->id }}</title>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Reparacion # {{$repair->id}}</title>
 
-        <style>
-          
-        </style>
-    </head>
-    <body>
-      <header class="clearfix">
-        <div id="logo">
-          <img src="/storage/img/Logo.png">
-        </div>
-        <h1>INVOICE 3-2-1</h1>
-        <div id="company" class="clearfix">
-          <div>Company Name</div>
-          <div>455 Foggy Heights,<br /> AZ 85004, US</div>
-          <div>(602) 519-0450</div>
-          <div><a href="mailto:company@example.com">company@example.com</a></div>
-        </div>
-        <div id="project">
-          <div><span>PROJECT</span> Website development</div>
-          <div><span>CLIENT</span> John Doe</div>
-          <div><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div>
-          <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
-          <div><span>DATE</span> August 17, 2015</div>
-          <div><span>DUE DATE</span> September 17, 2015</div>
-        </div>
-      </header>
-      <main>
-        <table>
-          <thead>
-            <tr>
-              <th class="service">SERVICE</th>
-              <th class="desc">DESCRIPTION</th>
-              <th>PRICE</th>
-              <th>QTY</th>
-              <th>TOTAL</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="service">Design</td>
-              <td class="desc">Creating a recognizable design solution based on the company's existing visual identity</td>
-              <td class="unit">$40.00</td>
-              <td class="qty">26</td>
-              <td class="total">$1,040.00</td>
-            </tr>
-            <tr>
-              <td class="service">Development</td>
-              <td class="desc">Developing a Content Management System-based Website</td>
-              <td class="unit">$40.00</td>
-              <td class="qty">80</td>
-              <td class="total">$3,200.00</td>
-            </tr>
-            <tr>
-              <td class="service">SEO</td>
-              <td class="desc">Optimize the site for search engines (SEO)</td>
-              <td class="unit">$40.00</td>
-              <td class="qty">20</td>
-              <td class="total">$800.00</td>
-            </tr>
-            <tr>
-              <td class="service">Training</td>
-              <td class="desc">Initial training sessions for staff responsible for uploading web content</td>
-              <td class="unit">$40.00</td>
-              <td class="qty">4</td>
-              <td class="total">$160.00</td>
-            </tr>
-            <tr>
-              <td colspan="4">SUBTOTAL</td>
-              <td class="total">$5,200.00</td>
-            </tr>
-            <tr>
-              <td colspan="4">TAX 25%</td>
-              <td class="total">$1,300.00</td>
-            </tr>
-            <tr>
-              <td colspan="4" class="grand total">GRAND TOTAL</td>
-              <td class="grand total">$6,500.00</td>
-            </tr>
-          </tbody>
-        </table>
-        <div id="notices">
-          <div>NOTICE:</div>
-          <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
-        </div>
-      </main>
-      <footer>
-        Invoice was created on a computer and is valid without the signature and seal.
-      </footer>
-    </body>
-   
+		<style>
+			.invoice-box {
+				max-width: 800px;
+				margin: auto;
+				padding: 30px;
+				border: 1px solid #eee;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+				font-size: 16px;
+				line-height: 24px;
+				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+				color: #555;
+			}
+
+			.invoice-box table {
+				width: 100%;
+				line-height: inherit;
+				text-align: left;
+			}
+
+			.invoice-box table td {
+				padding: 5px;
+				vertical-align: top;
+			}
+
+			.invoice-box table tr td:nth-child(2) {
+				text-align: right;
+			}
+
+			.invoice-box table tr.top table td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.top table td.title {
+				font-size: 45px;
+				line-height: 45px;
+				color: #333;
+			}
+
+			.invoice-box table tr.information table td {
+				padding-bottom: 40px;
+			}
+
+			.invoice-box table tr.heading td {
+				background: #eee;
+				border-bottom: 1px solid #ddd;
+				font-weight: bold;
+			}
+
+			.invoice-box table tr.details td {
+				padding-bottom: 20px;
+			}
+
+			.invoice-box table tr.item td {
+				border-bottom: 1px solid #eee;
+			}
+
+			.invoice-box table tr.item.last td {
+				border-bottom: none;
+			}
+
+			.invoice-box table tr.total td:nth-child(2) {
+				border-top: 2px solid #eee;
+				font-weight: bold;
+			}
+
+			@media only screen and (max-width: 600px) {
+				.invoice-box table tr.top table td {
+					width: 100%;
+					display: block;
+					text-align: center;
+				}
+
+				.invoice-box table tr.information table td {
+					width: 100%;
+					display: block;
+					text-align: center;
+				}
+			}
+
+			/** RTL **/
+			.invoice-box.rtl {
+				direction: rtl;
+				font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+			}
+
+			.invoice-box.rtl table {
+				text-align: right;
+			}
+
+			.invoice-box.rtl table tr td:nth-child(2) {
+				text-align: left;
+			}
+            *,
+            *::after,
+            *::before{
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            :root{
+                --blue-color: #0c2f54;
+                --dark-color: #535b61;
+                --white-color: #fff;
+            }
+
+            ul{
+                list-style-type: none;
+            }
+            ul li{
+                margin: 2px 0;
+            }
+
+            /* text colors */
+            .text-dark{
+                color: var(--dark-color);
+            }
+            .text-blue{
+                color: var(--blue-color);
+            }
+            .text-end{
+                text-align: right;
+            }
+            .text-center{
+                text-align: center;
+            }
+            .text-start{
+                text-align: left;
+            }
+            .text-bold{
+                font-weight: 700;
+            }
+            /* hr line */
+            .hr{
+                height: 1px;
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            /* border-bottom */
+            .border-bottom{
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+                color: var(--dark-color);
+                font-size: 14px;
+            }
+            .invoice-wrapper{
+                min-height: 100vh;
+                background-color: rgba(0, 0, 0, 0.1);
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .invoice{
+                max-width: 850px;
+                margin-right: auto;
+                margin-left: auto;
+                background-color: var(--white-color);
+                padding: 70px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
+                min-height: 920px;
+            }
+            .invoice-head-top-left img{
+                width: 130px;
+            }
+            .invoice-head-top-right h3{
+                font-weight: 500;
+                font-size: 27px;
+                color: var(--blue-color);
+            }
+            .invoice-head-middle, .invoice-head-bottom{
+                padding: 16px 0;
+            }
+            .invoice-body{
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            .invoice-body table{
+                border-collapse: collapse;
+                border-radius: 4px;
+                width: 100%;
+            }
+            .invoice-body table td, .invoice-body table th{
+                padding: 12px;
+            }
+            .invoice-body table tr{
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            .invoice-body table thead{
+                background-color: rgba(0, 0, 0, 0.02);
+            }
+            .invoice-body-info-item{
+                display: grid;
+                grid-template-columns: 80% 20%;
+                padding: 20px;
+            }
+            .invoice-body-info-item .info-item-td{
+                padding: 12px;
+                background-color: rgba(0, 0, 0, 0.02);
+            }
+            .invoice-foot{
+                padding: 30px 0;
+            }
+            .invoice-foot p{
+                font-size: 12px;
+            }
+            .invoice-btns{
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+            }
+            .invoice-btn{
+                padding: 3px 9px;
+                color: var(--dark-color);
+                font-family: inherit;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+            }
+
+            .invoice-head-top, .invoice-head-middle, .invoice-head-bottom{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                padding-bottom: 10px;
+            }
+            @media screen and (max-width: 992px){
+                .invoice{
+                    padding: 40px;
+                }
+            }
+
+            @media screen and (max-width: 576px){
+                .invoice-head-top, .invoice-head-middle, .invoice-head-bottom{
+                    grid-template-columns: repeat(1, 1fr);
+                }
+                .invoice-head-bottom-right{
+                    margin-top: 12px;
+                    margin-bottom: 12px;
+                }
+                .invoice *{
+                    text-align: left;
+                }
+                .invoice{
+                    padding: 28px;
+                }
+            }
+
+            .overflow-view{
+                overflow-x: scroll;
+            }
+            .invoice-body{
+                min-width: 600px;
+            }
+		</style>
+	</head>
+
+	<body>
+		<div class="invoice-box">
+			<table cellpadding="0" cellspacing="0">
+				<tr class="top">
+					<td colspan="2">
+						<table>
+							<tr>
+								<td class="title invoice-head-top-left">
+                                    <img src = "{{public_path('/storage/img/Logo.png')}}">
+
+									<!-- <img
+										src="https://sparksuite.github.io/simple-html-invoice-template/images/logo.png"
+										style="width: 100%; max-width: 300px"
+									/> -->
+								</td>
+
+								<td>
+									<span class = "text-bold">Invoice #:</span> {{$repair->id}}<br />
+									Creado: {{$repair->created_at}}<br />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+				<tr class="information">
+					<td colspan="2">
+						<table>
+							<tr>
+								<td>
+									{{$repair->work_shop->name}}.<br />
+									{{$repair->work_shop->telephone}}.<br />
+									{{$repair->work_shop->email}}.<br />
+									{{$repair->work_shop->address}}.<br />
+                                    <span class = "text-bold">Zona:</span> {{$repair->work_shop->state->name}}, {{$repair->work_shop->town->name}}, {{$repair->work_shop->district->name}}.<br />
+								</td>
+
+								<td>
+									<span class = "text-bold">Auto:</span> {{$repair->car->model->name}}, {{$repair->car->model->brand->name}}.<br />
+									<span class = "text-bold">Placas:</span> {{$repair->car->plates}}<br />
+                                    <span class = "text-bold">VIN:</span>  {{$repair->car->VIN}}<br />
+									<span class = "text-bold">Millaje:</span> {{$repair->car->current_mileage}}<br />									
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+            <div>
+                <div class = "invoice-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td class = "text-bold">Servicio</td>
+                                <td class = "text-bold">Descripcion</td>
+                                <td class = "text-bold">Im</td>
+                                <td class = "text-bold">Precio</td>
+                            </tr>
+                        </thead>
+                       
+                        <tbody>
+                            @foreach($repair->details as $detail)
+                                <tr>
+                                    <td>{{$detail->name}}</td>
+                                    <td>{{$detail->description}}</td>
+                                    <td>${{$detail->taxes}}</td>
+                                    <td class = "text-end">${{$detail->price}}</td>
+                                </tr>
+                            @endforeach                          
+                        </tbody>
+                    </table>
+                    <div class = "invoice-body-bottom">
+                        <div class = "invoice-body-info-item border-bottom">
+                            <div class = "text-end">
+                                <span class = "text-bold">Sub Total: </span>${{$repair->sub_total}}
+                            <div>
+                            <div class = "text-end">
+                                <span class = "text-bold">Impuestos: </span>${{$repair->taxes}}
+                            <div>
+                            <div class = "text-end">
+                                <span class = "text-bold">Total: </span>${{$repair->total}}
+                            <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "invoice-foot text-center">
+                <p><span class = "text-bold text-center">NOTA:&nbsp;</span>Recibo generado por Computadora y no requiere firma física.</p>
+            </div>
+		</div>
+	</body>
 </html>
