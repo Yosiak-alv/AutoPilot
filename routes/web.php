@@ -47,7 +47,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('repairs',RepairController::class)->except('index');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
-
+    Route::get('/repairs/{repair}/pdf', [RepairController::class, 'repairPDF'])->name('repairs.repairPDF');
+    
     Route::resource('branches',BranchController::class);
     Route::patch('/branches/{branch}/restore', [BranchController::class, 'restore'])->name('branches.restore');
 

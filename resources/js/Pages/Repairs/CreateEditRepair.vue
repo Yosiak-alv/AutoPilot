@@ -121,7 +121,7 @@ const updateRepair = (id) => {
                             <div class="overflow-auto" style="height: 20rem;">
                                 <div v-for="(detail, index) in form.details" :key="index" class="">
                                     <div> 
-                                        <InputLabel for="name" value="Nombre de Reparacion" />
+                                        <InputLabel for="name" :value="`Nombre de Reparacion # ${index + 1}`" />
                                         <TextInput
                                             id="name"
                                             type="text"
@@ -144,8 +144,8 @@ const updateRepair = (id) => {
                                         />
                                         <InputError class="mt-2" :message="getError(`details.${index}.description`)" />
                                     </div>
-                                    <div class="mt-2">
-                                        <div class="flex flex-row flex-wrap space-x-4">
+                                    <div class="mb-4">
+                                        <div class="flex flex-row flex-wrap space-x-4 border-b-4 py-1">
                                             <div>
                                                 <InputLabel for="price" value="Precio" />
                                                 <TextInput

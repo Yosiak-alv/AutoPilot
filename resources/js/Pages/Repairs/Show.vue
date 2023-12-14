@@ -109,7 +109,7 @@ const hasPermission = (permissionName) => {
                             <br>
                             <span class="font-semibold">Actualizado:</span> {{ repair.updated_at }}
                         </div>
-                        <div class="flex space-x-4 mt-2 p-2">
+                        <div class="flex flex-wrap space-x-4 mt-2 p-2">
                             <div>
                                 <PrimaryButton v-if="hasPermission('editar reparacion') && (repair.car != null && repair.work_shop != null)" @click="editRepair()">
                                     Editar
@@ -119,6 +119,13 @@ const hasPermission = (permissionName) => {
                                 <SecondaryButton  v-if="hasPermission('editar status reparacion') && (repair.car != null && repair.work_shop != null)"  @click="confirmUpdateStatus()">
                                     Cambiar Estado 
                                 </SecondaryButton>
+                            </div>
+                            <div>
+                                <a :href="route('repairs.repairPDF',props.repair.id)" v-if="(repair.car != null && repair.work_shop != null)"
+                                    class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150"
+                                >
+                                    PDF
+                                </a>
                             </div>
                             <div >
                                 <DangerButton v-if="hasPermission('eliminar reparacion') && (repair.car != null && repair.work_shop != null)" @click="confirmDestroy()"  >

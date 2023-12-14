@@ -36,7 +36,10 @@ class RepairPolicy
     {
         return $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('editar status reparacion');
     }
-
+    public function repairPDF(User $user, Repair $repair): bool
+    {
+        return $repair->car == null || $repair->work_shop == null ? false : true;
+    }
     /**
      * Determine whether the user can delete the model.
      */

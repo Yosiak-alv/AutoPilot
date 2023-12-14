@@ -118,6 +118,13 @@ class RepairController extends Controller
             'message' => 'El Estado de Reparacion Actualizado Satisfactoriamente!'
         ]);
     }
+    public function repairPDF(Repair $repair)
+    {
+        $repair->load(['details','car.model.brand','status','work_shop.district','work_shop.town','work_shop.state']);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('repairs.repair-details', ['repair' => $repair]);
+        
+        return $pdf->download('repairs.repair-details.pdf');
+    }
     /**
      * Remove the specified resource from storage.
      */
