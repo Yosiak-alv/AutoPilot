@@ -268,8 +268,8 @@
 					<td colspan="2">
 						<table>
 							<tr>
-								<td class="title invoice-head-top-left">
-                                    <img src = "{{public_path('/storage/img/Logo.png')}}">
+								<td class="title ">
+                                    <img src = "{{public_path('/storage/img/Logo-ext.png')}}">
 
 									<!-- <img
 										src="https://sparksuite.github.io/simple-html-invoice-template/images/logo.png"
