@@ -7,8 +7,14 @@ import Toast from '@/Components/Toast.vue';
 <template>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
         <div>
-            <Link href="/">
-                <ApplicationLogo class="w-48 first-letter:fill-current text-gray-500" />
+            <Link href="/" class="text-[#D72428] font-extrabold">
+                <div class="flex flex-wrap items-center justify-between">
+                    <ApplicationLogo class="w-48 first-letter:fill-current text-gray-500 mx-auto" />
+                    <div class="mx-auto">
+                        <h2 class="text-3xl uppercase">SolidRecordRH </h2>
+                        <h5 class="text-2xl">Fe y Alegría</h5>
+                    </div>
+                </div>
             </Link>
         </div>
 
