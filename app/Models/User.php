@@ -63,15 +63,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeFilter($query , array $filters)
     {
         $query->when($filters['search'] ?? false, function( $query, $search){
-            $query->where(fn($query) =>
+            $query->where(function($query) use ($search) {
                 $query->where('name','like','%'.$search.'%')
-                    ->orWhere('email','like','%'.$search.'%')
-                    ->orWhere('id','like','%'.$search.'%')
-            )->orWhereHas('roles',fn($query) =>
-                $query->where('roles.name','like','%'.$search.'%')
-            )->orWhereHas('branch',fn($query) =>
-                $query->where('branches.name','like','%'.$search.'%')
-            );
+                ->orWhere('email','like','%'.$search.'%')
+                ->orWhere('id','like','%'.$search.'%')
+                ->orWhereHas('roles',fn($query) =>
+                    $query->where('roles.name','like','%'.$search.'%')
+                )->orWhereHas('branch',fn($query) =>
+                    $query->where('branches.name','like','%'.$search.'%')
+                );
+            });
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {
                 $query->withTrashed();

@@ -44,17 +44,18 @@ class Car extends EloquentModel
     public function scopeFilter($query , array $filters)
     {
         $query->when($filters['search'] ?? false, function( $query, $search){
-            $query->where(fn($query) =>
+            $query->where(function ($query) use ($search) {
                 $query->where('plates','like','%'.$search.'%')
-                    ->orWhere('year','like','%'.$search.'%')
-            )->orWhereHas('model',fn($query) =>
-                $query->where('name','like','%'.$search.'%')
-                    ->orWhereHas('brand',fn($query) =>
-                        $query->where('name','like','%'.$search.'%')
-                    )
-            )->orWhereHas('branch',fn($query) =>
-                $query->where('name','like','%'.$search.'%')
-            );
+                ->orWhere('year','like','%'.$search.'%')
+                ->orWhereHas('model',fn($query) =>
+                    $query->where('name','like','%'.$search.'%')
+                        ->orWhereHas('brand',fn($query) =>
+                            $query->where('name','like','%'.$search.'%')
+                        )
+                )->orWhereHas('branch',fn($query) =>
+                    $query->where('name','like','%'.$search.'%')
+                );
+            });
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {
                 $query->withTrashed();

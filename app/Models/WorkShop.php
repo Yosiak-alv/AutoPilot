@@ -44,15 +44,16 @@ class WorkShop extends Model
     public function scopeFilter($query , array $filters)
     {
         $query->when($filters['search'] ?? false, function( $query, $search){
-            $query->where(fn($query) =>
+            $query->where(function ($query) use ($search){
                 $query->where('name','like','%'.$search.'%')
                 ->orWhere('telephone','like','%'.$search.'%')
-            )->orWhereHas('district', function ($query) use ($search) {
-                $query->where('districts.name', 'like', '%' . $search . '%');
-            })->orWhereHas('town', function ($query) use ($search) {
-                $query->where('towns.name', 'like', '%' . $search . '%');
-            })->orWhereHas('state', function ($query) use ($search) {
-                $query->where('states.name', 'like', '%' . $search . '%');
+                ->orWhereHas('district', function ($query) use ($search) {
+                    $query->where('districts.name', 'like', '%' . $search . '%');
+                })->orWhereHas('town', function ($query) use ($search) {
+                    $query->where('towns.name', 'like', '%' . $search . '%');
+                })->orWhereHas('state', function ($query) use ($search) {
+                    $query->where('states.name', 'like', '%' . $search . '%');
+                });
             });
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {
