@@ -6,6 +6,7 @@ use App\Http\Requests\CreateEditUserRequest;
 use App\Mail\PasswordTempMail;
 use App\Models\Branch;
 use App\Models\User;
+use App\Notifications\TempPassword;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -49,16 +50,13 @@ class UserController extends Controller
     public function store(CreateEditUserRequest $request)
     {
         $validated = $request->validatedUser();
-        $randomPassword = Str::random(8);
-        
-        $validated['password'] = Hash::make($randomPassword);   
        
         $user = User::create($validated);
 
         $roles = Role::whereIn('id', $request->validatedRolesIds())->get(); // Retrieve Role objects based on role IDs
         $user->syncRoles($roles);
         
-        Mail::to(strtolower($validated['email']))->send(new PasswordTempMail($validated['name'], $validated['email'], $randomPassword));
+        $user->notify(new TempPassword());
 
         return redirect()->route('users.show', $user->id)->with([
             'level' => 'success',
