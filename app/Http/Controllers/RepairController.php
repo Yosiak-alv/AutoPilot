@@ -33,7 +33,8 @@ class RepairController extends Controller
     {
         //dd(Car::with(['model.brand'])->get(['id','model_id']));
         return Inertia::render('Repairs/CreateEditRepair',[
-            'cars' => Car::select(['id','plates','model_id'])->with(['model.brand:id,name'])->get(),
+            'cars' => request()->user()->branch->main === 1 ? Car::select(['id','plates','model_id'])->with(['model.brand:id,name'])->get() : 
+                Car::select(['id','plates','model_id'])->where('branch_id',request()->user()->branch->id)->with(['model.brand:id,name'])->get(),
             'repair_status' => RepairStatus::all(),
             'work_shops' => WorkShop::select('id','name','district_id')->with(['district','town','state'])->get(),
         ]);
@@ -79,7 +80,8 @@ class RepairController extends Controller
     {
         return Inertia::render('Repairs/CreateEditRepair',[
             'repair' => $repair->load(['details']),
-            'cars' => Car::select(['id','plates','model_id'])->with(['model.brand:id,name'])->get(),
+            'cars' => request()->user()->branch->main === 1 ? Car::select(['id','plates','model_id'])->with(['model.brand:id,name'])->get() : 
+                Car::select(['id','plates','model_id'])->where('branch_id',request()->user()->branch->id)->with(['model.brand:id,name'])->get(),
             'repair_status' => RepairStatus::all(),
             'work_shops' => WorkShop::with(['district','town','state'])->get(),
         ]);
