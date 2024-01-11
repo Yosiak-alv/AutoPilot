@@ -10,7 +10,6 @@ trait CarTrait {
             // method in Controller => method in Policy
             'storeImage' => 'storeImage',
             'restore' => 'restore',
-            'forceDelete' => 'forceDelete'
         ]);
     }
 

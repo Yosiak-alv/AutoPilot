@@ -54,12 +54,4 @@ class UserPolicy
     {
         return $model->trashed() ? $user->hasPermissionTo('restaurar usuario') : false;
     }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, User $model): bool
-    {
-        return $model->trashed() ? $user->hasPermissionTo('force-delete usuario') && ($user->id != $model->id) : false;
-    }
 }

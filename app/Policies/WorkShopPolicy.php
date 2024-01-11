@@ -55,12 +55,4 @@ class WorkShopPolicy
     {
         return $workshop->trashed() ? $user->hasPermissionTo('restaurar taller') : false;
     }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, WorkShop $workshop): bool
-    {
-        return $workshop->trashed() ? $user->hasPermissionTo('force-delete taller') : false;
-    }
 }

@@ -60,12 +60,4 @@ class CarPolicy
     {
         return ($car->trashed() ?  $user->hasPermissionTo('restaurar auto'): false);
     }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Car $car): bool
-    {
-        return ($car->trashed() ?  $user->hasPermissionTo('force-delete auto') : false);
-    }
 }

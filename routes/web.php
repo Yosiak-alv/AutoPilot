@@ -43,7 +43,6 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
     Route::patch('/cars/{car}/restore', [CarController::class, 'restore'])->name('cars.restore');
-    Route::delete('/cars/{car}/forceDelete', [CarController::class, 'forceDelete'])->name('cars.forceDelete');
 
     Route::resource('repairs',RepairController::class)->except('index');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
@@ -54,7 +53,6 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('workshops',WorkShopController::class);
     Route::patch('/workshops/{workshop}/restore', [WorkShopController::class, 'restore'])->name('workshops.restore');
-    Route::delete('/workshops/{workshop}/forceDelete', [WorkShopController::class, 'forceDelete'])->name('workshops.forceDelete');
 
     Route::resource('brands',BrandController::class)->except('create','edit');
     Route::get('/brands/model/{model}', [BrandController::class, 'showModel'])->name('brands.showModel');
@@ -64,7 +62,6 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('users', UserController::class);
     Route::patch('/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
-    Route::delete('/users/{user}/forceDelete', [UserController::class, 'forceDelete'])->name('users.forceDelete');
 
     Route::resource('roles', RoleController::class);
 });

@@ -52,7 +52,6 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'editar auto']);
         Permission::create(['name' => 'eliminar auto']);
         Permission::create(['name' => 'restaurar auto']);
-        Permission::create(['name' => 'force-delete auto']);
 
         //Repairs PERMISSIONS
         Permission::create(['name' => 'ver reparacion']);
@@ -79,7 +78,6 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'editar taller']);
         Permission::create(['name' => 'eliminar taller']);
         Permission::create(['name' => 'restaurar taller']);
-        Permission::create(['name' => 'force-delete taller']);
 
         //Branch PERMISSIONS
         Permission::create(['name' => 'ver centros']);
@@ -96,7 +94,6 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'editar usuario']);
         Permission::create(['name' => 'eliminar usuario']);
         Permission::create(['name' => 'restaurar usuario']);
-        Permission::create(['name' => 'force-delete usuario']);
 
         //Role PERMISSIONS
         Permission::create(['name' => 'ver roles']);

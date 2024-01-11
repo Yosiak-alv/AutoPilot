@@ -11,7 +11,6 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import RestoreMessage from '@/Components/RestoreMessage.vue';
-import ForceDeleteMessage from '@/Components/ForceDeleteMessage.vue';
 
 const props = defineProps({
     user:{
@@ -73,9 +72,6 @@ const hasPermission = (permissionName) => {
                     <RestoreMessage :permission="hasPermission('restaurar usuario')" @restore="router.patch(route('users.restore',props.user.id))">
                         Este usuario esta eliminado, si lo restauras podras acceder y editarlo nuevamente.
                     </RestoreMessage>
-                    <ForceDeleteMessage :permission="hasPermission('force-delete usuario')" :url="'users.forceDelete'" :modelToForceDeleteId="props.user.id">
-                        Este usuario esta eliminado, si lo eliminas permanentemente no podras acceder a el nuevamente.
-                    </ForceDeleteMessage>
                 </div>
                 <div class="py-9">
                     <CardSection class="max-w-7xl mx-auto">

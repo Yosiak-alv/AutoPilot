@@ -128,23 +128,4 @@ class WorkShopController extends Controller
             'message' => 'Taller Restaurado Satisfactoriamente!'
         ]);
     }
-    public function forceDelete(Request $request, WorkShop $workshop)
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        DB::transaction(function () use ($workshop) {
-            foreach ($workshop->repairs as $repair) {
-                $repair->details()->delete();
-            }
-            $workshop->repairs()->delete();
-            $workshop->forceDelete();
-        });
-
-        return redirect()->route('workshops.index')->with([
-            'level' => 'success',
-            'message' => 'Taller Eliminado Permanentemente!'
-        ]);
-    }
 }

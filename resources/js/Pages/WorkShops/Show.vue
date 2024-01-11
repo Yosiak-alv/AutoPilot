@@ -11,8 +11,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import RestoreMessage from '@/Components/RestoreMessage.vue';
-import ForceDeleteMessage from '@/Components/ForceDeleteMessage.vue';
 import WorkShopRepairIndex from './Partials/WorkShopRepairIndex.vue';
+
 const props = defineProps({
     workshop:{
         type:Object,
@@ -81,9 +81,6 @@ const hasPermission = (permissionName) => {
                     <RestoreMessage :permission="hasPermission('restaurar taller')" @restore="router.patch(route('workshops.restore',props.workshop.id))">
                         Este Taller esta eliminado, si lo restauras podras acceder y editarlo nuevamente.
                     </RestoreMessage>
-                    <ForceDeleteMessage :permission="hasPermission('force-delete taller')" :url="'workshops.forceDelete'" :modelToForceDeleteId="props.workshop.id">
-                        Este Taller esta eliminado, si lo eliminas permanentemente no podras acceder a el nuevamente.
-                    </ForceDeleteMessage>
                 </div>
                 <CardSection class="max-w-7xl py-4">
                     <div class="flex flex-wrap my-12">

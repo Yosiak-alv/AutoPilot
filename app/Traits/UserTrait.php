@@ -9,7 +9,6 @@ trait UserTrait {
         return array_merge(parent::resourceAbilityMap(), [
             // method in Controller => method in Policy
             'restore' => 'restore',
-            'forceDelete' => 'forceDelete'
         ]);
     }
 

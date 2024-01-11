@@ -157,26 +157,4 @@ class CarController extends Controller
             'message' => 'Auto Restaurado Satisfactoriamente!'
         ]);
     }
-    public function forceDelete(Request $request, Car $car)
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        DB::transaction(function () use ($car) {
-            if($car->image){
-                Storage::disk('public')->delete($car->image);
-            };
-            foreach ($car->repairs as $repair) {
-                $repair->details()->delete();
-            }
-            $car->repairs()->delete();
-            $car->forceDelete();
-        });
-
-        return redirect()->route('cars.index')->with([
-            'level' => 'success',
-            'message' => 'Auto Eliminado Permanentemente!'
-        ]);
-    }
 }

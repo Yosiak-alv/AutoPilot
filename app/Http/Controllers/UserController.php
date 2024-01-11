@@ -127,17 +127,4 @@ class UserController extends Controller
             'message' => 'Usuario Restaurado Satisfactoriamente!'
         ]);
     }
-    public function forceDelete(Request $request, User $user)
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user->forceDelete();
-
-        return redirect()->route('users.index')->with([
-            'level' => 'success',
-            'message' => 'Usuario Eliminado Permanentemente!'
-        ]);
-    }
 }
