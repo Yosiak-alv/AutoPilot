@@ -316,7 +316,6 @@
                             <tr>
                                 <td class = "text-bold">Servicio</td>
                                 <td class = "text-bold">Descripcion</td>
-                                <td class = "text-bold">Im</td>
                                 <td class = "text-bold">Precio</td>
                             </tr>
                         </thead>
@@ -326,7 +325,6 @@
                                 <tr>
                                     <td>{{$detail->name}}</td>
                                     <td>{{$detail->description}}</td>
-                                    <td>${{$detail->taxes}}</td>
                                     <td class = "text-end">${{$detail->price}}</td>
                                 </tr>
                             @endforeach                          
@@ -335,10 +333,7 @@
                     <div class = "invoice-body-bottom">
                         <div class = "invoice-body-info-item border-bottom">
                             <div class = "text-end">
-                                <span class = "text-bold">Sub Total: </span>${{$repair->sub_total}}
-                            <div>
-                            <div class = "text-end">
-                                <span class = "text-bold">Impuestos: </span>${{$repair->taxes}}
+                                <span class = "text-bold">Sub Total: </span>${{$repair->total}}
                             <div>
                             <div class = "text-end">
                                 <span class = "text-bold">Total: </span>${{$repair->total}}

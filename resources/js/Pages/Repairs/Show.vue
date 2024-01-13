@@ -99,10 +99,6 @@ const hasPermission = (permissionName) => {
                             <br>
                             <span class="font-semibold">Estado:</span> {{repair.status.name}}
                             <br>
-                            <span class="font-semibold">Sub Total:</span> ${{repair.sub_total}}
-                            <br>
-                            <span class="font-semibold">Impustos:</span> ${{repair.taxes}}
-                            <br>
                             <span class="font-semibold">Total:</span> ${{repair.total}}
                             <br>
                             <span class="font-semibold">Creado:</span> {{ repair.created_at }}
@@ -143,12 +139,19 @@ const hasPermission = (permissionName) => {
                             <br>
                             <span class="font-semibold">Telefono:</span> {{ repair.work_shop?.telephone }}
                             <br>
-                            <span class="font-semibold">Estado:</span> {{repair.status.name}}
-                            <br>
                             <span class="font-semibold">Direccion:</span> {{ repair.work_shop?.address}}
                             <br>
                             <span class="font-semibold">Zona: </span> {{ repair.work_shop?.state.name }}, {{ repair.work_shop?.town.name }}, {{ repair.work_shop?.district.name }} 
                             <br>
+                        </div>
+                        <div class="flex flex-wrap space-x-4 mt-2 p-2 text-xl font-semibold ">
+                            <span class="flex w-3 h-3 mt-2 me-3 bg-green-500 rounded-full"
+                                :class="{
+                                    'bg-green-500': repair.repair_status_id == 1 || repair.repair_status_id == 3,
+                                    'bg-yellow-500': repair.repair_status_id == 2 || repair.repair_status_id == 5,
+                                    'bg-red-500': repair.repair_status_id == 3 || repair.repair_status_id == 4,
+                                }"
+                            ></span>{{repair.status.name}}
                         </div>
                     </div>
                 </div>
@@ -179,8 +182,6 @@ const hasPermission = (permissionName) => {
                                     <span class="font-semibold">Descripcion:</span> {{ detail.description }}
                                     <br>
                                     <span class="font-semibold">Precio:</span> ${{ detail.price }}
-                                    <br>
-                                    <span class="font-semibold">Impuestos:</span> ${{ detail.taxes }}
                                 </div>
                             </div>
                         </div>
