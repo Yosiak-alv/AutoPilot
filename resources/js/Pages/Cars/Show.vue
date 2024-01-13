@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, router, Link, usePage} from '@inertiajs/vue3';
 import { ref, nextTick, computed } from 'vue';
+import Slider from '@/Components/Slider.vue';
 import CardSection from '@/Components/CardSection.vue';
 import CarRepairIndex from './Partials/CarRepairsIndex.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -16,10 +17,6 @@ import RestoreMessage from '@/Components/RestoreMessage.vue';
 const props = defineProps({
     car:{
         type:Object,
-        required:true
-    },
-    carImageUrl:{
-        type:String,
         required:true
     },
     car_repairs:{
@@ -39,8 +36,12 @@ const edit = () => {
 const comfirmingImageStoring = ref(false);
 const confirmStoreImage = () => comfirmingImageStoring.value = true;
 const formImage = useForm({
-    image: null,
+    images: [],
 });
+const getError = (key) => {
+  // Check if the key exists in the form errors, if yes, return the error message
+  return formImage.errors[key] ? formImage.errors[key][0] : null;
+};
 
 const closeModalImage = () => {
     comfirmingImageStoring.value = false;
@@ -105,67 +106,79 @@ const hasPermission = (permissionName) => {
                         Este auto esta eliminado, si lo restauras podras acceder y editarlo nuevamente.
                     </RestoreMessage>
                 </div>
+            </div>
 
-                <div class="flex flex-wrap justify-between gap-2 my-12">
-                    <div class="mx-auto">
+            <div class="flex flex-wrap justify-between gap-4 my-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="mx-auto">
+                    <div id="car_card" class="max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-gray-100">
+                        <div class="rounded-lg">
+                            <Slider class="rounded-lg" :carImages="car.images"/>
+                        </div>
+                        <div class="p-5">
+                            <span class="inline text-3xl h-fit">{{ car.model.brand.name}}, {{car.model.name}}</span>
+                            <div class="mt-2 text-lg">
+                                <span class="font-semibold">Millaje:</span> {{ car.current_mileage }}
+                                <br>
+                                <span class="font-semibold">Placas:</span> {{ car.plates }}
+                                <br>
+                                <span class="font-semibold">VIN:</span> {{ car.VIN }}
+                                <br>
+                                <span class="font-semibold">Motor:</span> {{ car.motorId }}
+                                <br>
+                                <span class="font-semibold">Color:</span> {{ car.color }}
+                                <br>
+                                <span class="font-semibold">Año:</span> {{ car.year }}
+                                <br>
+                                <span class="font-semibold">Creado:</span> {{ car.created_at }}
+                                <br>
+                                <span class="font-semibold">Actualizado:</span> {{ car.updated_at }}
+                                <br>
+                                <span v-if="props.car.deleted_at" class="font-semibold">Eliminado el:</span> {{props.car.deleted_at}}
+                            </div>
+                            <div class="flex flex-wrap space-x-4  space-y-1 mt-2">
+                                <PrimaryButton @click="edit()" v-if="hasPermission('editar auto') && car.deleted_at == null" class="w-12/9">
+                                    Editar
+                                </PrimaryButton>
+                                <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagen auto') && car.deleted_at == null" class="w-12/9">
+                                    + Imagenes
+                                </SecondaryButton>
+                                <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar auto') && car.deleted_at == null" class="w-12/9 ">
+                                    Eliminar
+                                </DangerButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mx-auto">
+                    <CardSection>
+                        <div class="p-5">
+                            <span class="inline text-3xl h-fit" :class="{'text-red-600 dark:text-red-400' : car.branch  == null}">
+                            {{ car.branch?.name ?? 'Sin Centro Asignado'}}</span>
+                            <div class="mt-2 text-lg" v-if="car.branch">
+                                <span class="font-semibold">Correo:</span> {{ car.branch?.email }}
+                                <br>
+                                <span class="font-semibold">Telefono:</span> {{ car.branch?.telephone }}
+                                <br>
+                                <span class="font-semibold">Es Central:</span> {{ car.branch?.main ? 'Si':'No' }}
+                                <br>
+                                <span class="font-semibold">Direccion:</span> {{ car.branch?.address }}
+                                <br>
+                                <span class="font-semibold">Zona:</span> {{car.branch?.district.town.state.name}}, {{car.branch?.district.town.name}}, {{ car.branch?.district.name }}
+                            </div>
+                        </div>
+                    </CardSection>
+                    <div class="mx-auto mt-20">
                         <CardSection>
-                            <div class="max-w-md bg-whiterounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                <img class="rounded-t-lg" :src="carImageUrl" alt="Car" />
-                                <div class="p-5">
-                                    <span class="inline text-3xl h-fit">{{ car.model.brand.name}}, {{car.model.name}}</span>
-                                    <div class="mt-2 text-lg">
-                                        <span class="font-semibold">Millaje:</span> {{ car.current_mileage }}
-                                        <br>
-                                        <span class="font-semibold">Placas:</span> {{ car.plates }}
-                                        <br>
-                                        <span class="font-semibold">VIN:</span> {{ car.VIN }}
-                                        <br>
-                                        <span class="font-semibold">Año:</span> {{ car.year }}
-                                        <br>
-                                        <span class="font-semibold">Creado:</span> {{ car.created_at }}
-                                        <br>
-                                        <span class="font-semibold">Actualizado:</span> {{ car.updated_at }}
-                                        <br>
-                                        <span v-if="props.car.deleted_at" class="font-semibold">Eliminado el:</span> {{props.car.deleted_at}}
-                                    </div>
-                                    <div class="flex space-x-4 mt-2">
-                                        <PrimaryButton @click="edit()" v-if="hasPermission('editar auto') && car.deleted_at == null" class="w-12/9">
-                                            Editar
-                                        </PrimaryButton>
-                                        <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagen auto') && car.deleted_at == null" class="w-12/9">
-                                            + Imagen
-                                        </SecondaryButton>
-                                        <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar auto') && car.deleted_at == null" class="w-12/9">
-                                            Eliminar
-                                        </DangerButton>
-                                    </div>
+                            <div class="p-5">
+                                <span class="inline text-3xl h-fit" > Documentos</span>
+                                <div class="flex items-center justify-between">
+                                    
                                 </div>
                             </div>
                         </CardSection>
                     </div>
-                    <div class="mx-auto">
-                        <CardSection>
-                            <div class="p-5">
-                                    <span class="inline text-3xl h-fit" :class="{'text-red-600 dark:text-red-400' : car.branch  == null}">
-                                    {{ car.branch?.name ?? 'Sin Centro Asignado'}}</span>
-                                    <div class="mt-2 text-lg" v-if="car.branch">
-                                        <span class="font-semibold">Correo:</span> {{ car.branch?.email }}
-                                        <br>
-                                        <span class="font-semibold">Telefono:</span> {{ car.branch?.telephone }}
-                                        <br>
-                                        <span class="font-semibold">Es Central:</span> {{ car.branch?.main ? 'Si':'No' }}
-                                        <br>
-                                        <span class="font-semibold">Direccion:</span> {{ car.branch?.address }}
-                                        <br>
-                                        <span class="font-semibold">Zona:</span> {{car.branch?.district.town.state.name}}, {{car.branch?.district.town.name}}, {{ car.branch?.district.name }}
-                                    </div>
-                                </div>
-                        </CardSection>
-                       
-                    </div>
-                    
                 </div>
-            </div>    
+            </div>
         </div>
 
         <div class="py-4">
@@ -186,10 +199,12 @@ const hasPermission = (permissionName) => {
             </p>
 
             <div class="mt-6">
-                <input @input="formImage.image = $event.target.files[0]" id="image" type="file" accept="image/png, image/jpg, image/jpeg" 
+                <input @input="formImage.images = $event.target.files" id="image" multiple type="file" accept="image/png, image/jpg, image/jpeg" 
                 class="block w-full text-md text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" >
-
-                <InputError :message="formImage.errors.image" class="mt-2" />
+                
+                <div v-for="(error, index) in formImage.errors" :key="index">
+                    <InputError :message="error" class="mt-2" />
+                </div>
             </div>
 
             <div class="mt-6 flex justify-end">

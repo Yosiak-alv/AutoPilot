@@ -6,6 +6,7 @@ use App\Http\Requests\CreateEditCarRequest;
 use App\Models\Branch;
 use App\Models\Car;
 use App\Models\Brand;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -67,22 +68,52 @@ class CarController extends Controller
     public function storeImage(Request $request, Car $car)
     {
         $attr = $request->validate([
-            'image' => 'required|image|max:2048|mimes:jpg,jpeg,png',
+            'images' => 'array|required|max:5|min:1',
+            'images.*' => 'image|max:2048|mimes:jpg,jpeg,png',
         ]);
 
-        if( $request->hasFile('image')){
-            $attr['image'] = $request->file('image')->store('cars','public');
-            Storage::disk('public')->delete($car->image);
-        }
+        // Delete current images cascadeOnDelete deattach images from car
+        $car->images()->each(function ($currentImage) {
+            Storage::disk('public')->delete($currentImage->name);
+            $currentImage->delete(); 
+        });
 
-        $car->image = $attr['image'];
-
-        $car->save();
-
+        // Store new images
+        $car->images()->createMany(
+            collect($attr['images'])->map(function ($image) {
+                return ['name' => $image->store('cars_images','public')];
+            })->all()
+        );
+    
         return redirect()->route('cars.show',$car)->with([
             'level' => 'success',
             'message' => 'Imagen Cargada Satisfactoriamente!'
+        ]); 
+    }
+    public function storeFile(Request $request, Car $car)
+    {
+        //TODO NO TERMINADO
+        $attr = $request->validate([
+            'files' => 'array|required|max:3|min:1',
+            'files.*' => 'file|max:2048|mimes:pdf',
         ]);
+
+
+        // Store new files
+        $car->files()->createMany(
+            collect($attr['files'])->map(function ($file) {
+                return [
+                    'name' => $file->store('cars_files','public'), 
+                    'original_name' => $file->getClientOriginalName(), 
+                    'ext'=> $file->getClientOriginalExtension()
+                ];
+            })->all()
+        );
+    
+        return redirect()->route('cars.show',$car)->with([
+            'level' => 'success',
+            'message' => 'Archivo Cargado Satisfactoriamente!'
+        ]); 
     }
 
     /**
@@ -91,8 +122,7 @@ class CarController extends Controller
     public function show(Car $car)
     {
         return Inertia::render('Cars/Show',[
-            'car' => $car->load(['model.brand:id,name','branch.district.town.state']), 
-            'carImageUrl' => $car->getImageUrl(),
+            'car' => $car->load(['model.brand:id,name','branch.district.town.state','images']), 
             'car_repairs' => $car->repairs()->when(\Illuminate\Support\Facades\Request::input('search') ?? false, function($query , $search) {
                 $query->where(fn($query) =>
                     $query->where('total','like','%'.$search.'%')
