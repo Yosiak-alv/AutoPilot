@@ -16,19 +16,15 @@ class RepairSeeder extends Seeder
     {
         $repairs = Repair::factory(25)->create()->each(function ($repair) {
             $sub_total = 0;
-            $taxes = 0;
 
             $repair_details = RepairDetails::factory(rand(1, 10))->create();
             foreach ($repair_details as $item) {
                 $item->repair_id = $repair->id;
                 $sub_total += $item->price;
-                $taxes += $item->taxes;
                 $item->save();
             }
 
-            $repair->sub_total = $sub_total;
-            $repair->taxes = $taxes;
-            $repair->total =  $taxes + $sub_total;
+            $repair->total =  $sub_total;
             $repair->save();
         });
     }

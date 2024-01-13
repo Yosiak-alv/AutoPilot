@@ -22,7 +22,6 @@ class RepairDetailsFactory extends Factory
             'name' => fake()->name(),
             'description' => fake()->text(),
             'price' => fake()->randomFloat(2, 0, 1000),
-            'taxes' => fake()->randomFloat(2, 0, 200),
         ];
     }
 }

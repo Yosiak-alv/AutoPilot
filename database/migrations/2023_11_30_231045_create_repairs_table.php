@@ -19,8 +19,6 @@ return new class extends Migration
             $table->foreignIdFor(Car::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignIdFor(RepairStatus::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignIdFor(WorkShop::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->double('sub_total');
-            $table->double('taxes');
             $table->double('total');
             $table->timestamps();
         });

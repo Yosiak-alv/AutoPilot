@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
             'email' => 'josias@example.com',
             'password' => bcrypt('password'),
             'branch_id' => 1,
+            'email_verified_at' => now(),
         ]);
         $user->assignRole('Super-Admin');
     }

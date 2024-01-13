@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('image',255)->default('');
             $table->string('plates');
             $table->string('VIN');
             $table->double('current_mileage');
+            $table->string('color');
+            $table->string('motorId');
             $table->year('year');
             $table->foreignIdFor(Model::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignIdFor(Branch::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();

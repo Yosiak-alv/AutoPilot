@@ -19,18 +19,12 @@ class RepairFactory extends Factory
         $work_shop_ids = Workshop::pluck('id')->toArray();
         $repair_status_ids = RepairStatus::pluck('id')->toArray();
         $car_ids = Car::pluck('id')->toArray();
-
-        $subTotal = fake()->randomFloat(2, 5, 500);
-        $taxes = fake()->randomFloat(2, 1, 20);
         
         return [
             'car_id' => fake()->randomElement($car_ids),
             'repair_status_id' => fake()->randomElement($repair_status_ids),
             'work_shop_id' => fake()->randomElement($work_shop_ids),
-
-            'sub_total' => $subTotal,
-            'taxes' => $taxes,
-            'total' => $subTotal + $taxes,
+            'total' => fake()->randomFloat(2, 5, 500)
         ];
     }
 }
