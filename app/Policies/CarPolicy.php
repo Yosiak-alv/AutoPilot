@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Car;
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -37,9 +38,21 @@ class CarPolicy
      */
     public function storeImage(User $user, Car $car): bool
     {
-        return ($car->trashed() ?  false : $user->hasPermissionTo('agregar imagen auto'));
+        return ($car->trashed() ?  false : $user->hasPermissionTo('agregar imagenes auto'));
+    }
+    public function createFile(User $user, Car $car): bool
+    {
+        return ($car->trashed() ?  false : $user->hasPermissionTo('subir archivos auto'));
+    }
+    public function downloadFile(User $user, Car $car): bool
+    {
+        return ($car->trashed() ?  false :  $user->hasPermissionTo('descargar archivo auto'));
     }
 
+    public function destroyFile(User $user, Car $car): bool
+    {
+        return ($car->trashed() ?  false :  $user->hasPermissionTo('eliminar archivo auto'));
+    }
     public function update(User $user, Car $car): bool
     {
        return ($car->trashed() ?  false : $user->hasPermissionTo('editar auto'));

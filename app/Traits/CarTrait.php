@@ -9,6 +9,10 @@ trait CarTrait {
         return array_merge(parent::resourceAbilityMap(), [
             // method in Controller => method in Policy
             'storeImage' => 'storeImage',
+            'createFile' => 'createFile',
+            'storeUpdateFile' => 'createFile',
+            'downloadFile' => 'downloadFile',
+            'destroyFile' => 'destroyFile',
             'restore' => 'restore',
         ]);
     }
@@ -17,6 +21,8 @@ trait CarTrait {
     {
         return array_merge(parent::resourceMethodsWithoutModels(), [
             // method in Controller
+           /*  'downloadFile',
+            'destroyFile' */
         ]);
     }
 }

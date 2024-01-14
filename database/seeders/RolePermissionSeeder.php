@@ -47,10 +47,13 @@ class RolePermissionSeeder extends Seeder
         //CARS PERMISSIONS
         Permission::create(['name' => 'ver autos']);
         Permission::create(['name' => 'ver auto']);
-        Permission::create(['name' => 'agregar imagen auto']);
+        Permission::create(['name' => 'agregar imagenes auto']);
         Permission::create(['name' => 'crear auto']);
         Permission::create(['name' => 'editar auto']);
         Permission::create(['name' => 'eliminar auto']);
+        Permission::create(['name' => 'subir archivos auto']);
+        Permission::create(['name' => 'eliminar archivo auto']);
+        Permission::create(['name' => 'descargar archivo auto']);
         Permission::create(['name' => 'restaurar auto']);
 
         //Repairs PERMISSIONS

@@ -38,10 +38,6 @@ const confirmStoreImage = () => comfirmingImageStoring.value = true;
 const formImage = useForm({
     images: [],
 });
-const getError = (key) => {
-  // Check if the key exists in the form errors, if yes, return the error message
-  return formImage.errors[key] ? formImage.errors[key][0] : null;
-};
 
 const closeModalImage = () => {
     comfirmingImageStoring.value = false;
@@ -87,6 +83,11 @@ const permissions = ref(usePage().props.auth.user_permissions);
 const hasPermission = (permissionName) => {
     return computed(() => permissions.value.includes(permissionName)).value;
 };
+
+//file links
+const fileDestroy = (id) => {
+    router.delete(route('cars.destroyFile', {car: props.car.id, file: id}));
+}
 </script>
 
 <template>
@@ -110,7 +111,7 @@ const hasPermission = (permissionName) => {
 
             <div class="flex flex-wrap justify-between gap-4 my-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="mx-auto">
-                    <div id="car_card" class="max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-gray-100">
+                    <div id="car_card" class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 text-gray-900 dark:text-gray-100">
                         <div class="rounded-lg">
                             <Slider class="rounded-lg" :carImages="car.images"/>
                         </div>
@@ -139,7 +140,7 @@ const hasPermission = (permissionName) => {
                                 <PrimaryButton @click="edit()" v-if="hasPermission('editar auto') && car.deleted_at == null" class="w-12/9">
                                     Editar
                                 </PrimaryButton>
-                                <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagen auto') && car.deleted_at == null" class="w-12/9">
+                                <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagenes auto') && car.deleted_at == null" class="w-12/9">
                                     + Imagenes
                                 </SecondaryButton>
                                 <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar auto') && car.deleted_at == null" class="w-12/9 ">
@@ -167,12 +168,60 @@ const hasPermission = (permissionName) => {
                             </div>
                         </div>
                     </CardSection>
-                    <div class="mx-auto mt-20">
+                    <div class="mx-auto mt-12">
                         <CardSection>
                             <div class="p-5">
-                                <span class="inline text-3xl h-fit" > Documentos</span>
-                                <div class="flex items-center justify-between">
-                                    
+                                <div class="flex justify-between items-center flex-wrap">
+                                    <span class="inline text-3xl h-fit" >Documentos</span>
+                                    <Link :href="route('cars.createFile',{id: car.id})" as="button" method="get"  
+                                        v-if="hasPermission('subir archivos auto') && car.deleted_at == null"
+                                        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
+                                    >
+                                        + Archivos   
+                                    </Link>
+                                </div>
+                                <div v-if="car.files.length != 0 ">
+                                    <div class="flex flex-wrap gap-4 mt-2" >
+                                        <div class="overflow-y-auto " style="height: 12rem;">
+                                            <div class="flex-col items-center">
+                                                <div v-for="file in car.files" :key="file.id" class="mt-4 space-y-2">
+                                                    <div class="flex items-start gap-2.5">
+                                                        <div class="flex flex-col gap-1 max-w-full">
+                                                            <div class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                                                                <p class="text-sm font-normal text-gray-900 dark:text-white"> {{ file.original_name }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-col">
+                                                            <a :href="route('cars.downloadFile', {car: car.id, file: file.id})" 
+                                                            v-if="hasPermission('descargar archivo auto') && car.deleted_at == null" class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600">
+                                                                <svg fill="#000000" class="icon line-color w-6 h-6" viewBox="0 0 24 24" id="download-alt" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" ><polyline id="secondary" points="8 12 12 16 16 12" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline><line id="secondary-2" data-name="secondary" x1="12" y1="3" x2="12" y2="16" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line></svg>
+                                                            </a>
+                                                            <button v-if="hasPermission('eliminar archivo auto') && car.deleted_at == null" 
+                                                            @click="fileDestroy(file.id)" class="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
+                                                                <svg fill="red" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                                                        class="w-6 h-6" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                                                                    <g>
+                                                                        <g>
+                                                                            <path d="M75.834,33.388h-51.67c-1.311,0-2.375,1.058-2.375,2.373v49.887c0,1.314,1.064,2.377,2.375,2.377h51.67
+                                                                                c1.314,0,2.375-1.063,2.375-2.377V35.76C78.209,34.446,77.148,33.388,75.834,33.388z"/>
+                                                                        </g>
+                                                                        <g>
+                                                                            <path d="M79.004,17.352H59.402v-2.999c0-1.314-1.061-2.377-2.373-2.377H42.971c-1.312,0-2.375,1.063-2.375,2.377v2.999H20.996
+                                                                                c-1.312,0-2.375,1.059-2.375,2.373v6.932c0,1.314,1.063,2.373,2.375,2.373h58.008c1.314,0,2.375-1.059,2.375-2.373v-6.932
+                                                                                C81.379,18.41,80.318,17.352,79.004,17.352z"/>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">No hay archivos</p>
                                 </div>
                             </div>
                         </CardSection>

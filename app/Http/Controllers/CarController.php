@@ -6,6 +6,7 @@ use App\Http\Requests\CreateEditCarRequest;
 use App\Models\Branch;
 use App\Models\Car;
 use App\Models\Brand;
+use App\Models\File;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -90,15 +91,28 @@ class CarController extends Controller
             'message' => 'Imagen Cargada Satisfactoriamente!'
         ]); 
     }
-    public function storeFile(Request $request, Car $car)
+    public function createFile(Car $car)
     {
-        //TODO NO TERMINADO
+        return Inertia::render('Cars/Partials/CreateEditCarFile',[
+            'carId' => $car->id, 
+        ]);
+    }
+    public function storeUpdateFile(Request $request, Car $car)
+    {
         $attr = $request->validate([
             'files' => 'array|required|max:3|min:1',
-            'files.*' => 'file|max:2048|mimes:pdf',
+            'files.*' => 'file|mimes:pdf',
         ]);
+        // Determine the allowed number of additional files
+        $allowedAdditionalFiles = 3 - $car->files()->count();
 
-
+        // Check if the request exceeds the allowed number of additional files
+        if (count($attr['files']) > $allowedAdditionalFiles) {
+            return back()->with([
+                'level' => 'error',
+                'message' => 'Su peticion excede el numero de archivos, Puede agregar un '. $allowedAdditionalFiles .' mas.'
+            ]);
+        }
         // Store new files
         $car->files()->createMany(
             collect($attr['files'])->map(function ($file) {
@@ -115,14 +129,27 @@ class CarController extends Controller
             'message' => 'Archivo Cargado Satisfactoriamente!'
         ]); 
     }
-
+    public function downloadFile(Car $car, File $file)
+    {
+        return Storage::disk('public')->download($file->name,$file->original_name);
+    }
+    public function destroyFile(Car $car, File $file)
+    {
+        Storage::disk('public')->delete($file->name);
+        $file->delete();
+        
+        return back()->with([
+            'level' => 'success',
+            'message' => 'Archivo Eliminado Satisfactoriamente!'
+        ]); 
+    }
     /**
      * Display the specified resource.
      */
     public function show(Car $car)
     {
         return Inertia::render('Cars/Show',[
-            'car' => $car->load(['model.brand:id,name','branch.district.town.state','images']), 
+            'car' => $car->load(['model.brand:id,name','branch.district.town.state','images','files']), 
             'car_repairs' => $car->repairs()->when(\Illuminate\Support\Facades\Request::input('search') ?? false, function($query , $search) {
                 $query->where(fn($query) =>
                     $query->where('total','like','%'.$search.'%')

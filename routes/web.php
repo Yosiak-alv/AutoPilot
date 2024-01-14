@@ -51,6 +51,12 @@ Route::middleware(['auth','verified'])->group(function () {
 Route::middleware(['auth'])->group(function() {
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
+
+    Route::get('/cars/{car}/file',[CarController::class, 'createFile'])->name('cars.createFile');
+    Route::post('/cars/{car}/file', [CarController::class, 'storeUpdateFile'])->name('cars.storeUpdateFile');
+    Route::get('/cars/{car}/file/{file}/download', [CarController::class, 'downloadFile'])->name('cars.downloadFile');
+    Route::delete('/cars/{car}/file/{file}', [CarController::class, 'destroyFile'])->name('cars.destroyFile');
+
     Route::patch('/cars/{car}/restore', [CarController::class, 'restore'])->name('cars.restore');
 
     Route::resource('repairs',RepairController::class)->except('index');

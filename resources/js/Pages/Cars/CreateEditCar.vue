@@ -33,7 +33,6 @@ const form = useForm({
     branch_id: props.car?.branch_id ?? '',
     
 });
-console.log(form);
 const selectBrandModels = (brand_id) => {
     const selectedBrand = props.brands.find((brand) => brand.id === brand_id);
     return selectedBrand ? selectedBrand.models : [];
