@@ -51,9 +51,11 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'crear auto']);
         Permission::create(['name' => 'editar auto']);
         Permission::create(['name' => 'eliminar auto']);
+        
         Permission::create(['name' => 'subir archivos auto']);
         Permission::create(['name' => 'eliminar archivo auto']);
         Permission::create(['name' => 'descargar archivo auto']);
+
         Permission::create(['name' => 'restaurar auto']);
 
         //Repairs PERMISSIONS
@@ -61,6 +63,11 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'crear reparacion']);
         Permission::create(['name' => 'editar reparacion']);
         Permission::create(['name' => 'editar status reparacion']);
+
+        Permission::create(['name' => 'subir archivos reparacion']);
+        Permission::create(['name' => 'eliminar archivo reparacion']);
+        Permission::create(['name' => 'descargar archivo reparacion']);
+
         Permission::create(['name' => 'eliminar reparacion']);
 
         //Brand - Model PERMISSIONS

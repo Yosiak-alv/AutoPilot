@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEditRepairRequest;
+use App\Models\File;
 use App\Models\Repair;
 use App\Models\RepairStatus;
 use App\Models\WorkShop;
 use App\Traits\RepairTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Models\Car;
 class RepairController extends Controller
@@ -61,14 +63,64 @@ class RepairController extends Controller
             'message' => 'Reparacion Creada Satisfactoriamente!'
         ]);
     }
-
+    public function createFile(Repair $repair)
+    {
+        return Inertia::render('Repairs/Partials/CreateRepairFile',[
+           'repairId' => $repair->id,
+        ]);
+    }
+    public function storeFile(Repair $repair, Request $request)
+    {
+        $attr = $request->validate([
+            'files' => 'array|required|max:2|min:1',
+            'files.*' => 'file|mimes:pdf',
+        ]);
+        // Determine the allowed number of additional files
+        $allowedAdditionalFiles = 2 - $repair->files()->count();
+        // Check if the request exceeds the allowed number of additional files
+        if (count($attr['files']) > $allowedAdditionalFiles) {
+            return back()->with([
+                'level' => 'error',
+                'message' => 'Su peticion excede el numero de archivos, Puede agregar un '. $allowedAdditionalFiles .' mas.'
+            ]);
+        }
+        // Store new files
+        $repair->files()->createMany(
+            collect($attr['files'])->map(function ($file) {
+                return [
+                    'name' => $file->store('repairs_files','public'), 
+                    'original_name' => $file->getClientOriginalName(), 
+                    'ext'=> $file->getClientOriginalExtension()
+                ];
+            })->all()
+        );
+    
+        return redirect()->route('repairs.show',$repair->id)->with([
+            'level' => 'success',
+            'message' => 'Archivo Cargado Satisfactoriamente!'
+        ]); 
+    }
+    public function downloadFile(Repair $repair, File $file)
+    {
+        return Storage::disk('public')->download($file->name,$file->original_name);
+    }
+    public function destroyFile(Repair $repair, File $file)
+    {
+        Storage::disk('public')->delete($file->name);
+        $file->delete();
+        
+        return back()->with([
+            'level' => 'success',
+            'message' => 'Archivo Eliminado Satisfactoriamente!'
+        ]); 
+    }
     /**
      * Display the specified resource.
      */
     public function show(Repair $repair)
     {
         return Inertia::render('Repairs/Show',[
-            'repair' => $repair->load(['details','car.model.brand','status','work_shop.district','work_shop.town','work_shop.state']),
+            'repair' => $repair->load(['details','car.model.brand','status','work_shop.district','work_shop.town','work_shop.state','files']),
             'repair_status' => RepairStatus::all(),
         ]);
     }

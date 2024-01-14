@@ -10,6 +10,10 @@ trait RepairTrait {
             // method in Controller => method in Policy
             'updateStatus' => 'updateStatus',
             'repairPDF' => 'repairPDF',
+            'createFile' => 'createFile',
+            'storeFile' => 'createFile',
+            'downloadFile' => 'downloadFile',
+            'destroyFile' => 'destroyFile',
         ]);
     }
 

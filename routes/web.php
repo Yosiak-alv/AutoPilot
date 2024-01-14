@@ -61,6 +61,11 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('repairs',RepairController::class)->except('index');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
+    Route::get('/repairs/{repair}/file',[RepairController::class, 'createFile'])->name('repairs.createFile');
+    Route::post('/repairs/{repair}/file', [RepairController::class, 'storeFile'])->name('repairs.storeFile');
+    Route::get('/repairs/{repair}/file/{file}/download', [RepairController::class, 'downloadFile'])->name('repairs.downloadFile');
+    Route::delete('/repairs/{repair}/file/{file}', [RepairController::class, 'destroyFile'])->name('repairs.destroyFile');
+    
     Route::get('/repairs/{repair}/pdf', [RepairController::class, 'repairPDF'])->name('repairs.repairPDF');
     
     Route::resource('branches',BranchController::class);

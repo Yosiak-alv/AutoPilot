@@ -40,6 +40,19 @@ class RepairPolicy
     {
         return $repair->car == null || $repair->work_shop == null ? false : true;
     }
+    public function createFile(User $user, Repair $repair): bool
+    {
+        return  $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('subir archivos reparacion');
+    }
+    public function downloadFile(User $user, Repair $repair): bool
+    {
+        return  $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('descargar archivo reparacion');
+    }
+
+    public function destroyFile(User $user, Repair $repair): bool
+    {
+        return  $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('eliminar archivo reparacion');
+    }
     /**
      * Determine whether the user can delete the model.
      */
