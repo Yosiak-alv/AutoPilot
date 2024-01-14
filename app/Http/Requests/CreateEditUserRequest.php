@@ -24,7 +24,7 @@ class CreateEditUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3'],
-            'email' => ['required','email', 'max:255', Rule::unique('users','email')->ignore($this->user?->id)],
+            'email' => ['required','email', 'max:255','regex:/^[a-zA-Z0-9._%+-]+@feyalegria\.org\.sv$/', Rule::unique('users','email')->ignore($this->user?->id)],
             'branch_id' => ['required','numeric','gt:0','exists:branches,id'],
             'roles_id' => ['required','array'],
             'roles_id.*' => ['numeric','gt:0','exists:roles,id'],

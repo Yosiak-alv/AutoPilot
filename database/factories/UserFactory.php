@@ -23,7 +23,7 @@ class UserFactory extends Factory
         $branch_ids = Branch::pluck('id')->toArray();
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => fake()->unique()->regexify('/^[a-zA-Z0-9._%+-]+@feyalegria\.org\.sv$/'),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
