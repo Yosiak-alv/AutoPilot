@@ -78,7 +78,7 @@ const hasPermission = (permissionName) => {
     <AuthenticatedLayout>
         <template #header>
             <h1 class="text-xl font-semibold  text-gray-800 dark:text-gray-200 leading-tight">
-                <Link class="text-red-500 hover:text-red-700 hover:underline" :href="route('cars.show',props.repair.car.id)">{{repair.car?.model.name ?? 'Auto'}}</Link>
+                <Link class="text-red-500 hover:text-red-700 hover:underline" :href="props.repair.car?.id == null ? route('cars.index'): route('cars.show',props.repair.car.id)">{{repair.car?.model.name ?? 'Volver a Autos'}}</Link>
                 <span class="text-red-500 font-medium">/</span> Reparacion #{{props.repair.id}}
             </h1>
         </template>

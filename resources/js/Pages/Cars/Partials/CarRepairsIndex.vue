@@ -40,30 +40,31 @@ const hasPermission = (permissionName) => {
 
 <template>
 
-    <div v-if="props.repairs.data.length != 0 ">
-        <div class="max-w-7xl mx-auto text-center my-4 text-gray-900 dark:text-gray-100">
-            <h2 class="text-3xl font-semibold">Reparaciones</h2>
-            <div class="flex justify-between items-center p-2 mt-4">
-                <div>
-                    <div class=" relative">
-                        <div class="absolute inset-y-0 left-29  flex items-center pl-3 pointer-events-none">
-                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                        </div>
-                        <input type="text" id="search" v-model="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="Buscar">
+    <div class="max-w-7xl mx-auto text-center my-4 text-gray-900 dark:text-gray-100">
+        <h2 class="text-3xl font-semibold">Reparaciones</h2>
+        <div class="flex justify-between items-center p-2 mt-4">
+            <div>
+                <div class=" relative">
+                    <div class="absolute inset-y-0 left-29  flex items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                     </div>
-                </div>
-                <div>
-                    <Link 
-                        :href="route('repairs.create')"
-                        method="get" as="button"
-                        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
-                        v-if="hasPermission('crear reparacion') && !props.deleted"
-                    >
-                        + Reparacion
-                    </Link>
+                    <input type="text" id="search" v-model="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="Buscar">
                 </div>
             </div>
+            <div>
+                <Link 
+                    :href="route('repairs.create')"
+                    method="get" as="button"
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
+                    v-if="hasPermission('crear reparacion') && !props.deleted"
+                >
+                    + Reparacion
+                </Link>
+            </div>
         </div>
+    </div>
+    <div v-if="props.repairs.data.length != 0 ">
+        
 
         <div class="flex flex-wrap justify-between gap-4 my-12">
             <CardSection v-for="repair in props.repairs.data" class="text-base p-2">
@@ -88,20 +89,6 @@ const hasPermission = (permissionName) => {
     <div v-else>
         <div class="max-w-7xl mx-auto text-center my-4 text-gray-900 dark:text-gray-100">
             <h2 class="text-3xl font-semibold">No hay reparaciones para este Auto.</h2>
-            <div class="flex justify-between p-2 mt-4">
-                <div>
-                    <Link 
-                        :href="route('repairs.create')"
-                        method="get" as="button"
-                        class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150"
-                        v-if="hasPermission('crear reparacion') && !props.deleted"
-                    >
-                        + Reparacion
-                    </Link>
-                </div>
-            </div>
         </div>
     </div>
-    
-
 </template>
