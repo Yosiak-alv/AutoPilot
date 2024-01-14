@@ -29,8 +29,8 @@
 <!-- Tile for Win8 -->
 <meta name="msapplication-TileColor" content="{{ $config['background_color'] }}">
 <meta name="msapplication-TileImage" content="{{ data_get(end($config['icons']), 'src') }}">
-
-<script type="text/javascript">
+{{-- el servicework cada vez que el servidor responde con 401,403,404, 500, ejecuta el offline template --}}
+{{-- <script type="text/javascript">
     // Initialize the service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/serviceworker.js', {
@@ -43,4 +43,4 @@
             console.log('Laravel PWA: ServiceWorker registration failed: ', err);
         });
     }
-</script>
+</script> --}}
