@@ -76,6 +76,11 @@ const hasPermission = (permissionName) => {
 const fileDestroy = (id) => {
     router.delete(route('repairs.destroyFile', {repair: props.repair.id, file: id}));
 }
+//pdf link
+const downloadUrl = ref('');
+
+// Adjust this logic to generate the download link based on your requirements
+downloadUrl.value = `/repairs/${props.repair.id}/pdf`;
 </script>
 
 <template>
@@ -122,7 +127,7 @@ const fileDestroy = (id) => {
                                 </SecondaryButton>
                             </div>
                             <div>
-                                <a :href="route('repairs.repairPDF',props.repair.id)" v-if="(repair.car != null && repair.work_shop != null)"
+                                <a :href="downloadUrl" v-if="(repair.car != null && repair.work_shop != null)"
                                     class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150"
                                 >
                                     PDF

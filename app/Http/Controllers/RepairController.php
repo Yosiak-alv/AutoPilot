@@ -8,6 +8,7 @@ use App\Models\Repair;
 use App\Models\RepairStatus;
 use App\Models\WorkShop;
 use App\Traits\RepairTrait;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -176,8 +177,7 @@ class RepairController extends Controller
     {
         $repair->load(['details','car.model.brand','status','work_shop.district','work_shop.town','work_shop.state']);
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('repairs.repair-details', ['repair' => $repair]);
-        
-        return $pdf->download('repairs.repair-details.pdf');
+        return $pdf->download('reparacion-'.$repair->id.'.pdf');
     }
     /**
      * Remove the specified resource from storage.
