@@ -44,6 +44,7 @@ class RolePermissionSeeder extends Seeder
                     ])->toArray()
                 );
         } */
+        Permission::create(['name' => 'exportar a excel']);
         //CARS PERMISSIONS
         Permission::create(['name' => 'ver autos']);
         Permission::create(['name' => 'ver auto']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BranchesExport;
 use App\Http\Requests\CreateEditBranchRequest;
 use App\Models\Branch;
 use App\Models\State;
@@ -9,6 +10,7 @@ use App\Traits\BranchTrait;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
 class BranchController extends Controller
 {
     use BranchTrait;
@@ -28,7 +30,17 @@ class BranchController extends Controller
             'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
         ]);
     }
-
+    public function excelIndexExport()
+    {
+        $query = Branch::select(['id','name','main','telephone','district_id','deleted_at'])
+        ->with(['state','town','district'])->latest('created_at');
+        
+        $search = request('search');
+        $trashed = request('trashed');
+        
+        $export = new BranchesExport($query, $search, $trashed);
+        return Excel::download($export, 'centros.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      */

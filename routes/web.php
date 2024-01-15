@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function() {
     //DATO SE PONE EL EXPORT DE EXCEL EN PRIMERO PARA QUE NO DE ERROR 404 EL PRIMERO INCLUSO ANTES DEL RESOURCE
     Route::get('/cars/export', [CarController::class, 'excelIndexExport'])->name('cars.excelIndexExport');
     Route::get('/cars/{car}/export/repairs', [CarController::class, 'excelRepairsExport'])->name('cars.excelRepairsExport');
+    Route::get('/workshops/export', [WorkShopController::class, 'excelIndexExport'])->name('workshops.excelIndexExport');
+    Route::get('/branches/export', [BranchController::class, 'excelIndexExport'])->name('branches.excelIndexExport');
+    Route::get('/users/export', [UserController::class, 'excelIndexExport'])->name('users.excelIndexExport');
 
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');

@@ -31,7 +31,10 @@ class BranchPolicy
     {
         return $user->hasPermissionTo('crear centro');
     }
-
+    public function excelExport(User $user): bool
+    {
+        return $user->hasPermissionTo('exportar a excel');
+    }
     /**
      * Determine whether the user can update the model.
      */

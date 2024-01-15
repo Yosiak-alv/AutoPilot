@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\WorkShopsExport;
 use App\Http\Requests\CreateEditWorkShopRequest;
 use App\Models\WorkShop;
 use App\Models\State;
@@ -9,6 +10,7 @@ use App\Traits\WorkShopTrait;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 class WorkShopController extends Controller
 {
     use WorkShopTrait;
@@ -28,7 +30,17 @@ class WorkShopController extends Controller
             'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
         ]);
     }
-
+    public function excelIndexExport()
+    {
+        $query = WorkShop::select(['id','name','telephone','district_id','deleted_at'])
+        ->with(['state','town','district'])->latest('created_at');
+        
+        $search = request('search');
+        $trashed = request('trashed');
+        
+        $export = new WorkShopsExport($query, $search, $trashed);
+        return Excel::download($export, 'talleres.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -22,7 +22,10 @@ class UserPolicy
     {
         return $user->hasPermissionTo('ver usuario');
     }
-
+    public function excelExport(User $user): bool
+    {
+        return $user->hasPermissionTo('exportar a excel');
+    }
     /**
      * Determine whether the user can create models.
      */

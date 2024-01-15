@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Http\Requests\CreateEditUserRequest;
 use App\Mail\PasswordTempMail;
 use App\Models\Branch;
@@ -11,6 +12,7 @@ use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Str;
 use Mail;
@@ -32,7 +34,16 @@ class UserController extends Controller
             'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
         ]);
     }
-
+    public function excelIndexExport()
+    {
+        $query = User::select(['id', 'name', 'email','deleted_at','branch_id'])->with(['roles:id,name','branch:id,name'])->latest('created_at');
+        
+        $search = request('search');
+        $trashed = request('trashed');
+        
+        $export = new UsersExport($query, $search, $trashed);
+        return Excel::download($export, 'usuarios.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      */

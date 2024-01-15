@@ -23,7 +23,10 @@ class WorkShopPolicy
     {
         return $user->hasPermissionTo('ver taller');
     }
-
+    public function excelExport(User $user): bool
+    {
+        return $user->hasPermissionTo('exportar a excel');
+    }
     /**
      * Determine whether the user can create models.
      */
