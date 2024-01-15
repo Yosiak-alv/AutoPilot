@@ -8,7 +8,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import ToggleDark from '@/Components/ToggleDark.vue';
 import Toast from '@/Components/Toast.vue';
-
+import Footer from '@/Components/Footer.vue';
 const showingNavigationDropdown = ref(false);
 //permissions
 const permissions = ref(usePage().props.auth.user_permissions);
@@ -216,7 +216,7 @@ const hasPermission = (permissionName) => {
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white dark:bg-gray-800 shadow" v-if="$slots.header">
+            <header class="bg-[#F3F4F6] dark:bg-[#111827] shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
@@ -226,7 +226,9 @@ const hasPermission = (permissionName) => {
             <main>
                 <slot />
             </main>
+           
         </div>
         <Toast/>
+        <Footer/>
     </div>
 </template>
