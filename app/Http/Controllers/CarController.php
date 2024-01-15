@@ -55,7 +55,7 @@ class CarController extends Controller
         $trashed = request('trashed');
         
         $export = new CarsExport($query, $search, $trashed);
-        return Excel::download($export, 'cars.xlsx');
+        return Excel::download($export, 'autos.xlsx');
     }
     /**
      * Show the form for creating a new resource.

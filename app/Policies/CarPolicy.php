@@ -32,7 +32,10 @@ class CarPolicy
     {
         return $user->hasPermissionTo('crear auto');
     }
-
+    public function excelExport(User $user): bool
+    {
+        return $user->hasPermissionTo('exportar a excel');
+    }
     /**
      * Determine whether the user can update the model.
      */
