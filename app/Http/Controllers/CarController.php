@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CarRepairsExport;
+use App\Exports\CarsExport;
 use App\Http\Requests\CreateEditCarRequest;
 use App\Models\Branch;
 use App\Models\Car;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use App\Traits\CarTrait;
+use Maatwebsite\Excel\Facades\Excel;
 class CarController extends Controller
 {
     use CarTrait;
@@ -25,24 +28,35 @@ class CarController extends Controller
     }
     public function index()
     {
-        if(request()->user()->branch->main == 1){
-            return Inertia::render('Cars/Index',[
-                'cars' => Car::select(['id','plates','year','model_id','branch_id','deleted_at'])
-                ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
-                ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
-                'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
-            ]);
+        $query = Car::select(['id','plates','year','model_id','branch_id','deleted_at'])
+            ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
+            ->filter(request(['search','trashed']));
+        
+        if (request()->user()->branch->main != 1) {
+            $query->where('branch_id', request()->user()->branch->id);
         }
-        else{
-            return Inertia::render('Cars/Index',[
-                'cars' => Car::select(['id','plates','year','model_id','branch_id','deleted_at'])->where('branch_id',request()->user()->branch->id)
-                ->with(['model.brand:id,name','branch:id,name'])->latest('created_at')
-                ->filter(request(['search','trashed']))->paginate(10)->withQueryString(),
-                'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
-            ]);
-        }
-    }
+        $cars = $query->paginate(10)->withQueryString();
 
+        return Inertia::render('Cars/Index',[
+            'cars' => $cars,
+            'filters' => \Illuminate\Support\Facades\Request::only(['search','trashed']),
+        ]);
+    }
+    public function excelIndexExport()
+    {
+        $query = Car::select(['id','plates','year','model_id','branch_id','deleted_at'])
+        ->with(['model.brand:id,name','branch:id,name'])->latest('created_at');
+        
+        if (request()->user()->branch->main != 1) {
+            $query->where('branch_id', request()->user()->branch->id);
+        }
+        
+        $search = request('search');
+        $trashed = request('trashed');
+        
+        $export = new CarsExport($query, $search, $trashed);
+        return Excel::download($export, 'cars.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -163,7 +177,14 @@ class CarController extends Controller
             'filters' => \Illuminate\Support\Facades\Request::only('search'),
         ]);
     }
+    public function excelRepairsExport(Car $car)
+    {
+        $query = $car->repairs()->select(['id','car_id','work_shop_id','repair_status_id','total','created_at'])
+            ->with(['details','status','work_shop:id,name']);
 
+        $export = new CarRepairsExport($query);
+        return Excel::download($export, $car->plates.'_reparaciones.xlsx');
+    }
     /**
      * Show the form for editing the specified resource.
      */

@@ -11,6 +11,7 @@ use App\Http\Controllers\WorkShopController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,10 @@ Route::middleware(['auth','verified'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function() {
+    //DATO SE PONE EL EXPORT DE EXCEL EN PRIMERO PARA QUE NO DE ERROR 404 EL PRIMERO INCLUSO ANTES DEL RESOURCE
+    Route::get('/cars/export', [CarController::class, 'excelIndexExport'])->name('cars.excelIndexExport');
+    Route::get('/cars/{car}/export/repairs', [CarController::class, 'excelRepairsExport'])->name('cars.excelRepairsExport');
+
     Route::resource('cars',CarController::class);
     Route::post('/cars/{car}/image', [CarController::class, 'storeImage'])->name('cars.storeImage');
 
