@@ -49,7 +49,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth', 'verified'])->group(function() {
     //DATO SE PONE EL EXPORT DE EXCEL EN PRIMERO PARA QUE NO DE ERROR 404 EL PRIMERO INCLUSO ANTES DEL RESOURCE
     Route::get('/cars/export', [CarController::class, 'excelIndexExport'])->name('cars.excelIndexExport');
     Route::get('/cars/{car}/export/repairs', [CarController::class, 'excelRepairsExport'])->name('cars.excelRepairsExport');
