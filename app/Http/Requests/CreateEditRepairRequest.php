@@ -29,7 +29,6 @@ class CreateEditRepairRequest extends FormRequest
             'details.*.name' => 'required|string|min:4',
             'details.*.description' => 'required|string|max:5000',
             'details.*.price' => 'required|numeric|min:0',
-            'details.*.taxes' => 'required|numeric|min:0',
 
         ];
     }
@@ -43,17 +42,13 @@ class CreateEditRepairRequest extends FormRequest
         $details = $this->validated()['details'];
 
         $total = 0;
-        $taxes = 0;
 
         foreach ($details as $detail) {
             $total += $detail['price'];
-            $taxes += $detail['taxes'];
         }
 
         return [
-            'sub_total' => $total,
-            'taxes' => $taxes,
-            'total_with_taxes' => $total + $taxes
+            'total' => $total
         ];
     }
 }
