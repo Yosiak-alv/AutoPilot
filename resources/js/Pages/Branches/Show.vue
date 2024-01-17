@@ -89,7 +89,7 @@ const hasPermission = (permissionName) => {
                                 <br>
                                 <span class="font-semibold">Es Central:</span> {{ props.branch.main == 1 ? 'Si':'No' }}
                                 <br>
-                                <span class="font-semibold">Address:</span> {{ props.branch.address }}
+                                <span class="font-semibold">Dirección:</span> {{ props.branch.address }}
                                 <br>
                                 <span class="font-semibold">Departamento:</span> {{ props.branch.state.name}}
                                 <br>
@@ -105,7 +105,7 @@ const hasPermission = (permissionName) => {
                             </div>
                     </div>
                     <div class="mx-auto items-center text-center">
-                        <div class="p-5">
+                        <div class="sm:pt-20">
                             <div>
                                 <PrimaryButton v-if="hasPermission('editar centro') && branch.deleted_at == null"  @click="edit()">
                                     Editar

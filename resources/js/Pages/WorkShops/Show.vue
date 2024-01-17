@@ -107,7 +107,7 @@ const hasPermission = (permissionName) => {
                             </div>
                         </div>
                         <div class="mx-auto items-center text-center">
-                            <div class="p-5">
+                            <div class="sm:pt-20">
                                 <div>
                                     <PrimaryButton v-if="hasPermission('editar taller') && !workshop.deleted_at" class="ml-8" @click="edit()">
                                         Editar
