@@ -26,7 +26,6 @@ const comfirmingModelEdition = ref(false);
 const confirmModelEdition = () => comfirmingModelEdition.value = true;
 const closeModalModel = () => {
     comfirmingModelEdition.value = false;
-    formModel.reset();
     formModel.clearErrors();
 };
 const editModel = () => {

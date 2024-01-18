@@ -26,14 +26,13 @@ const comfirmingBrandEdition = ref(false);
 const confirmBrandEdition = () => comfirmingBrandEdition.value = true;
 const closeModalBrand = () => {
     comfirmingBrandEdition.value = false;
-    formBrand.reset();
     formBrand.clearErrors();
 };
 const editBrand = () => {
     formBrand.patch(route('brands.update', props.brand.id), {
         preserveScroll: true,
         onSuccess: () => closeModalBrand(),
-        /* onError: () => console.log('error'), */
+        onError: () => {},
         onFinish: () => (formBrand.reset()),
     });
 }
