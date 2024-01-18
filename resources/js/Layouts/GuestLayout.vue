@@ -12,7 +12,7 @@ import Footer from '@/Components/Footer.vue';
                 <div class="flex flex-wrap items-center justify-between">
                     <ApplicationLogo class="w-48 first-letter:fill-current text-gray-500 mx-auto" />
                     <div class="mx-auto">
-                        <h2 class="text-3xl uppercase">SolidRecordRH </h2>
+                        <h2 class="text-3xl uppercase font-extrabold">Flota de Autos</h2>
                         <h5 class="text-2xl">Fe y Alegría</h5>
                     </div>
                 </div>
