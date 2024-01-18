@@ -69,8 +69,6 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'eliminar archivo reparacion']);
         Permission::create(['name' => 'descargar archivo reparacion']);
 
-        Permission::create(['name' => 'eliminar reparacion']);
-
         //Brand - Model PERMISSIONS
         Permission::create(['name' => 'ver marcas']);
         Permission::create(['name' => 'ver marca']);

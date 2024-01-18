@@ -145,7 +145,6 @@ class RepairController extends Controller
     {
         $repair->update([
             'car_id' => $request->validated()['car_id'],
-            'repair_status_id' => $request->validated()['repair_status_id'],
             'work_shop_id' => $request->validated()['work_shop_id'],
             'total' => $request->sumPrices()['total'],
         ]);
@@ -176,10 +175,10 @@ class RepairController extends Controller
         return $pdf->download('reparacion-'.$repair->id.'.pdf');
     }
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage. NO SE USA
      */
-    public function destroy(Request $request, Repair $repair)
-    {
+    //public function destroy(Request $request, Repair $repair)
+    /* {
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
@@ -193,5 +192,5 @@ class RepairController extends Controller
             'level' => 'success',
             'message' => 'Reparacion Eliminada Satisfactoriamente!'
         ]);
-    }
+    } */
 }

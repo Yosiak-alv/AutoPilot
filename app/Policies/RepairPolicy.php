@@ -58,6 +58,6 @@ class RepairPolicy
      */
     public function delete(User $user, Repair $repair): bool
     {
-        return $repair->car == null || $repair->work_shop == null ? false : $user->hasPermissionTo('eliminar reparacion');
+        return false;
     }
 }

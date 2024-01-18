@@ -67,7 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
     Route::patch('/cars/{car}/restore', [CarController::class, 'restore'])->name('cars.restore');
 
-    Route::resource('repairs',RepairController::class)->except('index');
+    Route::resource('repairs',RepairController::class)->except('index','destroy');
     Route::patch('/repairs/{repair}/status', [RepairController::class, 'updateStatus'])->name('repairs.updateStatus');
     Route::get('/repairs/{repair}/file',[RepairController::class, 'createFile'])->name('repairs.createFile');
     Route::post('/repairs/{repair}/file', [RepairController::class, 'storeFile'])->name('repairs.storeFile');

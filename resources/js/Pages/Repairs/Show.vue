@@ -26,46 +26,23 @@ const formRepairStatus = useForm({
 });
 const comfirmingStatusUpdate = ref(false);
 const confirmUpdateStatus = () => comfirmingStatusUpdate.value = true;
+
 const closeModalStatus = () => {
     comfirmingStatusUpdate.value = false;
-    formRepairStatus.reset();
     formRepairStatus.clearErrors();
 };
 const updateStatus = () => {
     formRepairStatus.patch(route('repairs.updateStatus', props.repair.id),{
         preserveScroll: true,
-        onSuccess: () => closeModalStatus(),
-        /* onError: () => passwordInput.value.focus(), */
-        onFinish: () => (formRepairStatus.reset())
+        onSuccess: () => {
+            closeModalStatus();
+        },
+        onFinish: () => (formRepairStatus.reset()),
     });
 };
 const editRepair = () => {
     router.get(route('repairs.edit', props.repair.id));
 }
-//Destroy Modal
-const comfirmingDestroy = ref(false);
-const passwordInput = ref(null);
-
-const formDestroy = useForm({
-    password: '',
-});
-const confirmDestroy = () => {
-    comfirmingDestroy.value = true;
-    nextTick(() => passwordInput.value.focus());
-};
-const closeModalDestroy = () => {
-    comfirmingDestroy.value = false;
-    formDestroy.reset();
-    formDestroy.clearErrors();
-};
-const deleteRepair = () => {
-    formDestroy.delete(route('repairs.destroy',props.repair.id), {
-        preserveScroll: true,
-        onSuccess: () => closeModalDestroy(),
-        onError: () => passwordInput.value.focus(),
-        onFinish: () => formDestroy.reset(),
-    });
-};
 
 const permissions = ref(usePage().props.auth.user_permissions);
 const hasPermission = (permissionName) => {
@@ -107,17 +84,15 @@ downloadUrl.value = `/repairs/${props.repair.id}/pdf`;
                             <br>
                             <span class="font-semibold">Millaje:</span> {{ repair.car?.current_mileage ?? ''}}
                             <br>
-                            <span class="font-semibold">Estado:</span> {{repair.status.name}}
-                            <br>
                             <span class="font-semibold">Total:</span> ${{repair.total}}
                             <br>
                             <span class="font-semibold">Creado:</span> {{ repair.created_at }}
                             <br>
                             <span class="font-semibold">Actualizado:</span> {{ repair.updated_at }}
                         </div>
-                        <div class="flex flex-wrap space-x-4 mt-2 p-2">
+                        <div class="flex flex-wrap mt-2 space-x-2 space-y-2 justify-center">
                             <div>
-                                <PrimaryButton v-if="hasPermission('editar reparacion') && (repair.car != null && repair.work_shop != null)" @click="editRepair()">
+                                <PrimaryButton class="ml-2 mt-2" v-if="hasPermission('editar reparacion') && (repair.car != null && repair.work_shop != null)" @click="editRepair()">
                                     Editar
                                 </PrimaryButton>
                             </div>
@@ -133,11 +108,7 @@ downloadUrl.value = `/repairs/${props.repair.id}/pdf`;
                                     PDF
                                 </a>
                             </div>
-                            <div >
-                                <DangerButton v-if="hasPermission('eliminar reparacion') && (repair.car != null && repair.work_shop != null)" @click="confirmDestroy()"  >
-                                    Eliminar 
-                                </DangerButton>
-                            </div>
+                           
                         </div>
                     </div>
                     <div class="mx-auto ">
@@ -294,43 +265,4 @@ downloadUrl.value = `/repairs/${props.repair.id}/pdf`;
             </div>
         </div>
     </Modal>
-    <Modal :show="comfirmingDestroy" @close="closeModalDestroy">
-            <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    ¿Seguro que quieres eliminar esta Reparacion?
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Una vez eliminado este auto, todos sus recursos y datos se eliminaran permanentemente. 
-                    Este proceso no se puede deshacer, estas seguro de querer continuar?
-                </p>
-
-                <div class="mt-6">
-                    <InputLabel for="password" value="Contraseña" />
-
-                    <TextInput
-                        id="password"
-                        ref="passwordInput"
-                        v-model="formDestroy.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                    />
-
-                    <InputError :message="formDestroy.errors.password" class="mt-2" />
-                </div>
-
-                <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModalDestroy"> Cancelar </SecondaryButton>
-
-                    <DangerButton
-                        class="ms-3"
-                        :class="{ 'opacity-25': formDestroy.processing }"
-                        :disabled="formDestroy.processing"
-                        @click="deleteRepair"
-                    >
-                        Eliminar Auto
-                    </DangerButton>
-                </div>
-            </div>
-        </Modal>
 </template>
