@@ -105,7 +105,7 @@ const getCarName = (id) => {
 
                                 <InputError class="mt-2" :message="form.errors.motorId" />
                             </div>
-                            <div class="w-full">
+                            <div class="w-full" v-if="props.work_shops.length != 0">
                                 <InputLabel for="work_shop_id" value="Taller" />
                                 <select 
                                     id="work_shop_id"
@@ -118,6 +118,12 @@ const getCarName = (id) => {
                                     </option>
                                 </select>
 
+                                <InputError class="mt-2" :message="form.errors.work_shop_id" />
+                            </div>
+                            <div v-else>
+                                <div class="text-gray-900 dark:text-gray-100">
+                                    <h2 class="text-sm font-semibold">No Hay Talleres Registrados, Por Favor Registre un Taller antes de Continuar.</h2>
+                                </div>
                                 <InputError class="mt-2" :message="form.errors.work_shop_id" />
                             </div>
                             <div class="sm:col-span-2">

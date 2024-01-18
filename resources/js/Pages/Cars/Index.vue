@@ -135,7 +135,7 @@ const hasPermission = (permissionName) => {
                                 </td>
                                 <td class="px-6 py-4">
                                     <div  :class="{'text-red-600 dark:text-red-400' : car.branch  == null}">
-                                        {{car.branch?.name ?? 'Sin Sucursal'}}
+                                        {{car.branch?.name ?? 'Sin Centro'}}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-right" >
