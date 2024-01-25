@@ -136,21 +136,16 @@ const fileDestroy = (id) => {
                                 <br>
                                 <span v-if="props.car.deleted_at" class="font-semibold">Eliminado el:</span> {{props.car.deleted_at}}
                             </div>
-                            <div class="flex flex-wrap space-x-4  space-y-1 mt-2">
-                                <PrimaryButton @click="edit()" v-if="hasPermission('editar auto') && car.deleted_at == null" class="w-12/9">
+                            <div class="flex flex-wrap justify-center space-x-2 space-y-1 mt-2">
+                                <PrimaryButton @click="edit()" v-if="hasPermission('editar auto') && car.deleted_at == null" class="w-12/9 mx-auto mt-1">
                                     Editar
                                 </PrimaryButton>
-                                <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagenes auto') && car.deleted_at == null" class="w-12/9">
+                                <SecondaryButton @click="confirmStoreImage()" v-if="hasPermission('agregar imagenes auto') && car.deleted_at == null" class="w-12/9 mx-auto">
                                     + Imagenes
                                 </SecondaryButton>
-                                <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar auto') && car.deleted_at == null" class="w-12/9 ">
+                                <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar auto') && car.deleted_at == null" class="w-12/9 mx-auto">
                                     Eliminar
-                                </DangerButton>
-                                <a :href="route('cars.excelRepairsExport',props.car.id)" v-if="hasPermission('exportar a excel') && props.car_repairs.data.length != 0"                       
-                                    class="inline-flex items-center px-4 py-2 bg-green-500  border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-400  focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition ease-in-out duration-150"
-                                >
-                                    Excel Reparaciones
-                                </a>
+                                </DangerButton>                              
                             </div>
                         </div>
                     </div>

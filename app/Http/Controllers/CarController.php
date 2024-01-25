@@ -64,7 +64,8 @@ class CarController extends Controller
     {
         return Inertia::render('Cars/CreateEditCar',[
             'brands' => Brand::select('id','name')->with(['models'])->get(),
-            'branches' => Branch::select(['id','name'])->get(),
+            'branches' => request()->user()->branch->main === 1 ? Branch::select(['id','name'])->get() 
+            : Branch::select(['id','name'])->where('id',request()->user()->branch->id)->get() ,
         ]);
     }
 
@@ -173,16 +174,25 @@ class CarController extends Controller
                         $query->where('name','like','%'.$search.'%')
                     )
                 );
+            })->when(\Illuminate\Support\Facades\Request::input('start_date') ?? false , function($query, $start_date) {
+                $query->where('created_date','>=',$start_date);
+            })->when(\Illuminate\Support\Facades\Request::input('end_date') ?? false , function($query, $end_date) {
+                $query->where('created_date','<=',$end_date);
             })->with(['status', 'work_shop:id,name'])->paginate(8)->withQueryString(),
-            'filters' => \Illuminate\Support\Facades\Request::only('search'),
+
+            'filters' => \Illuminate\Support\Facades\Request::only(['search','start_date','end_date']),
         ]);
     }
     public function excelRepairsExport(Car $car)
     {
         $query = $car->repairs()->select(['id','car_id','work_shop_id','repair_status_id','total','created_at'])
-            ->with(['details','status','work_shop:id,name']);
+            ->with(['status','work_shop:id,name']);
+        
+        $search = request('search');
+        $start_date = request('start_date');
+        $end_date = request('end_date');
 
-        $export = new CarRepairsExport($query);
+        $export = new CarRepairsExport($query, $search, $start_date, $end_date);
         return Excel::download($export, $car->plates.'_reparaciones.xlsx');
     }
     /**
@@ -193,7 +203,8 @@ class CarController extends Controller
         return Inertia::render('Cars/CreateEditCar',[
             'car' => $car->load('model.brand:id,name'),
             'brands' => Brand::select('id','name')->with(['models'])->get(),
-            'branches' => Branch::select(['id','name'])->get(),
+            'branches' => request()->user()->branch->main === 1 ? Branch::select(['id','name'])->get() 
+            : Branch::select(['id','name'])->where('id',request()->user()->branch->id)->get() ,
         ]);
     }
 
