@@ -35,9 +35,9 @@ class CarsExport implements FromCollection, WithHeadings,  ShouldAutoSize , With
                 'ID' => $item->id,
                 'Placas' => $item->plates,
                 'Año' => $item->year,
-                'Centro' => $item->branch->name ?? null, // Relationship column
-                'Modelo' => $item->model->name ?? null,
                 'Marca' => $item->model->brand->name ?? null,
+                'Modelo' => $item->model->name ?? null,
+                'Centro' => $item->branch->name ?? null, // Relationship column
                 'Eliminado el' => $item->deleted_at,
             ];
         });
@@ -49,9 +49,9 @@ class CarsExport implements FromCollection, WithHeadings,  ShouldAutoSize , With
             'ID' ,
             'Placas' ,
             'Año' ,
-            'Centro' ,
-            'Modelo',
             'Marca',
+            'Modelo',
+            'Centro' ,
             'Eliminado el',
         ];
     }
@@ -62,9 +62,9 @@ class CarsExport implements FromCollection, WithHeadings,  ShouldAutoSize , With
             'ID' => '0.00', // Example format for column A
             'Placas' => '0.00', // Example format for column A
             'Año' => '0.00', // Example format for column A
-            'Centro' => '0.00', // Example format for column A
-            'Modelo' => '0.00', // Example format for column A
             'Marca' => '0.00', // Example format for column A,
+            'Modelo' => '0.00', // Example format for column A
+            'Centro' => '0.00', // Example format for column A
             'Eliminado el' => '0.00', // Example format for column A
         ];
     }
