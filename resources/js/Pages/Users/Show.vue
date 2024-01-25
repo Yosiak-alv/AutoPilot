@@ -91,14 +91,16 @@ const hasPermission = (permissionName) => {
                                 </div>
                                 <div class="flex space-x-4 mt-2 p-2">
                                     <div>
-                                        <PrimaryButton @click="edit()" v-if="hasPermission('editar usuario') && (user.deleted_at == null)" 
+                                        <PrimaryButton @click="edit()" v-if="hasPermission('editar usuario') && (user.deleted_at == null && user.id != 1)" 
                                         class="w-12/9">
                                             Editar
                                         </PrimaryButton>
                                     </div>
                                     <div>
-                                        <DangerButton @click="confirmDestroy()"  v-if="hasPermission('eliminar usuario') && (user.deleted_at == null && user.id != usePage().props.auth.user.id)"
-                                        class="w-12/9">
+                                        <DangerButton @click="confirmDestroy()"  
+                                        v-if="hasPermission('eliminar usuario') && (user.deleted_at == null && user.id != usePage().props.auth.user.id) && user.id != 1"
+                                        class="w-12/9"  
+                                        >
                                             Eliminar
                                         </DangerButton>
                                     </div>

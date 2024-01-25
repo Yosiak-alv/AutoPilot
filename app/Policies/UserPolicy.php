@@ -39,6 +39,9 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
+        if($model->id == 1){
+            return false;
+        }
         return $model->trashed() ? false : $user->hasPermissionTo('editar usuario');
     }
 
@@ -47,6 +50,9 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
+        if($model->id == 1){
+            return false;
+        }
         return $model->trashed() ? false : $user->hasPermissionTo('eliminar usuario') && ($user->id != $model->id);
     }
 
