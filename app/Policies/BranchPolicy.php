@@ -48,6 +48,9 @@ class BranchPolicy
      */
     public function delete(User $user, Branch $branch): bool
     {
+        if($branch->main == 1 || $branch->id == 1){
+            return false;
+        }
         return $branch->trashed() ? false : $user->hasPermissionTo('eliminar centro');
 
     }

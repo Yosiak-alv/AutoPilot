@@ -112,7 +112,7 @@ const hasPermission = (permissionName) => {
                                 </PrimaryButton>
                             </div>
                             <div>
-                                <DangerButton  v-if="hasPermission('eliminar centro') && branch.deleted_at == null" class="mt-2" @click="confirmDestroy()" >
+                                <DangerButton  v-if="hasPermission('eliminar centro') && (branch.deleted_at == null && branch.main != 1) && branch.id != 1" class="mt-2" @click="confirmDestroy()" >
                                     Eliminar Centro
                                 </DangerButton>
                             </div>

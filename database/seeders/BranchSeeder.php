@@ -35,7 +35,7 @@ class BranchSeeder extends Seeder
             'telephone' => '25431282',
             'email' => 'feyalegria4@feyalegria.com',
             'main' => false,
-            'district_id' => 1,
+            'district_id' => 167,
         ]);
         Branch::factory()->create([
             'name' => 'Fe y Alegria Santa Ana',
