@@ -6,6 +6,7 @@ import CardSection from '@/Components/CardSection.vue';
 import Paginator from '@/Components/Paginator.vue';
 import TableComponent from '@/Components/TableComponent.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SearchFilters from '@/Components/SearchFilters.vue';
 import {debounce} from "lodash";
 
 const props = defineProps({
@@ -49,47 +50,50 @@ const hasPermission = (permissionName) => {
 
         <div class="py-12">
             <CardSection class="max-w-7xl">
-                <div class="flex flex-wrap items-start space-x-2 p-5">
+                <div class="flex flex-wrap justify-between items-center p-5 ">
                     <div>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                </svg>
+                        <div class="flex flex-wrap space-x-2 space-y-1">
+                            <div class="relative ml-2 mt-1">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input type="search" v-model="form.search" class="block w-full p-2.5 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="Buscar">
                             </div>
-                            <input type="search" v-model="form.search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500" placeholder="Buscar">
+                            <div class="relative">
+                                <select v-model="form.trashed" id="trashed" class="p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
+                                    <option :value="null" />
+                                    <option value="with">Con Eliminados</option>
+                                    <option value="only">Solo Eliminados</option>
+                                </select>
+                            </div>
+                            <div>
+                                <Link 
+                                    :href="route('cars.index')"
+                                    method="get" as="button"
+                                    class="mt-2 hover:text-red-600 dark:hover:text-red-500 hover:underline"
+                                >
+                                    Limpiar campos
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="w-full max-w-md">
-                            <select v-model="form.trashed" id="trashed" class="p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
-                                <option :value="null" />
-                                <option value="with">Con Eliminados</option>
-                                <option value="only">Solo Eliminados</option>
-                            </select>
-                        </div>
-                    </div>
-                   <div>
-                        <div class="pt-2">
-                            <PrimaryButton v-if="hasPermission('crear auto')" @click="createCar()" >Agregar Auto</PrimaryButton>
-                        </div>
+                    <div class="space-x-2 space-y-2">
+                        <PrimaryButton class="ml-2" v-if="hasPermission('crear auto')" @click="createCar()" >Agregar Auto</PrimaryButton>
                        
-                   </div>  
-                   <div>
-                        <div class="pt-2">
-                            <a :href="route('cars.excelIndexExport',{_query: {
-                                                                search: form.search,
-                                                                trashed: form.trashed
-                                                            },})" 
-                                v-if="hasPermission('exportar a excel')"                              
+                        <a :href="route('cars.excelIndexExport',{_query: {
+                                                                    search: form.search,
+                                                                    trashed: form.trashed
+                                                                },})" 
+                            v-if="hasPermission('exportar a excel') && props.cars.data.length != 0"                              
                             class="inline-flex items-center px-4 py-2 bg-green-500  border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-400  focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition ease-in-out duration-150"
-                            >
-                                Excel
-                            </a>
-                        </div>
-                   </div> 
-                </div>
+                        >
+                            Excel
+                        </a>
 
+                    </div>
+                </div>
                 <div class="p-5">
                     <TableComponent class="rounded-lg bg-gray-100 dark:bg-gray-700">
                         <slot name="heading">
