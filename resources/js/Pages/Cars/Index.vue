@@ -6,7 +6,6 @@ import CardSection from '@/Components/CardSection.vue';
 import Paginator from '@/Components/Paginator.vue';
 import TableComponent from '@/Components/TableComponent.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SearchFilters from '@/Components/SearchFilters.vue';
 import {debounce} from "lodash";
 
 const props = defineProps({

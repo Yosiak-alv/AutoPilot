@@ -54,8 +54,9 @@ const storeFileRepair = () => {
                                             </ul>
 
                                             <ul v-else class="text-center">
-                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para Subir</span> o Arrastrelos a la Ventana</p>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400">PDF</p>
+                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para Subir</span></p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">PDF, PNG, JPG O JPEG</p>
+                                                <p class=" mt-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">MAX 2MB por Archivo</span></p>
                                             </ul>
                                         </div>
                                         
@@ -68,7 +69,7 @@ const storeFileRepair = () => {
                                 </div> 
                             </div>
                         </div>
-                        <PrimaryButton class="mt-4" :disabled="form.processing">Upload</PrimaryButton>
+                        <PrimaryButton class="mt-4" :disabled="form.processing">Subir Archivos</PrimaryButton>
                     </form>
                 </div>
             </CardSection>

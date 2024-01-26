@@ -116,7 +116,7 @@ const hasPermission = (permissionName) => {
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{repair.work_shop?.name ?? 'Taller Eliminado'}},{{repair.car_id}}</h5>
                     <p class="font-normal text-gray-700 dark:text-gray-400">{{repair.status?.name}}</p>
                     <span class="font-semibold">Total:</span> ${{ repair.total }} <br>
-                    <span class="font-semibold">Creado el:</span> {{ repair.created_date }}
+                    <span class="font-semibold">Fecha:</span> {{ repair.repair_date }}
                 </Link>
                 <div v-else
                     class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -124,7 +124,7 @@ const hasPermission = (permissionName) => {
                     <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{repair.work_shop?.name ?? 'Taller Eliminado'}},{{repair.car_id}}</h5>
                     <p class="font-normal text-gray-700 dark:text-gray-400">{{repair.status?.name}}</p>
                     <span class="font-semibold">Total:</span> ${{ repair.total }} <br>
-                    <span class="font-semibold">Creado el:</span> {{ repair.created_date }}
+                    <span class="font-semibold">Fecha:</span> {{ repair.repair_date }}
                 </div>
             </CardSection>
             

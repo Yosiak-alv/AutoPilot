@@ -34,6 +34,7 @@ const form = useForm({
 
     repair_status_id: props.repair?.repair_status_id ?? '',
     work_shop_id: props.repair?.work_shop_id ?? '',
+    repair_date: props.repair?.repair_date ?? '',
     details: props.repair?.details ?? [{name:'',description:'',price:''}],
     
 });
@@ -89,6 +90,20 @@ const getCarName = (id) => {
                                         {{car.plates}}, {{car.model.brand?.name}}, {{car.model.name}}
                                     </option>
                                 </select>
+                                <InputError class="mt-2" :message="form.errors.car_id" />
+                            </div>
+                            <div>
+                                <InputLabel for="repair_date" value="Fecha de Reparacion" />
+                                <div class="relative max-w-sm">
+                                    <div class="absolute inset-y-0 end-0 flex items-center ps-3.5 mr-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                        </svg>
+                                    </div>
+                                    <input required type="date" id="repair_date" v-model="form.repair_date" class="bg-gray-50 border border-gray-300 text-gray-900 dark:text-white text-sm rounded-lg focus:border-red-500 dark:focus:border-red-600 focus:ring-red-500 dark:focus:ring-red-600 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" >
+                                </div>
+                                <InputError class="mt-2" :message="form.errors.repair_date" />
+
                             </div>
                             <div  v-if="props.repair == null">
                                 <InputLabel for="repair_status_id" value="Status" />
@@ -103,7 +118,7 @@ const getCarName = (id) => {
                                     </option>
                                 </select>
 
-                                <InputError class="mt-2" :message="form.errors.motorId" />
+                                <InputError class="mt-2" :message="form.errors.repair_status_id" />
                             </div>
                             <div class="w-full" v-if="props.work_shops.length != 0">
                                 <InputLabel for="work_shop_id" value="Taller" />
@@ -122,7 +137,7 @@ const getCarName = (id) => {
                             </div>
                             <div v-else>
                                 <div class="text-gray-900 dark:text-gray-100">
-                                    <h2 class="text-sm font-semibold">No Hay Talleres Registrados, Por Favor Registre un Taller antes de Continuar.</h2>
+                                    <h2 class="text-sm font-semibold">No Hay Talleres Registrados, Por Favor Registre un Taller antes de Continuar o Contacte al Administrador.</h2>
                                 </div>
                                 <InputError class="mt-2" :message="form.errors.work_shop_id" />
                             </div>

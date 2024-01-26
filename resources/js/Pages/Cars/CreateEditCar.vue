@@ -158,7 +158,7 @@ const updateCar = (id) => {
 
                                 <InputError class="mt-2" :message="form.errors.branch_id" />
                             </div> 
-                            <div>
+                            <div v-if="props.brands.length != 0">
                                 <InputLabel for="brand_id" value="Marca" />
                                 <select 
                                     id="brand_id"
@@ -171,7 +171,8 @@ const updateCar = (id) => {
                                     </option>
                                 </select>
                             </div>
-                            <div>
+                           
+                            <div v-if="props.brands.length != 0">
                                 <InputLabel for="model_id" value="Modelo"/>
                                 <select 
                                     id="model_id"
@@ -183,6 +184,12 @@ const updateCar = (id) => {
                                         {{model.name}}
                                     </option>
                                 </select>
+                                <InputError class="mt-2" :message="form.errors.model_id" />
+                            </div>
+                            <div v-else>
+                                <div class="text-gray-900 dark:text-gray-100">
+                                    <h2 class="text-sm font-semibold">No Hay Modelos Registrados, Por Favor Registre una Marca con un Modelo antes de Continuar o Contacte al Administrador.</h2>
+                                </div>
                                 <InputError class="mt-2" :message="form.errors.model_id" />
                             </div>
                         </div>
