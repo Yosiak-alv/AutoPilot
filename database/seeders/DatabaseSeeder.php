@@ -24,16 +24,16 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
            /*  RepairDetailsSeeder::class, */
 
-           /* 
-                Database seeder for production
-                StateTownDistrictSeeder::class,
-                RepairStatusSeeder::class,
-                BrandSeeder::class,
-                BranchSeeder::class,
-                RolePermissionSeeder::class,
-                WorkshopSeeder::class,
-                UserSeeder::class, => with only super admin user
-           */
+           
+            //Database seeder for production
+          /*   StateTownDistrictSeeder::class,
+            RepairStatusSeeder::class,
+            BrandSeeder::class,
+            BranchSeeder::class,
+            RolePermissionSeeder::class,
+            WorkshopSeeder::class,
+            UserSeeder::class,// => with only super admin user */
+          
        ]);
     }
 }
