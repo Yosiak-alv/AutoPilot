@@ -278,8 +278,8 @@
 								</td>
 
 								<td>
-									<span class = "text-bold">Invoice #:</span> {{$repair->id}}<br />
-									Creado: {{$repair->created_at}}<br />
+									<span class = "text-bold">Recibo #:</span> {{$repair->id}}<br />
+									Fecha de Reparacion: {{$repair->repair_date}}<br />
 								</td>
 							</tr>
 						</table>

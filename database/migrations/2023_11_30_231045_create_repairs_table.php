@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(RepairStatus::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignIdFor(WorkShop::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->double('total');
-            $table->date('created_date')->default(now());
+            $table->date('repair_date')->default(now());
             $table->timestamps();
         });
     }

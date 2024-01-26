@@ -96,9 +96,9 @@ class CarRepairsExport implements FromCollection, WithHeadings,  ShouldAutoSize 
         }
 
         if ($this->start_date) {
-            $this->query->where('created_date','>=',$this->start_date);
+            $this->query->where('repair_date','>=',$this->start_date);
         }elseif($this->end_date){
-            $this->query->where('created_date','<=',$this->end_date);
+            $this->query->where('repair_date','<=',$this->end_date);
         }
     }
      /**

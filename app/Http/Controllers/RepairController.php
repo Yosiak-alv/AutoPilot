@@ -52,6 +52,7 @@ class RepairController extends Controller
             'car_id' => $request->validated()['car_id'],
             'repair_status_id' => $request->validated()['repair_status_id'],
             'work_shop_id' => $request->validated()['work_shop_id'],
+            'repair_date' => $request->validated()['repair_date'],  
             'total' => $request->sumPrices()['total'],
         ]);
 
@@ -71,18 +72,18 @@ class RepairController extends Controller
     public function storeFile(Repair $repair, Request $request)
     {
         $attr = $request->validate([
-            'files' => 'array|required|max:2|min:1',
-            'files.*' => 'file|mimes:pdf',
+            'files' => 'array|required|max:5|min:1',
+            'files.*' => 'file|mimes:pdf,png,jpg,jpeg|max:2048',
         ]);
         // Determine the allowed number of additional files
-        $allowedAdditionalFiles = 2 - $repair->files()->count();
+        //$allowedAdditionalFiles = 2 - $repair->files()->count();
         // Check if the request exceeds the allowed number of additional files
-        if (count($attr['files']) > $allowedAdditionalFiles) {
+       /*  if (count($attr['files']) > $allowedAdditionalFiles) {
             return back()->with([
                 'level' => 'error',
                 'message' => 'Su peticion excede el numero de archivos, Puede agregar un '. $allowedAdditionalFiles .' mas.'
             ]);
-        }
+        } */
         // Store new files
         $repair->files()->createMany(
             collect($attr['files'])->map(function ($file) {
@@ -146,6 +147,7 @@ class RepairController extends Controller
         $repair->update([
             'car_id' => $request->validated()['car_id'],
             'work_shop_id' => $request->validated()['work_shop_id'],
+            'repair_date' => $request->validated()['repair_date'],  
             'total' => $request->sumPrices()['total'],
         ]);
         $repair->details()->delete();

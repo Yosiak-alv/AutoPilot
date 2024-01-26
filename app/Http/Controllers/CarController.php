@@ -115,19 +115,19 @@ class CarController extends Controller
     public function storeUpdateFile(Request $request, Car $car)
     {
         $attr = $request->validate([
-            'files' => 'array|required|max:3|min:1',
-            'files.*' => 'file|mimes:pdf',
+            'files' => 'array|required|max:5|min:1',
+            'files.*' => 'file|mimes:pdf,png,jpg,jpeg|max:2048',
         ]);
         // Determine the allowed number of additional files
-        $allowedAdditionalFiles = 3 - $car->files()->count();
+        //$allowedAdditionalFiles = 3 - $car->files()->count();
 
         // Check if the request exceeds the allowed number of additional files
-        if (count($attr['files']) > $allowedAdditionalFiles) {
+        /* if (count($attr['files']) > $allowedAdditionalFiles) {
             return back()->with([
                 'level' => 'error',
                 'message' => 'Su peticion excede el numero de archivos, Puede agregar un '. $allowedAdditionalFiles .' mas.'
             ]);
-        }
+        } */
         // Store new files
         $car->files()->createMany(
             collect($attr['files'])->map(function ($file) {
@@ -175,9 +175,9 @@ class CarController extends Controller
                     )
                 );
             })->when(\Illuminate\Support\Facades\Request::input('start_date') ?? false , function($query, $start_date) {
-                $query->where('created_date','>=',$start_date);
+                $query->where('repair_date','>=',$start_date);
             })->when(\Illuminate\Support\Facades\Request::input('end_date') ?? false , function($query, $end_date) {
-                $query->where('created_date','<=',$end_date);
+                $query->where('repair_date','<=',$end_date);
             })->with(['status', 'work_shop:id,name'])->paginate(8)->withQueryString(),
 
             'filters' => \Illuminate\Support\Facades\Request::only(['search','start_date','end_date']),

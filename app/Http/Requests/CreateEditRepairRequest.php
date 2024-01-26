@@ -25,6 +25,7 @@ class CreateEditRepairRequest extends FormRequest
             'car_id' => ['required', 'exists:cars,id','integer','gt:0'],
             'repair_status_id' => [Rule::requiredIf($this->repair == null), 'exists:repair_statuses,id','integer','gt:0'],
             'work_shop_id' => ['required', 'exists:work_shops,id','integer','gt:0'],
+            'repair_date' => ['required', 'date'],
             'details' => ['required', 'array','min:1'],
             'details.*.name' => 'required|string|min:4',
             'details.*.description' => 'required|string|max:5000',

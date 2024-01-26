@@ -86,9 +86,11 @@ downloadUrl.value = `/repairs/${props.repair.id}/pdf`;
                             <br>
                             <span class="font-semibold">Total:</span> ${{repair.total}}
                             <br>
-                            <span class="font-semibold">Creado:</span> {{ repair.created_at }}
+                            <span class="font-semibold">Fecha de Reparacion:</span> {{ repair.repair_date }}
                             <br>
-                            <span class="font-semibold">Actualizado:</span> {{ repair.updated_at }}
+                            <span class="font-semibold">Creado hace:</span> {{ repair.created_at }}
+                            <br>
+                            <span class="font-semibold">Actualizado hace:</span> {{ repair.updated_at }}
                         </div>
                         <div class="flex flex-wrap mt-2 space-x-2 space-y-2 justify-center">
                             <div>
