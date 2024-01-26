@@ -26,21 +26,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/dashboard', function () {
-    if(request()->user()->branch->main === 1 ){
+    if(request()->user()->branch?->main === 0 ){
         return Inertia::render('Dashboard',[
             'brands' => \App\Models\Brand::count(),
-            'cars' => \App\Models\Car::count(),
-            'branches' => \App\Models\Branch::count(),
+            'cars' => \App\Models\Car::where('branch_id',request()->user()->branch->id)->count(),
+            'branches' => \App\Models\Branch::where('id',request()->user()->branch->id)->count(),
             'workshops' => \App\Models\WorkShop::count(),
         ]);
     }
-    
     return Inertia::render('Dashboard',[
         'brands' => \App\Models\Brand::count(),
-        'cars' => \App\Models\Car::where('branch_id',request()->user()->branch->id)->count(),
-        'branches' => \App\Models\Branch::where('id',request()->user()->branch->id)->count(),
+        'cars' => \App\Models\Car::count(),
+        'branches' => \App\Models\Branch::count(),
         'workshops' => \App\Models\WorkShop::count(),
     ]);
+    
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth','verified'])->group(function () {
