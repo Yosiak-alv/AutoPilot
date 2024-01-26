@@ -7,6 +7,7 @@ import Footer from '@/Components/Footer.vue';
 
 <template>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+        <Toast class="max-w-7xl mx-auto mt-6"/>
         <div>
             <Link href="/" class="text-[#D72428] font-extrabold">
                 <div class="flex flex-wrap items-center justify-between">
@@ -23,7 +24,6 @@ import Footer from '@/Components/Footer.vue';
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg"
         >
             <slot />
-            <Toast/>
             <Footer/>
         </div>
         

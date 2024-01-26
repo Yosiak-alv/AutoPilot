@@ -221,14 +221,14 @@ const hasPermission = (permissionName) => {
                     <slot name="header" />
                 </div>
             </header>
-
+            <Toast class="max-w-7xl mx-auto mt-6"/>
             <!-- Page Content -->
             <main>
                 <slot />
             </main>
            
         </div>
-        <Toast/>
+        
         <Footer/>
     </div>
 </template>
