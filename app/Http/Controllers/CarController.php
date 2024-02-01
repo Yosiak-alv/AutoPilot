@@ -232,7 +232,7 @@ class CarController extends Controller
 
         $car->delete();
 
-        return redirect()->route('cars.show',$car)->with([
+        return redirect()->route('cars.index')->with([
             'level' => 'success',
             'message' => 'Auto Eliminado Satisfactoriamente!'
         ]);

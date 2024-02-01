@@ -101,8 +101,12 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Branch $branch)
+    public function destroy(Branch $branch, Request $request)
     {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+        
         $branch->delete();
 
         if ($branch->id == request()->user()->branch_id) {

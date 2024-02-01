@@ -127,7 +127,7 @@ class WorkShopController extends Controller
 
         $workshop->delete();
 
-        return redirect()->route('workshops.show',$workshop)->with([
+        return redirect()->route('workshops.index')->with([
             'level' => 'success',
             'message' => 'Taller Eliminado Satisfactoriamente!'
         ]);
