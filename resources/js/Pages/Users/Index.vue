@@ -41,7 +41,7 @@ const hasPermission = (permissionName) => {
 
 <template>
 
-    <Head title="Cars" />   
+    <Head title="Users" />   
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Usuarios</h2>
@@ -62,7 +62,6 @@ const hasPermission = (permissionName) => {
                             </div>
                             <div class="relative">
                                 <select v-model="form.trashed" id="trashed" class="p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500">
-                                    <option :value="null" />
                                     <option value="with">Con Eliminados</option>
                                     <option value="only">Solo Eliminados</option>
                                 </select>

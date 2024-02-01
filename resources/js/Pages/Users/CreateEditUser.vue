@@ -3,10 +3,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, Link } from '@inertiajs/vue3';
 import CardSection from '@/Components/CardSection.vue';
 import TextInput from '@/Components/TextInput.vue';
-import TextAreaComponent from '@/Components/TextAreaComponent.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+import vSelect from "vue-select";
 
 const props = defineProps({
     user:{
@@ -101,17 +102,20 @@ const update = (id) => {
                                 <InputError class="mt-2" :message="form.errors.branch_id" />
                             </div>
                             <div class="sm:col-span-2"> 
-                                <InputLabel for="roles_id" value="Roles" class="mt-2" />
-                                <select multiple
-                                    id="roles_id"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
-                                    v-model="form.roles_id"
-                                    required
+                                <InputLabel for="roles_id" value="Roles"/>
+                                <vSelect multiple 
+                                    class=" text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
+                                    :options="props.roles" 
+                                    :reduce="name => name.id"  
+                                    v-model="form.roles_id" 
+                                    label="name"
                                 >
-                                    <option v-for="role in props.roles" :value="role.id" :key="role.id">
-                                        {{role.name}}
-                                    </option>
-                                </select>
+                                    <template #option="option" >
+                                       <div class="dark:text-gray-900 dark:hover:text-white">
+                                            {{option.name}}
+                                       </div>
+                                    </template>
+                                </vSelect>
                                 <InputError class="mt-2" :message="form.errors.roles_id" />
                             </div>
                         </div>

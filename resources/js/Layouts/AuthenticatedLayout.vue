@@ -221,10 +221,11 @@ const hasPermission = (permissionName) => {
                     <slot name="header" />
                 </div>
             </header>
-            <Toast/>
+           
             <!-- Page Content -->
             <main>
                 <slot />
+                <Toast/>
             </main>
            
         </div>
