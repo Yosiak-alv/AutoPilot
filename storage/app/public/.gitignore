@@ -1,2 +1,5 @@
-*
+#*
 !.gitignore
+/cars_images/
+/cars_files/
+/repairs_files/
