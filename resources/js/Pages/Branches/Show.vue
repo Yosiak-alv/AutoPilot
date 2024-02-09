@@ -107,7 +107,7 @@ const hasPermission = (permissionName) => {
                     <div class="mx-auto items-center text-center">
                         <div class="sm:pt-20">
                             <div>
-                                <PrimaryButton v-if="hasPermission('editar centro') && branch.deleted_at == null"  @click="edit()">
+                                <PrimaryButton v-if="hasPermission('editar centro') && (branch.deleted_at == null && branch.id != 1)" @click="edit()">
                                     Editar
                                 </PrimaryButton>
                             </div>

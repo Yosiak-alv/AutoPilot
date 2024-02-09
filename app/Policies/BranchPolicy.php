@@ -40,6 +40,9 @@ class BranchPolicy
      */
     public function update(User $user, Branch $branch): bool
     {
+        if($branch->id === 1){
+            return false;
+        }
         return $branch->trashed() ? false : $user->hasPermissionTo('editar centro');
     }
 
