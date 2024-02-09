@@ -101,7 +101,7 @@ const update = (id) => {
                                 </select>
                                 <InputError class="mt-2" :message="form.errors.branch_id" />
                             </div>
-                            <div class="sm:col-span-2"> 
+                            <div class="sm:col-span-2" v-if="props.roles.length != 0">  
                                 <InputLabel for="roles_id" value="Roles"/>
                                 <vSelect multiple 
                                     class=" text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
@@ -116,6 +116,12 @@ const update = (id) => {
                                        </div>
                                     </template>
                                 </vSelect>
+                                <InputError class="mt-2" :message="form.errors.roles_id" />
+                            </div>
+                            <div class="sm:col-span-2" v-else>
+                                <div class="text-gray-900 dark:text-gray-100">
+                                    <h2 class="text-sm font-semibold">No Hay Roles Registrados, Por Favor Registre un Rol antes de Continuar o Contacte al Administrador.</h2>
+                                </div>
                                 <InputError class="mt-2" :message="form.errors.roles_id" />
                             </div>
                         </div>

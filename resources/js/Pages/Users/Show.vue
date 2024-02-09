@@ -128,7 +128,7 @@ const hasPermission = (permissionName) => {
             </div>    
         </div>
         <div class="py-2">
-            <div class="max-w-7xl mx-auto text-center my-4 text-gray-900 dark:text-gray-100" :class="{'text-red-600 dark:text-red-400' : props.user.roles.length == 0}">
+            <div class="max-w-7xl mx-auto text-center text-gray-900 dark:text-gray-100" :class="{'text-red-600 dark:text-red-400' : props.user.roles.length == 0}">
                 <h2 class="text-3xl font-semibold">{{user.roles.length == 0 ? 'Usuario Sin Rol' : 'Roles'}}</h2>
             </div>
 

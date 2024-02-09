@@ -103,7 +103,7 @@ const hasPermission = (permissionName) => {
                             <CardSection  class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow 0 dark:bg-gray-800 dark:border-gray-700 ">
                                 <div class="overflow-y-scroll" style="height: 10rem;">
                                     <div v-for="permission in props.role.permissions">
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"> {{permission.name}}</h5>
+                                        <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white"> {{permission.name}}</h5>
                                     </div>
                                 </div>
                             </CardSection>

@@ -4,18 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
 use App\Http\Requests\CreateEditUserRequest;
-use App\Mail\PasswordTempMail;
 use App\Models\Branch;
 use App\Models\User;
 use App\Notifications\TempPassword;
 use App\Traits\UserTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
-use Str;
-use Mail;
 class UserController extends Controller
 {
     use UserTrait;
@@ -50,7 +46,7 @@ class UserController extends Controller
     public function create()
     {
         return Inertia::render('Users/CreateEditUser',[
-            'roles' => Role::all('id','name'),
+            'roles' => Role::all('id','name')->where('name','!=','Super-Admin'),
             'branches' => Branch::all(['id','name'])
         ]);
     }
@@ -93,7 +89,7 @@ class UserController extends Controller
         return Inertia::render('Users/CreateEditUser',[
             'user' => $user,
             'user_roles' => $user->roles->pluck('id')->toArray(),
-            'roles' => Role::all('id','name'),
+            'roles' => Role::all('id','name')->where('name','!=','Super-Admin'),
             'branches' => Branch::all(['id','name'])
         ]);
     }
