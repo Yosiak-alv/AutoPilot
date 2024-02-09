@@ -22,6 +22,9 @@ class CarPolicy
      */
     public function view(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return $user->hasPermissionTo('ver auto') && $user->branch_id == $car->branch_id;
+        }
         return $user->hasPermissionTo('ver auto');
     }
 
@@ -41,24 +44,39 @@ class CarPolicy
      */
     public function storeImage(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  false : ($user->hasPermissionTo('agregar imagenes auto') && $user->branch_id == $car->branch_id));
+        }
         return ($car->trashed() ?  false : $user->hasPermissionTo('agregar imagenes auto'));
     }
     public function createFile(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  false : ($user->hasPermissionTo('subir archivos auto') && $user->branch_id == $car->branch_id));
+        }
         return ($car->trashed() ?  false : $user->hasPermissionTo('subir archivos auto'));
     }
     public function downloadFile(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  false : ($user->hasPermissionTo('descargar archivo auto') && $user->branch_id == $car->branch_id));
+        }
         return ($car->trashed() ?  false :  $user->hasPermissionTo('descargar archivo auto'));
     }
 
     public function destroyFile(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  false : ( $user->hasPermissionTo('eliminar archivo auto') && $user->branch_id == $car->branch_id));
+        }
         return ($car->trashed() ?  false :  $user->hasPermissionTo('eliminar archivo auto'));
     }
     public function update(User $user, Car $car): bool
     {
-       return ($car->trashed() ?  false : $user->hasPermissionTo('editar auto'));
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  false : ( $user->hasPermissionTo('editar auto') && $user->branch_id == $car->branch_id));
+        }
+        return ($car->trashed() ?  false : $user->hasPermissionTo('editar auto'));
     }
 
     /**
@@ -66,6 +84,9 @@ class CarPolicy
      */
     public function delete(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  false : ( $user->hasPermissionTo('eliminar auto') && $user->branch_id == $car->branch_id));
+        }
         return ($car->trashed() ?  false :  $user->hasPermissionTo('eliminar auto'));
     }
 
@@ -74,6 +95,9 @@ class CarPolicy
      */
     public function restore(User $user, Car $car): bool
     {
+        if($user->branch->main ==false){
+            return ($car->trashed() ?  ($user->hasPermissionTo('restaurar auto') && $user->branch_id == $car->branch_id): false);
+        }
         return ($car->trashed() ?  $user->hasPermissionTo('restaurar auto'): false);
     }
 }
