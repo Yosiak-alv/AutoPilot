@@ -17,7 +17,7 @@ class BranchSeeder extends Seeder
             'name' => 'Fe y Alegria Antiguo Cuscatlan',
             'address' => 'Calle el Mediterráneo, No. 662 Colonia Jardines de Guadalupe.',
             'telephone' => '22431282',
-            'email' => 'feyalegria@feyalegria.com',
+            'email' => 'comunicacionesfya@feyalegria.org.sv',
             'main' => true,
             'district_id' => 81,
         ]);
