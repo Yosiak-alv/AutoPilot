@@ -41,15 +41,16 @@ Route::get('/dashboard', function () {
         'workshops' => \App\Models\WorkShop::count(),
     ]);
     
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','checkUserBranch'])->name('dashboard');
 
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth','verified','checkUserBranch'
+])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified'])->group(function() {
+Route::middleware(['auth', 'verified','checkUserBranch'])->group(function() {
     //DATO SE PONE EL EXPORT DE EXCEL EN PRIMERO PARA QUE NO DE ERROR 404 EL PRIMERO INCLUSO ANTES DEL RESOURCE
     Route::get('/cars/export', [CarController::class, 'excelIndexExport'])->name('cars.excelIndexExport');
     Route::get('/cars/{car}/export/repairs', [CarController::class, 'excelRepairsExport'])->name('cars.excelRepairsExport');
