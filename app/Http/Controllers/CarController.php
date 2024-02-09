@@ -9,11 +9,9 @@ use App\Models\Branch;
 use App\Models\Car;
 use App\Models\Brand;
 use App\Models\File;
-use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
 use App\Traits\CarTrait;
 use Maatwebsite\Excel\Facades\Excel;
 class CarController extends Controller

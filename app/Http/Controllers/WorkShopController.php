@@ -9,7 +9,6 @@ use App\Models\State;
 use App\Traits\WorkShopTrait;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 class WorkShopController extends Controller
 {
