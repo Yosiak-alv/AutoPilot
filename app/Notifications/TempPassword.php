@@ -39,7 +39,7 @@ class TempPassword extends Notification
         $notifiable->update(['password' => $randomPassword]);
         
         return (new MailMessage)
-            ->subject('SolidRecordRH - Contraseña Temporal')
+            ->subject('AutoPilot - Contraseña Temporal')
             ->greeting('Hola, '.$notifiable->name )
             ->line('Este correo es para notificarle su Contraseña Temporal.')
             ->action('Iniciar Sesion', url('/'))
