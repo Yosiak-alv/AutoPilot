@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             BranchSeeder::class,
             RolePermissionSeeder::class,
-            WorkshopSeeder::class,
+            //WorkshopSeeder::class,
             UserSeeder::class,// => with only super admin user
           
        ]);
