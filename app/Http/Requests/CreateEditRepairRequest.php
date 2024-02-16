@@ -28,17 +28,21 @@ class CreateEditRepairRequest extends FormRequest
             'repair_date' => ['required', 'date'],
             'details' => ['required', 'array','min:1'],
             'details.*.name' => 'required|string|min:4',
-            'details.*.description' => 'required|string|max:5000',
+            'details.*.description' => 'required|string|max:5000|min:10',
             'details.*.price' => 'required|numeric|min:0',
 
         ];
     }
-    public function validatedRepair()
+    private function validatedCreateRepair()
     {
-        return $this->only('car_id','repair_status_id','work_shop_id');
+        return $this->only(['car_id','repair_status_id','work_shop_id','repair_date']);
+    }
+    private function validatedEditRepair()
+    {
+        return $this->only(['car_id','work_shop_id','repair_date']);
     }
     
-    public function sumPrices()
+    public function validatedRepair()
     {
         $details = $this->validated()['details'];
 
@@ -48,8 +52,10 @@ class CreateEditRepairRequest extends FormRequest
             $total += $detail['price'];
         }
 
-        return [
-            'total' => $total
-        ];
+        return array_merge($this->repair == null ? $this->validatedCreateRepair() : $this->validatedEditRepair(),
+            [
+                'total' => $total
+            ]
+        );
     }
 }

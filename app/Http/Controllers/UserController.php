@@ -55,10 +55,8 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(CreateEditUserRequest $request)
-    {
-        $validated = $request->validatedUser();
-       
-        $user = User::create($validated);
+    {       
+        $user = User::create($request->validatedUser());
 
         $roles = Role::whereIn('id', $request->validatedRolesIds())->get(); // Retrieve Role objects based on role IDs
         $user->syncRoles($roles);

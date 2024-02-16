@@ -84,11 +84,11 @@ const update = () => {
                                                 <input :value="permission.id" v-model="form.permissions_id" id="permissions_id" type="checkbox" 
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                 <InputLabel for="permissions_id" :value="permission.name"/> 
-                                                <InputError class="mt-2" :message="form.errors.permissions_id" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <InputError class="mt-2" :message="form.errors.permissions_id" />
                             </div>
                            
                         </div>

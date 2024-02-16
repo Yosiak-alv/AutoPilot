@@ -134,6 +134,7 @@ class WorkShopController extends Controller
     public function restore(WorkShop $workshop)
     {
         $workshop->restore();
+
         return redirect()->route('workshops.show',$workshop)->with([
             'level' => 'success',
             'message' => 'Taller Restaurado Satisfactoriamente!'

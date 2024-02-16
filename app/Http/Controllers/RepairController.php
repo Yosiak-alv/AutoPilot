@@ -32,7 +32,6 @@ class RepairController extends Controller
      */
     public function create()
     {
-        //dd(Car::with(['model.brand'])->get(['id','model_id']));
         return Inertia::render('Repairs/CreateEditRepair',[
             'cars' => request()->user()->branch->main === 1 ? Car::select(['id','plates','model_id'])->with(['model.brand:id,name'])->get() : 
                 Car::select(['id','plates','model_id'])->where('branch_id',request()->user()->branch->id)->with(['model.brand:id,name'])->get(),
@@ -46,14 +45,7 @@ class RepairController extends Controller
      */
     public function store(CreateEditRepairRequest $request)
     {
-        $repair = Repair::create([
-            'car_id' => $request->validated()['car_id'],
-            'repair_status_id' => $request->validated()['repair_status_id'],
-            'work_shop_id' => $request->validated()['work_shop_id'],
-            'repair_date' => $request->validated()['repair_date'],  
-            'total' => $request->sumPrices()['total'],
-        ]);
-
+        $repair = Repair::create($request->validatedRepair());
         $repair->details()->createMany($request->validated()['details']);
 
         return redirect()->route('repairs.show',$repair->id)->with([
@@ -73,15 +65,6 @@ class RepairController extends Controller
             'files' => 'array|required|max:5|min:1',
             'files.*' => 'file|mimes:pdf,png,jpg,jpeg|max:2048',
         ]);
-        // Determine the allowed number of additional files
-        //$allowedAdditionalFiles = 2 - $repair->files()->count();
-        // Check if the request exceeds the allowed number of additional files
-       /*  if (count($attr['files']) > $allowedAdditionalFiles) {
-            return back()->with([
-                'level' => 'error',
-                'message' => 'Su peticion excede el numero de archivos, Puede agregar un '. $allowedAdditionalFiles .' mas.'
-            ]);
-        } */
         // Store new files
         $repair->files()->createMany(
             collect($attr['files'])->map(function ($file) {
@@ -132,7 +115,6 @@ class RepairController extends Controller
             'repair' => $repair->load(['details']),
             'cars' => request()->user()->branch->main === 1 ? Car::select(['id','plates','model_id'])->with(['model.brand:id,name'])->get() : 
                 Car::select(['id','plates','model_id'])->where('branch_id',request()->user()->branch->id)->with(['model.brand:id,name'])->get(),
-            'repair_status' => RepairStatus::all(),
             'work_shops' => WorkShop::with(['district','town','state'])->get(),
         ]);
     }
@@ -142,12 +124,7 @@ class RepairController extends Controller
      */
     public function update(CreateEditRepairRequest $request, Repair $repair)
     {
-        $repair->update([
-            'car_id' => $request->validated()['car_id'],
-            'work_shop_id' => $request->validated()['work_shop_id'],
-            'repair_date' => $request->validated()['repair_date'],  
-            'total' => $request->sumPrices()['total'],
-        ]);
+        $repair->update($request->validatedRepair());
         $repair->details()->delete();
         $repair->details()->createMany($request->validated()['details']);
 
@@ -161,8 +138,10 @@ class RepairController extends Controller
         $attr = $request->validate([
             'repair_status_id' => 'required|exists:repair_statuses,id'
         ]);
+
         $repair->repair_status_id = $attr['repair_status_id'];
         $repair->save();
+
         return redirect()->route('repairs.show',$repair->id)->with([
             'level' => 'success',
             'message' => 'El Estado de Reparacion Actualizado Satisfactoriamente!'
@@ -172,6 +151,7 @@ class RepairController extends Controller
     {
         $repair->load(['details','car.model.brand','status','work_shop.district','work_shop.town','work_shop.state']);
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('repairs.repair-details', ['repair' => $repair]);
+
         return $pdf->download('reparacion-'.$repair->id.'.pdf');
     }
     /**

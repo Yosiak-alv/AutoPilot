@@ -116,16 +116,6 @@ class CarController extends Controller
             'files' => 'array|required|max:5|min:1',
             'files.*' => 'file|mimes:pdf,png,jpg,jpeg|max:2048',
         ]);
-        // Determine the allowed number of additional files
-        //$allowedAdditionalFiles = 3 - $car->files()->count();
-
-        // Check if the request exceeds the allowed number of additional files
-        /* if (count($attr['files']) > $allowedAdditionalFiles) {
-            return back()->with([
-                'level' => 'error',
-                'message' => 'Su peticion excede el numero de archivos, Puede agregar un '. $allowedAdditionalFiles .' mas.'
-            ]);
-        } */
         // Store new files
         $car->files()->createMany(
             collect($attr['files'])->map(function ($file) {
