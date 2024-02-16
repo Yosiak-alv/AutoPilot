@@ -7,7 +7,6 @@ import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
-import vSelect from "vue-select";
 
 const props = defineProps({
     user:{
@@ -102,20 +101,18 @@ const update = (id) => {
                                 <InputError class="mt-2" :message="form.errors.branch_id" />
                             </div>
                             <div class="sm:col-span-2" v-if="props.roles.length != 0">  
-                                <InputLabel for="roles_id" value="Roles"/>
-                                <vSelect multiple 
-                                    class=" text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500"
-                                    :options="props.roles" 
-                                    :reduce="name => name.id"  
-                                    v-model="form.roles_id" 
-                                    label="name"
-                                >
-                                    <template #option="option" >
-                                       <div class="dark:text-gray-900 dark:hover:text-white">
-                                            {{option.name}}
-                                       </div>
-                                    </template>
-                                </vSelect>
+                                <InputLabel for="roles" value="Roles"/>
+                                <div id="roles" class="overflow-y-auto" style="height: 8rem;">
+                                    <div v-for="role in props.roles" :key="role.id">
+                                        <div class="flex flex-col mb-4 ml-4 mt-3">
+                                            <div class="flex items-center space-x-3 mt-1">
+                                                <input :value="role.id" v-model="form.roles_id" id="roles_id" type="checkbox" 
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <InputLabel for="roles_id" :value="role.name"/> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <InputError class="mt-2" :message="form.errors.roles_id" />
                             </div>
                             <div class="sm:col-span-2" v-else>
