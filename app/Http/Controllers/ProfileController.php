@@ -45,6 +45,10 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        if ($request->user()->id === 1) {
+            abort(403);
+        }
+        
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
