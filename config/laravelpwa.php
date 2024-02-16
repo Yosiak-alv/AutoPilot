@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'name' => 'SolidRecordRH',
+    'name' => 'AutoPilot',
     'manifest' => [
-        'name' => env('APP_NAME', 'SolidRecordRH'),
-        'short_name' => 'SRH',
+        'name' => env('APP_NAME', 'AutoPilot'),
+        'short_name' => 'AutoPilot',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
@@ -57,13 +57,7 @@ return [
             '1668x2388' => '/images/icons/splash-1668x2388.png',
             '2048x2732' => '/images/icons/splash-2048x2732.png',
         ],
-        'shortcuts' => [
-            [
-                'name' => 'Created by Josias Alvarenga',
-                'description' => 'Created of SolidRecordRH',
-                'url' => '/shortcutlink2'
-            ]
-        ],
+        'shortcuts' => [],
         'custom' => []
     ]
 ];
