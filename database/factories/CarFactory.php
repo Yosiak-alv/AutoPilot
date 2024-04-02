@@ -26,7 +26,7 @@ class CarFactory extends Factory
             'current_mileage' => fake()->numberBetween(1000, 100000),
             'year' => fake()->numberBetween(1990, 2024),
             'color' => fake()->colorName(),
-            'motorId' => Str::random(17),
+            'motorId' => fake()->unique()->regexify('/\b[(A-H|J-N|P|R-Z|0-9)]{17}\b/'),
             'model_id' => fake()->randomElement($model_ids),
             'branch_id' => fake()->randomElement($branch_ids),
         ];

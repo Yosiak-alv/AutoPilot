@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
        $this->call([
-            /* StateTownDistrictSeeder::class,
+           /*  StateTownDistrictSeeder::class,
             RepairStatusSeeder::class,
             BrandSeeder::class,
             BranchSeeder::class,
@@ -21,8 +21,7 @@ class DatabaseSeeder extends Seeder
             CarSeeder::class,
             RepairSeeder::class,
             RolePermissionSeeder::class,
-            UserSeeder::class, */
-           /*  RepairDetailsSeeder::class, */
+            UserSeeder::class,  */
 
            
             //Database seeder for production
@@ -31,8 +30,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             BranchSeeder::class,
             RolePermissionSeeder::class,
-            //WorkshopSeeder::class,
-            UserSeeder::class,// => with only super admin user
+            UserSeeder::class, // => with only super admin user
           
        ]);
     }
