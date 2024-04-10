@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
                 'message' => 'La Pagina Expiro, Por Favor Intente De Nuevo.'
             ]);
         } elseif ($response->status() === 403) {
-            return back()->with([
+            return redirect()->route('dashboard')->with([
                 'level' => 'error',
                 'message' => 'Esta Accion no esta Autorizada.'
             ]);
