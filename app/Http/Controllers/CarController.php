@@ -114,7 +114,7 @@ class CarController extends Controller
     {
         $attr = $request->validate([
             'files' => 'array|required|max:5|min:1',
-            'files.*' => 'file|mimes:pdf,png,jpg,jpeg|max:2048',
+            'files.*' => 'file|mimes:pdf,png,jpg,jpeg|max:10240',
         ]);
         // Store new files
         $car->files()->createMany(

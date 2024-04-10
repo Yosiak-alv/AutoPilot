@@ -56,7 +56,7 @@ const storeUpdateCar = () => {
                                             <ul v-else class="text-center">
                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para Subir</span></p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">PDF, PNG, JPG O JPEG</p>
-                                                <p class=" mt-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">MAX 2MB por Archivo</span></p>
+                                                <p class=" mt-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">MAX 10MB por Archivo</span></p>
                                             </ul>
                                         </div>
                                         
@@ -69,6 +69,8 @@ const storeUpdateCar = () => {
                                 </div> 
                             </div>
                         </div>
+                        <p class=" mt-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Espere 1 min antes de darle click al boton "Subir Archivos"</span></p>
+
                         <PrimaryButton class="mt-4" :disabled="form.processing">Subir Archivos</PrimaryButton>
                     </form>
                 </div>
