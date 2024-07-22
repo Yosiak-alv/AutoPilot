@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('car_file', function (Blueprint $table) {
            $table->foreignIdFor(Car::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
            $table->foreignIdFor(File::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+           $table->index(['car_id', 'file_id']);
         });
     }
 

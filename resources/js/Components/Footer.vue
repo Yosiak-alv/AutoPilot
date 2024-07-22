@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
             <span>Made By</span>
 
             <a
-                href="https://yosiak-alv.github.io/portfolio-v2/"
+                href="https://www.josiasalvarenga.com/"
                 target="_blank"
                 class="text-redF hover:underline hover:text-red-500"
             >

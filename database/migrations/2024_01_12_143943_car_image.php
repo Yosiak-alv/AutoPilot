@@ -13,6 +13,7 @@ return new class extends Migration
         Schema::create('car_image', function (Blueprint $table) {
            $table->foreignIdFor(Car::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
            $table->foreignIdFor(Image::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+           $table->index(['car_id', 'image_id']);
         });
     }
 

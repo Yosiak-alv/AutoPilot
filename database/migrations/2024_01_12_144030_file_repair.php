@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('file_repair', function (Blueprint $table) {
            $table->foreignIdFor(Repair::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
            $table->foreignIdFor(File::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+           $table->index(['repair_id', 'file_id']);
         });
     }
 

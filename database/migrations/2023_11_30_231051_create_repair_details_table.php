@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->double('price');
             $table->timestamps();
+            $table->index(['repair_id']);
         });
     }
 

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreignIdFor(Branch::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
             $table->softDeletes();
+            $table->index(['branch_id', 'plates','model_id']);
         });
     }
 

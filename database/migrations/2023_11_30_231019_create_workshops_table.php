@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(District::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
             $table->softDeletes();
+            $table->index(['district_id', 'name']);
         });
     }
 

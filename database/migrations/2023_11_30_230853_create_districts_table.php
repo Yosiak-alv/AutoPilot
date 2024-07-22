@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignIdFor(Town::class)->nullable(false)->constrained()->cascadeOnUpdate()->restrictOnDelete();
+            $table->index('town_id');
         });
     }
 

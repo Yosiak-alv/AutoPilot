@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double('total');
             $table->date('repair_date')->default(now());
             $table->timestamps();
+            $table->index(['car_id','work_shop_id','repair_status_id']);
         });
     }
 
