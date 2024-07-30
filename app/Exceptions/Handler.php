@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
     {
         $response = parent::render($request, $e);
 
-        if (! app()->environment(['local', 'testing']) && in_array($response->status(), [500, 503, 404, 403])) {
+        if (!app()->environment(['local', 'testing']) && in_array($response->status(), [500, 503, 404, 403])) {
             return Inertia::render('Error', ['status' => $response->status()])
                 ->toResponse($request)
                 ->setStatusCode($response->status());
@@ -43,11 +43,6 @@ class Handler extends ExceptionHandler
             return back()->with([
                 'level' => 'warning',
                 'message' => 'La Pagina Expiro, Por Favor Intente De Nuevo.'
-            ]);
-        } elseif ($response->status() === 403) {
-            return redirect()->route('dashboard')->with([
-                'level' => 'error',
-                'message' => 'Esta Accion no esta Autorizada.'
             ]);
         }
 
